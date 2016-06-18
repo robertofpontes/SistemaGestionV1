@@ -290,6 +290,7 @@ namespace SistemaGestion.CONTROLES
             // _Bt_imprimir
             // 
             this._Bt_imprimir.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._Bt_imprimir.Enabled = false;
             this._Bt_imprimir.Image = ((System.Drawing.Image)(resources.GetObject("_Bt_imprimir.Image")));
             this._Bt_imprimir.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._Bt_imprimir.Name = "_Bt_imprimir";

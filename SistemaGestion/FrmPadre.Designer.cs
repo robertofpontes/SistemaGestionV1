@@ -28,10 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPadre));
             this._Pnl_Espera = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.inicioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mantenimientosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.proveedoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.impuestosIVAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.retenciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.formaDePagoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.articulosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._Ctrl_Buscar1 = new SistemaGestion.CONTROLES._Ctrl_Buscar();
             this._Pnl_Espera.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -61,7 +72,9 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.inicioToolStripMenuItem});
+            this.inicioToolStripMenuItem,
+            this.mantenimientosToolStripMenuItem,
+            this.ayudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(847, 24);
@@ -70,9 +83,83 @@
             // 
             // inicioToolStripMenuItem
             // 
+            this.inicioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.salirToolStripMenuItem});
             this.inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
             this.inicioToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.inicioToolStripMenuItem.Text = "Inicio";
+            // 
+            // mantenimientosToolStripMenuItem
+            // 
+            this.mantenimientosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clientesToolStripMenuItem,
+            this.proveedoresToolStripMenuItem,
+            this.impuestosIVAToolStripMenuItem,
+            this.retenciónToolStripMenuItem,
+            this.formaDePagoToolStripMenuItem,
+            this.articulosToolStripMenuItem});
+            this.mantenimientosToolStripMenuItem.Name = "mantenimientosToolStripMenuItem";
+            this.mantenimientosToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
+            this.mantenimientosToolStripMenuItem.Text = "Mantenimientos";
+            // 
+            // clientesToolStripMenuItem
+            // 
+            this.clientesToolStripMenuItem.Name = "clientesToolStripMenuItem";
+            this.clientesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clientesToolStripMenuItem.Text = "Clientes";
+            this.clientesToolStripMenuItem.Click += new System.EventHandler(this.clientesToolStripMenuItem_Click);
+            // 
+            // proveedoresToolStripMenuItem
+            // 
+            this.proveedoresToolStripMenuItem.Name = "proveedoresToolStripMenuItem";
+            this.proveedoresToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.proveedoresToolStripMenuItem.Text = "Proveedores";
+            // 
+            // impuestosIVAToolStripMenuItem
+            // 
+            this.impuestosIVAToolStripMenuItem.Name = "impuestosIVAToolStripMenuItem";
+            this.impuestosIVAToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.impuestosIVAToolStripMenuItem.Text = "Impuestos (IVA)";
+            // 
+            // retenciónToolStripMenuItem
+            // 
+            this.retenciónToolStripMenuItem.Name = "retenciónToolStripMenuItem";
+            this.retenciónToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.retenciónToolStripMenuItem.Text = "Retención";
+            // 
+            // formaDePagoToolStripMenuItem
+            // 
+            this.formaDePagoToolStripMenuItem.Name = "formaDePagoToolStripMenuItem";
+            this.formaDePagoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.formaDePagoToolStripMenuItem.Text = "Forma de pago";
+            this.formaDePagoToolStripMenuItem.Click += new System.EventHandler(this.formaDePagoToolStripMenuItem_Click);
+            // 
+            // articulosToolStripMenuItem
+            // 
+            this.articulosToolStripMenuItem.Name = "articulosToolStripMenuItem";
+            this.articulosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.articulosToolStripMenuItem.Text = "Articulos";
+            // 
+            // salirToolStripMenuItem
+            // 
+            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.salirToolStripMenuItem.Text = "Salir";
+            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
+            // 
+            // ayudaToolStripMenuItem
+            // 
+            this.ayudaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.acercaDeToolStripMenuItem});
+            this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
+            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.ayudaToolStripMenuItem.Text = "Ayuda";
+            // 
+            // acercaDeToolStripMenuItem
+            // 
+            this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
+            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.acercaDeToolStripMenuItem.Text = "Acerca de";
             // 
             // _Ctrl_Buscar1
             // 
@@ -90,6 +177,7 @@
             this.Controls.Add(this._Ctrl_Buscar1);
             this.Controls.Add(this._Pnl_Espera);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FrmPadre";
@@ -110,7 +198,17 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem inicioToolStripMenuItem;
-        private CONTROLES._Ctrl_Buscar _Ctrl_Buscar1;
+        public CONTROLES._Ctrl_Buscar _Ctrl_Buscar1;
+        private System.Windows.Forms.ToolStripMenuItem mantenimientosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clientesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem proveedoresToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem impuestosIVAToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem retenciónToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem formaDePagoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem articulosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ayudaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;
     }
 }
 

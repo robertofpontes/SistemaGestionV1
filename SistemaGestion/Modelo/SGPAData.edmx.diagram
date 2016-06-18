@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="07270aa5e5d542b3a45f1485c3ceb3f3" Name="Diagram1">
+        <EntityTypeShape EntityType="SGPAModel.Clientes" Width="1.5" PointX="7.5" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SGPAModel.Empresas" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SGPAModel.FormasPagos" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SGPAModel.Municipios" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SGPAModel.Proveedores" Width="1.5" PointX="10.5" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SGPAModel.Provincias" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SGPAModel.Retenciones" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SGPAModel.Usuarios" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <AssociationConnector Association="SGPAModel.FK_Clientes_Empresas" ManuallyRouted="false" />
+        <AssociationConnector Association="SGPAModel.FK_Empresas_Municipios" ManuallyRouted="false" />
+        <AssociationConnector Association="SGPAModel.FK_Proveedores_Empresas" ManuallyRouted="false" />
+        <AssociationConnector Association="SGPAModel.FK_Municipios_Provincias" ManuallyRouted="false" />
+        <AssociationConnector Association="SGPAModel.FK_Proveedores_Municipios" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -322,7 +322,7 @@ namespace SistemaGestion.CONTROLES
 
             try
             {
-                _Bl_Modifi = false; _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 1; _Er_Control_Error.Dispose(); _Mtd_Habilitar(); _Ctrl_Controles[_Int_Foco].Focus();
+                _Bl_Modifi = false; _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("Inicializar").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 1; _Er_Control_Error.Dispose(); _Mtd_Habilitar(); _Ctrl_Controles[_Int_Foco].Focus();
             _Bt_guardar.Enabled = true;
             _Bt_actualizar.Enabled = true;
             _Bt_editar.Enabled = false;
@@ -521,7 +521,7 @@ namespace SistemaGestion.CONTROLES
             //    }
             //    else
             //    {
-            //        _frm_Formulario.GetType().GetMethod("_Mtd_Guardar").Invoke(_frm_Formulario, null);
+            //        _frm_Formulario.GetType().GetMethod("Guardar").Invoke(_frm_Formulario, null);
             //    }
             //    _Ds_Data = Program._MyClsCnn._mtd_conexion._Mtd_RetornarDataset(_Str_Cadena_Consulta_Formato + " Where " + _Str_Where_Vista_Grid);
             //    try { _Dg_Datagrid.DataSource = _Ds_Data.Tables[0];}
@@ -718,7 +718,7 @@ namespace SistemaGestion.CONTROLES
                                 }
                                 catch
                                 {
-                                    _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; _Bl_Modifi = false; _Mtd_Deshabilitar();
+                                    _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("Inicializar").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; _Bl_Modifi = false; _Mtd_Deshabilitar();
                                     _Bt_editar.Enabled = false;
                                     _Bt_guardar.Enabled = false;
                                     _Bt_borrar.Enabled = false;
@@ -743,7 +743,7 @@ namespace SistemaGestion.CONTROLES
                                     }
                                     catch
                                     {
-                                        _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; _Bl_Modifi = false; _Mtd_Deshabilitar();
+                                        _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("Inicializar").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; _Bl_Modifi = false; _Mtd_Deshabilitar();
                                         _Bt_editar.Enabled = false;
                                         _Bt_guardar.Enabled = false;
                                         _Bt_borrar.Enabled = false;
@@ -776,10 +776,11 @@ namespace SistemaGestion.CONTROLES
                     _Bt_editar.Enabled = false;
                     _Bt_guardar.Enabled = true;
                     _Bt_borrar.Enabled = true;
+                _Bt_borrar2.Enabled = false;
                     //_Mtd_Descomprimir_Modi();
                     //_Mtd_Descomprimir_Where();
                     //_Mtd_Modificar();
-                    //try { _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; }
+                    //try { _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("Inicializar").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; }
                     //catch { }
                 //}
             }
@@ -788,60 +789,19 @@ namespace SistemaGestion.CONTROLES
 
         private void _Bt_borrar_Click(object sender, EventArgs e)
         {
-           bool _Bol_Bl = false;
             try
             {
-                if (_txt_text.Text.Length<1)
+                DialogResult _Dial = MessageBox.Show("Esta seguro de eliminar el registro?", "Precaución", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (_Dial == DialogResult.Yes)
                 {
+                    _frm_Formulario.GetType().GetMethod("Eliminar").Invoke(_frm_Formulario, null);
                 }
                 else
                 {
-                    DialogResult _Dial= MessageBox.Show("Esta seguuro de eliminar el registro?", "Precaución", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    if (_Dial == DialogResult.Yes)
-                    {
-                        //_Mtd_Descomprimir_Where(Convert.ToInt32(_txt_text.Text));
-                        _Str_Campo_where = _txt_text.Text;
-                        _Mtd_Eliminar();
-                        //try { _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; }
-                        //catch { }
-                        try { _frm_Formulario.GetType().GetMethod("_Mtd_Ini3").Invoke(_frm_Formulario, null); _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; }
-                        catch { _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0;}
-                    }
-                    else
-                    {
-                        try { _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; }
-                        catch { }
-                    }
-                    _Bol_Bl = true;
-                    _Dg_Datagrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                    
                 }
             }
-            catch { }
-            try
-            {
-                if (!_Bol_Bl)
-                {
-                    DialogResult _Dial = MessageBox.Show("Esta seguuro de eliminar el registro?", "Precaución", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    if (_Dial == DialogResult.Yes)
-                    {
-                        //_Mtd_Descomprimir_Where(_Int_UnClick);
-                        _Str_Campo_where = _Txt_UnClick.Text;
-                        _Mtd_Eliminar();
-                        //try { _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; }
-                        //catch { }
-                        try { _frm_Formulario.GetType().GetMethod("_Mtd_Ini3").Invoke(_frm_Formulario, null); _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; }
-                        catch { _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; }
-                    }
-                    else
-                    {
-                        try { _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; }
-                        catch { }
-                    }
-                    _Dg_Datagrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                }
-            }
-            catch { }
-            _Bt_editar.Enabled = false;
+            catch { }           
         }
 
         private void _Tst_barra_mdi_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -938,15 +898,18 @@ namespace SistemaGestion.CONTROLES
 
         private void _Bt_salir_Click(object sender, EventArgs e)
         {
-            Form _Frm_Padre = this.FindForm();
-            _Frm_Padre.Close();
+            if (MessageBox.Show("¿Desea salir del sistema?", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Form _Frm_Padre = this.FindForm();
+                _Frm_Padre.Close();
+            }            
         }
 
         private void _Bt_cancelar_Click(object sender, EventArgs e)
         {
             try
             {
-                _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; _Bl_Modifi = false; _Mtd_Deshabilitar();
+                _txt_text.Text = ""; _frm_Formulario.GetType().GetMethod("Inicializar").Invoke(_frm_Formulario, null); _Tb_Tab.SelectedIndex = 0; _Bl_Modifi = false; _Mtd_Deshabilitar();
                 _Bt_nuevo.Enabled = true;
                 _Bt_editar.Enabled = false;
                 _Bt_guardar.Enabled = false;
@@ -987,7 +950,7 @@ namespace SistemaGestion.CONTROLES
         public static bool _Bol_SoloNuevo = false;
         private void _Bt_nuevo2_Click(object sender, EventArgs e)
         {
-            _frm_Formulario.GetType().GetMethod("_Mtd_Nuevo").Invoke(_frm_Formulario, null);
+            _frm_Formulario.GetType().GetMethod("CrearNuevo").Invoke(_frm_Formulario, null);
             if (!_Bol_SoloNuevo)
             {
                 _Bt_editar2.Enabled = false;
@@ -996,7 +959,7 @@ namespace SistemaGestion.CONTROLES
                 _Bl_Modifi = false;
                 try
                 {
-                    _frm_Formulario.GetType().GetMethod("_Mtd_BotonesMenu").Invoke(_frm_Formulario, null);
+                    _frm_Formulario.GetType().GetMethod("ActivarBotonera").Invoke(_frm_Formulario, null);
                 }
                 catch
                 { }
@@ -1004,9 +967,12 @@ namespace SistemaGestion.CONTROLES
         }
         private void _Bt_editar2_Click(object sender, EventArgs e)
         {
-            _frm_Formulario.GetType().GetMethod("_Mtd_Habilitar").Invoke(_frm_Formulario, null);
+            _frm_Formulario.GetType().GetMethod("HabilitarControles").Invoke(_frm_Formulario, null);
             _Bt_editar2.Enabled = false;
             _Bt_guardar2.Enabled = true;
+            _Bt_nuevo2.Enabled = true;
+            _Bt_borrar2.Enabled = false;
+            _Bt_cancelar2.Enabled = true;
             _Bl_Modifi = true;
         }
 
@@ -1019,13 +985,18 @@ namespace SistemaGestion.CONTROLES
         }
         private void _Bt_borrar2_Click(object sender, EventArgs e)
         {
-            if ((bool)(_frm_Formulario.GetType().GetMethod("_Mtd_Eliminar").Invoke(_frm_Formulario, null)))
+            DialogResult _Dial = MessageBox.Show("¿Desea eliminar el registro?", "Precaución", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (_Dial == DialogResult.Yes)
             {
-                _Txt_Editando.Text = "";
-                _Bl_Modifi = false;
-                _Bt_editar2.Enabled = false;
-                _Bt_borrar2.Enabled = false;
-                _Bt_guardar2.Enabled = false;
+                if ((bool)(_frm_Formulario.GetType().GetMethod("Eliminar").Invoke(_frm_Formulario, null)))
+                {
+                    _Txt_Editando.Text = "";
+                    _Bl_Modifi = false;
+                    _Bt_editar2.Enabled = false;
+                    _Bt_borrar2.Enabled = false;
+                    _Bt_guardar2.Enabled = false;
+                    _Bt_cancelar2.Enabled = false;
+                }
             }
         }
 
@@ -1036,8 +1007,9 @@ namespace SistemaGestion.CONTROLES
             _Bt_guardar2.Enabled = false;
             _Bt_borrar2.Enabled = false;
             _Bt_actualizar2.Enabled = false;
+            _Bt_cancelar2.Enabled = false;
             _txt_text.Text = ""; _Mtd_Deshabilitar();
-            _frm_Formulario.GetType().GetMethod("_Mtd_Ini").Invoke(_frm_Formulario, null);
+            _frm_Formulario.GetType().GetMethod("Inicializar").Invoke(_frm_Formulario, null);
             try
             {
                 _Tb_Tab.SelectedIndex = 0;
@@ -1176,7 +1148,7 @@ namespace SistemaGestion.CONTROLES
             {
                 Cursor = Cursors.WaitCursor;
                 _frm_Formulario.Text = _frm_Formulario.Text + " Procesando...";
-                if ((bool)(_frm_Formulario.GetType().GetMethod("_Mtd_Editar").Invoke(_frm_Formulario, null)))
+                if ((bool)(_frm_Formulario.GetType().GetMethod("Modificar").Invoke(_frm_Formulario, null)))
                 {
                     _Txt_Editando.Text = "";
                     _Bl_Modifi = false;
@@ -1184,7 +1156,7 @@ namespace SistemaGestion.CONTROLES
                     _Bt_borrar2.Enabled = false;
                     _Bt_guardar2.Enabled = false;
                     try
-                    { _frm_Formulario.GetType().GetMethod("_Mtd_BotonesMenu").Invoke(_frm_Formulario, null); }
+                    { _frm_Formulario.GetType().GetMethod("ActivarBotonera").Invoke(_frm_Formulario, null); }
                     catch
                     { }
                 }
@@ -1196,7 +1168,7 @@ namespace SistemaGestion.CONTROLES
             {
                 Cursor = Cursors.WaitCursor;
                 _frm_Formulario.Text = _frm_Formulario.Text + " Procesando...";
-                if ((bool)(_frm_Formulario.GetType().GetMethod("_Mtd_Guardar").Invoke(_frm_Formulario, null)))
+                if ((bool)(_frm_Formulario.GetType().GetMethod("Guardar").Invoke(_frm_Formulario, null)))
                 {
                     Cursor = Cursors.WaitCursor;
                     _Txt_Editando.Text = "";
@@ -1205,7 +1177,7 @@ namespace SistemaGestion.CONTROLES
                     _Bt_borrar2.Enabled = false;
                     _Bt_guardar2.Enabled = false;
                     try
-                    { _frm_Formulario.GetType().GetMethod("_Mtd_BotonesMenu").Invoke(_frm_Formulario, null); }
+                    { _frm_Formulario.GetType().GetMethod("ActivarBotonera").Invoke(_frm_Formulario, null); }
                     catch
                     { }
                 }
