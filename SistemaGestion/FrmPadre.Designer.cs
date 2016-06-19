@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.inicioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mantenimientosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.proveedoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,7 +41,6 @@
             this.retenciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formaDePagoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.articulosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._Ctrl_Buscar1 = new SistemaGestion.CONTROLES._Ctrl_Buscar();
@@ -88,6 +88,13 @@
             this.inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
             this.inicioToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.inicioToolStripMenuItem.Text = "Inicio";
+            // 
+            // salirToolStripMenuItem
+            // 
+            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.salirToolStripMenuItem.Text = "Salir";
+            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
             // mantenimientosToolStripMenuItem
             // 
@@ -139,13 +146,6 @@
             this.articulosToolStripMenuItem.Name = "articulosToolStripMenuItem";
             this.articulosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.articulosToolStripMenuItem.Text = "Articulos";
-            // 
-            // salirToolStripMenuItem
-            // 
-            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.salirToolStripMenuItem.Text = "Salir";
-            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
             // ayudaToolStripMenuItem
             // 

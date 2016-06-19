@@ -16,6 +16,7 @@ namespace SistemaGestion.Clases
         {
             ControlF = Controles;
         }
+        
         public void ObtenerFoco()
         {
             foreach (Control _Ctrl_ in ControlF)

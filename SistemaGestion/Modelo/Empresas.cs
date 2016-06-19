@@ -25,7 +25,6 @@ namespace SistemaGestion.Modelo
         public string NombreEmpresa { get; set; }
         public string Identificacion { get; set; }
         public string Direccion { get; set; }
-        public string Poblacion { get; set; }
         public string Telefono1 { get; set; }
         public string Telefono2 { get; set; }
         public string Email { get; set; }

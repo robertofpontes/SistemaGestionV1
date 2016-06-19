@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SistemaGestion.Modelo;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,13 +15,22 @@ namespace SistemaGestion
     {
         public static string strNombreSistema = "Sistema de Gestión SGPA V.";
         public static string strVersionSistema = "1.0";
+        public static string strEmpresa = "";
         public static string strCodCompania = "";
+        SGPAEntities SGPADatos = new SGPAEntities();
         public FrmPadre()
         {
             InitializeComponent();
             this.Text = strNombreSistema + strVersionSistema;
         }
-
+        public FrmPadre(string strCompania)
+        {
+            InitializeComponent();
+            strEmpresa = strCompania;
+            decimal dcmEmpresa = Convert.ToDecimal(strEmpresa);
+            var oEmpresa = SGPADatos.Empresas.FirstOrDefault(a => a.EmpresaId == dcmEmpresa);
+            this.Text = strNombreSistema + strVersionSistema + " - "+oEmpresa.NombreEmpresa;
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             

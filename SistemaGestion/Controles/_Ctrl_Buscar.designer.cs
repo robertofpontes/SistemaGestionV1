@@ -312,6 +312,7 @@ namespace SistemaGestion.CONTROLES
             this._Bt_ayuda.Size = new System.Drawing.Size(23, 22);
             this._Bt_ayuda.Text = "toolStripButton8";
             this._Bt_ayuda.ToolTipText = "Ayuda";
+            this._Bt_ayuda.Click += new System.EventHandler(this._Bt_ayuda_Click);
             // 
             // toolStripSeparator5
             // 

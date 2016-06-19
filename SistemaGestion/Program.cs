@@ -16,7 +16,7 @@ namespace SistemaGestion
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmPadre());
+            Application.Run(new FrmInicio());
         }
     }
 }

@@ -900,8 +900,9 @@ namespace SistemaGestion.CONTROLES
         {
             if (MessageBox.Show("¿Desea salir del sistema?", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                Form _Frm_Padre = this.FindForm();
-                _Frm_Padre.Close();
+                //Form _Frm_Padre = this.FindForm();
+                //_Frm_Padre.Close();
+                Application.Exit();
             }            
         }
 
@@ -1198,6 +1199,11 @@ namespace SistemaGestion.CONTROLES
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             //_Ctrl_Comp _Ctrl_Com = new _Ctrl_Comp();
+        }
+
+        private void _Bt_ayuda_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
