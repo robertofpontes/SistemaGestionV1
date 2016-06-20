@@ -94,6 +94,12 @@
     <Compile Include="Mantenimientos\FrmFormaPago.Designer.cs">
       <DependentUpon>FrmFormaPago.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mantenimientos\FrmRetencion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mantenimientos\FrmRetencion.Designer.cs">
+      <DependentUpon>FrmRetencion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modelo\Clientes.cs">
       <DependentUpon>SGPAData.tt</DependentUpon>
     </Compile>
@@ -130,6 +136,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SGPAData.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\SistemaConfiguracion.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Modelo\Usuarios.cs">
       <DependentUpon>SGPAData.tt</DependentUpon>
     </Compile>
@@ -149,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Mantenimientos\FrmFormaPago.resx">
       <DependentUpon>FrmFormaPago.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mantenimientos\FrmRetencion.resx">
+      <DependentUpon>FrmRetencion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,60 @@ namespace SistemaGestion
             Mantenimientos.FrmFormaPago frmFormaPago = new Mantenimientos.FrmFormaPago();
             frmFormaPago.MdiParent = this;
             frmFormaPago.Show();
+        }
+
+        private void retenciónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Mantenimientos.FrmRetencion frmRetencion = new Mantenimientos.FrmRetencion();
+            frmRetencion.MdiParent = this;
+            frmRetencion.Show();
+        }
+
+        private void configurarImpresoraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PrintDocument oPrintDocument = new PrintDocument();
+            oPrintDocument.PrintPage += Pd_PrintPage;
+            //pd.PrintPage += new PrintPageEventHandler(PrintPage);
+            PrintDialog pPrintDialog = new PrintDialog();
+            pPrintDialog.Document = oPrintDocument;
+            bool bolAgregar = false;
+            var oConfiguracionSistema = SGPADatos.SistemaConfiguracion.ToList();
+            SistemaConfiguracion oSistemaConfiguracion = null;
+            if (oConfiguracionSistema.Count == 0)
+            {
+                oSistemaConfiguracion = new SistemaConfiguracion();
+                bolAgregar = true;
+            }
+            else
+            {
+                oSistemaConfiguracion = oConfiguracionSistema.First();
+                pPrintDialog.PrinterSettings.PrinterName = oSistemaConfiguracion.NombreImpresora;
+            }           
+            if (pPrintDialog.ShowDialog() == DialogResult.OK)
+            {
+                string strNombreImpresora=pPrintDialog.PrinterSettings.PrinterName;
+                if (bolAgregar)
+                {
+                    oSistemaConfiguracion.NombreImpresora = strNombreImpresora;
+                    SGPADatos.SistemaConfiguracion.Add(oSistemaConfiguracion);
+                    SGPADatos.SaveChanges();                    
+                }
+                else
+                {
+                    oSistemaConfiguracion.NombreImpresora = strNombreImpresora;
+                    SGPADatos.SaveChanges();
+                }
+                MessageBox.Show("Configuración almacenada correctamente", strNombreSistema + strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                //MessageBox.Show("Print Cancelled");
+            }
+        }
+
+        private void Pd_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

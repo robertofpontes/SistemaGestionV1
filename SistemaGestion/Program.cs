@@ -16,7 +16,24 @@ namespace SistemaGestion
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmInicio());
+            var SGPADatos = new Modelo.SGPAEntities();
+            var oEmpresas = SGPADatos.Empresas.ToList();
+            if (oEmpresas.Count == 0)
+            {
+                //Si no hay empresas registradas en la BD
+            }
+            else
+            {
+                var oUsuarios = SGPADatos.Usuarios.ToList();
+                if (oUsuarios.Count == 0)
+                {
+                    //Si no hay usuarios registrados en la BD
+                }
+                else
+                {
+                    Application.Run(new FrmInicio());
+                }
+            }
         }
     }
 }

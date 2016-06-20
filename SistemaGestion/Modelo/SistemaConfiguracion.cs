@@ -12,9 +12,9 @@ namespace SistemaGestion.Modelo
     using System;
     using System.Collections.Generic;
     
-    public partial class Retenciones
+    public partial class SistemaConfiguracion
     {
-        public decimal RetencionId { get; set; }
-        public Nullable<decimal> Porcentaje { get; set; }
+        public decimal ConfiguracionId { get; set; }
+        public string NombreImpresora { get; set; }
     }
 }

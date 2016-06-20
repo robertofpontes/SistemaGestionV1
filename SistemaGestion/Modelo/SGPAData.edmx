@@ -78,7 +78,15 @@
           <Key>
             <PropertyRef Name="RetencionId" />
           </Key>
-          <Property Name="RetencionId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="RetencionId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Porcentaje" Type="numeric" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="SistemaConfiguracion">
+          <Key>
+            <PropertyRef Name="ConfiguracionId" />
+          </Key>
+          <Property Name="ConfiguracionId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreImpresora" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Usuarios">
           <Key>
@@ -156,6 +164,7 @@
           <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincias" EntityType="Self.Provincias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Retenciones" EntityType="Self.Retenciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SistemaConfiguracion" EntityType="Self.SistemaConfiguracion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Clientes_Empresas" Association="Self.FK_Clientes_Empresas">
             <End Role="Empresas" EntitySet="Empresas" />
@@ -266,6 +275,7 @@
             <PropertyRef Name="RetencionId" />
           </Key>
           <Property Name="RetencionId" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Porcentaje" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Usuarios">
           <Key>
@@ -364,7 +374,15 @@
             <End Role="Municipios" EntitySet="Municipios" />
             <End Role="Proveedores" EntitySet="Proveedores" />
           </AssociationSet>
+          <EntitySet Name="SistemaConfiguracion" EntityType="SGPAModel.SistemaConfiguracion" />
         </EntityContainer>
+        <EntityType Name="SistemaConfiguracion">
+          <Key>
+            <PropertyRef Name="ConfiguracionId" />
+          </Key>
+          <Property Name="ConfiguracionId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreImpresora" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -449,6 +467,7 @@
           <EntitySetMapping Name="Retenciones">
             <EntityTypeMapping TypeName="SGPAModel.Retenciones">
               <MappingFragment StoreEntitySet="Retenciones">
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
                 <ScalarProperty Name="RetencionId" ColumnName="RetencionId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -459,6 +478,14 @@
                 <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
                 <ScalarProperty Name="Usuario" ColumnName="Usuario" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SistemaConfiguracion">
+            <EntityTypeMapping TypeName="SGPAModel.SistemaConfiguracion">
+              <MappingFragment StoreEntitySet="SistemaConfiguracion">
+                <ScalarProperty Name="NombreImpresora" ColumnName="NombreImpresora" />
+                <ScalarProperty Name="ConfiguracionId" ColumnName="ConfiguracionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

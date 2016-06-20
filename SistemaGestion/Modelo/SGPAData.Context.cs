@@ -33,5 +33,6 @@ namespace SistemaGestion.Modelo
         public virtual DbSet<Provincias> Provincias { get; set; }
         public virtual DbSet<Retenciones> Retenciones { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<SistemaConfiguracion> SistemaConfiguracion { get; set; }
     }
 }

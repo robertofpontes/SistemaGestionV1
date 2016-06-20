@@ -44,6 +44,8 @@
             this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._Ctrl_Buscar1 = new SistemaGestion.CONTROLES._Ctrl_Buscar();
+            this.configuraciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configurarImpresoraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._Pnl_Espera.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -74,6 +76,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.inicioToolStripMenuItem,
             this.mantenimientosToolStripMenuItem,
+            this.configuraciónToolStripMenuItem,
             this.ayudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -92,7 +95,7 @@
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
@@ -106,8 +109,8 @@
             this.formaDePagoToolStripMenuItem,
             this.articulosToolStripMenuItem});
             this.mantenimientosToolStripMenuItem.Name = "mantenimientosToolStripMenuItem";
-            this.mantenimientosToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
-            this.mantenimientosToolStripMenuItem.Text = "Mantenimientos";
+            this.mantenimientosToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.mantenimientosToolStripMenuItem.Text = "Gestión";
             // 
             // clientesToolStripMenuItem
             // 
@@ -133,6 +136,7 @@
             this.retenciónToolStripMenuItem.Name = "retenciónToolStripMenuItem";
             this.retenciónToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.retenciónToolStripMenuItem.Text = "Retención";
+            this.retenciónToolStripMenuItem.Click += new System.EventHandler(this.retenciónToolStripMenuItem_Click);
             // 
             // formaDePagoToolStripMenuItem
             // 
@@ -158,7 +162,7 @@
             // acercaDeToolStripMenuItem
             // 
             this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
-            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.acercaDeToolStripMenuItem.Text = "Acerca de";
             // 
             // _Ctrl_Buscar1
@@ -168,6 +172,21 @@
             this._Ctrl_Buscar1.Name = "_Ctrl_Buscar1";
             this._Ctrl_Buscar1.Size = new System.Drawing.Size(847, 27);
             this._Ctrl_Buscar1.TabIndex = 38;
+            // 
+            // configuraciónToolStripMenuItem
+            // 
+            this.configuraciónToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.configurarImpresoraToolStripMenuItem});
+            this.configuraciónToolStripMenuItem.Name = "configuraciónToolStripMenuItem";
+            this.configuraciónToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
+            this.configuraciónToolStripMenuItem.Text = "Configuración";
+            // 
+            // configurarImpresoraToolStripMenuItem
+            // 
+            this.configurarImpresoraToolStripMenuItem.Name = "configurarImpresoraToolStripMenuItem";
+            this.configurarImpresoraToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.configurarImpresoraToolStripMenuItem.Text = "Configurar impresora";
+            this.configurarImpresoraToolStripMenuItem.Click += new System.EventHandler(this.configurarImpresoraToolStripMenuItem_Click);
             // 
             // FrmPadre
             // 
@@ -209,6 +228,8 @@
         private System.Windows.Forms.ToolStripMenuItem articulosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ayudaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configuraciónToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configurarImpresoraToolStripMenuItem;
     }
 }
 
