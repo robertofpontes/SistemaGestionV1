@@ -21,10 +21,15 @@ namespace SistemaGestion.Modelo
         public string Direccion { get; set; }
         public decimal MunicipioId { get; set; }
         public string CodigoPostal { get; set; }
-        public string Telefono_1 { get; set; }
-        public string Telefono_2 { get; set; }
         public string Web { get; set; }
         public string Email { get; set; }
+        public string NumeroCuenta { get; set; }
+        public string Iban { get; set; }
+        public string Swift { get; set; }
+        public string NombreBanco { get; set; }
+        public string Telefono1 { get; set; }
+        public string Telefono2 { get; set; }
+        public string Observaciones { get; set; }
     
         public virtual Empresas Empresas { get; set; }
         public virtual Municipios Municipios { get; set; }

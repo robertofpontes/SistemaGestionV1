@@ -14,7 +14,7 @@ namespace SistemaGestion.Modelo
     
     public partial class Clientes
     {
-        public string ClienteId { get; set; }
+        public decimal ClienteId { get; set; }
         public decimal EmpresaId { get; set; }
         public string NombreCliente { get; set; }
         public string Identificacion { get; set; }
@@ -24,7 +24,14 @@ namespace SistemaGestion.Modelo
         public string Observaciones { get; set; }
         public string Web { get; set; }
         public string Email { get; set; }
+        public string Telefono1 { get; set; }
+        public string Telefono2 { get; set; }
+        public string Iban { get; set; }
+        public string NombreBanco { get; set; }
+        public string NumeroCuenta { get; set; }
+        public string Swift { get; set; }
     
         public virtual Empresas Empresas { get; set; }
+        public virtual Municipios Municipios { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace SistemaGestion
         public static string strVersionSistema = "1.0";
         public static string strEmpresa = "";
         public static string strCodCompania = "";
+        public static decimal dcmCodCompania;
         SGPAEntities SGPADatos = new SGPAEntities();
         public FrmPadre()
         {
@@ -29,6 +30,8 @@ namespace SistemaGestion
             InitializeComponent();
             strEmpresa = strCompania;
             decimal dcmEmpresa = Convert.ToDecimal(strEmpresa);
+            dcmCodCompania = dcmEmpresa;
+            strCodCompania = strEmpresa;
             var oEmpresa = SGPADatos.Empresas.FirstOrDefault(a => a.EmpresaId == dcmEmpresa);
             this.Text = strNombreSistema + strVersionSistema + " - "+oEmpresa.NombreEmpresa;
         }
@@ -39,9 +42,9 @@ namespace SistemaGestion
 
         private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Mantenimientos.FrmEmpresas frmEmpresa = new Mantenimientos.FrmEmpresas();
-            frmEmpresa.MdiParent = this;
-            frmEmpresa.Show();
+            Mantenimientos.FrmClientes frmClientes = new Mantenimientos.FrmClientes();
+            frmClientes.MdiParent = this;
+            frmClientes.Show();
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -111,6 +114,13 @@ namespace SistemaGestion
         private void Pd_PrintPage(object sender, PrintPageEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void proveedoresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Mantenimientos.FrmProveedores frmProveedor = new Mantenimientos.FrmProveedores();
+            frmProveedor.MdiParent = this;
+            frmProveedor.Show();
         }
     }
 }

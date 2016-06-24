@@ -13,10 +13,10 @@ using System.Net.Mail;
 
 namespace SistemaGestion.Mantenimientos
 {
-    public partial class FrmClientes : Form
+    public partial class FrmProveedores : Form
     {
         SGPAEntities SGPADatos = new SGPAEntities();
-        public FrmClientes()
+        public FrmProveedores()
         {
             InitializeComponent();
             LlenarGrid("");
@@ -70,7 +70,7 @@ namespace SistemaGestion.Mantenimientos
             try
             {
                 dtgConsulta.AutoGenerateColumns = false;
-                dtgConsulta.DataSource = (from clientes in SGPADatos.Clientes where (clientes.NombreCliente.Contains(strBusqueda) || clientes.Identificacion.Contains(strBusqueda) || clientes.ClienteId.ToString().Contains(strBusqueda))&&clientes.EmpresaId.ToString()==FrmPadre.strEmpresa select clientes).ToList();
+                dtgConsulta.DataSource = (from proveedores in SGPADatos.Proveedores where (proveedores.NombreProveedor.Contains(strBusqueda) || proveedores.Identificacion.Contains(strBusqueda) || proveedores.ProveedorId.ToString().Contains(strBusqueda))&&proveedores.EmpresaId.ToString()==FrmPadre.strEmpresa select proveedores).ToList();
                 tabFormulario.SelectedIndex = 0;
                 dtgConsulta.Columns[0].Width = 80;
             }
@@ -85,12 +85,12 @@ namespace SistemaGestion.Mantenimientos
             LlenarGrid(txtConsulta.Text);
         }
 
-        private void FrmClientes_Load(object sender, EventArgs e)
+        private void FrmProveedores_Load(object sender, EventArgs e)
         {
             CambiarColorControles(this);
         }
 
-        private void FrmClientes_Activated(object sender, EventArgs e)
+        private void FrmProveedores_Activated(object sender, EventArgs e)
         {
             ActivarBotonera();
         }
@@ -140,7 +140,7 @@ namespace SistemaGestion.Mantenimientos
             }
             if (strProceso == "")
             {
-                if (txtNombreCliente.Enabled)
+                if (txtNombreProveedor.Enabled)
                 {
                     ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = false;
                     ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_editar2.Enabled = false;
@@ -166,7 +166,7 @@ namespace SistemaGestion.Mantenimientos
         private void BloquearControles(bool bolActivo)
         {
             txtCodigo.Enabled = false;
-            txtNombreCliente.Enabled = bolActivo;
+            txtNombreProveedor.Enabled = bolActivo;
             txtDireccion.Enabled = bolActivo;
             txtNifCif.Enabled = bolActivo;
             cmbMunicipios.Enabled = bolActivo;
@@ -194,9 +194,9 @@ namespace SistemaGestion.Mantenimientos
         private bool ValidarGuardar()
         {
             ErrorValidador.Dispose();
-            if (txtNombreCliente.Text.Trim().Length == 0)
+            if (txtNombreProveedor.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtNombreCliente, "El campo es obligatorio");
+                ErrorValidador.SetError(txtNombreProveedor, "El campo es obligatorio");
                 return false;
             }
             if (txtNifCif.Text.Trim().Length == 0)
@@ -208,7 +208,7 @@ namespace SistemaGestion.Mantenimientos
             {
                 ErrorValidador.SetError(txtNifCif, "El NIT o CIF es incorrecto");
                 return false;
-            }           
+            }
             if (txtDireccion.Text.Trim().Length == 0)
             {
                 ErrorValidador.SetError(txtDireccion, "El campo es obligatorio");
@@ -239,11 +239,6 @@ namespace SistemaGestion.Mantenimientos
                 ErrorValidador.SetError(txtEmail, "El formato del correo es invalido");
                 return false;
             }
-            if (!Clases.Utilidades.EsValidoCuentaBancaria(txtNumeroCuenta.Text))
-            {
-                ErrorValidador.SetError(txtNumeroCuenta, "El formato del número de cuenta no es válido");
-                return false;
-            }
             //if (txtNumeroCuenta.Text.Trim() != "")
             //{
             //    if (!Clases.Utilidades.EsValidoCuentaBancaria(txtNumeroCuenta.Text))
@@ -259,22 +254,22 @@ namespace SistemaGestion.Mantenimientos
             bool bolEditado = false;
             if (ValidarGuardar())
             {
-                var oCliente = SGPADatos.Clientes.FirstOrDefault(a => a.ClienteId.ToString() == txtCodigo.Text && a.EmpresaId.ToString()==FrmPadre.strCodCompania);
-                if (oCliente != null)
+                var oProveedor = SGPADatos.Proveedores.FirstOrDefault(a => a.ProveedorId.ToString() == txtCodigo.Text && a.EmpresaId.ToString()==FrmPadre.strCodCompania);
+                if (oProveedor != null)
                 {
-                    oCliente.NombreCliente = txtNombreCliente.Text;
-                    oCliente.Identificacion = txtNifCif.Text.Trim().ToUpper();
-                    oCliente.Direccion = txtDireccion.Text;
-                    oCliente.MunicipioId = Convert.ToDecimal(cmbMunicipios.SelectedValue.ToString());
-                    oCliente.CodigoPostal = txtCodigoPostal.Text.Trim();
-                    oCliente.Telefono1 = txtTelefono1.Text.Trim();
-                    oCliente.Telefono2 = txtTelefono2.Text.Trim();
-                    oCliente.Observaciones = txtObservaciones.Text.Trim();
-                    oCliente.Email = txtEmail.Text.Trim();
-                    oCliente.Iban = txtIBAN.Text;
-                    oCliente.Swift = txtSWIFT.Text;
-                    oCliente.NombreBanco = txtNombreBanco.Text;
-                    oCliente.NumeroCuenta = txtNumeroCuenta.Text;
+                    oProveedor.NombreProveedor = txtNombreProveedor.Text;
+                    oProveedor.Identificacion = txtNifCif.Text.Trim().ToUpper();
+                    oProveedor.Direccion = txtDireccion.Text;
+                    oProveedor.MunicipioId = Convert.ToDecimal(cmbMunicipios.SelectedValue.ToString());
+                    oProveedor.CodigoPostal = txtCodigoPostal.Text.Trim();
+                    oProveedor.Telefono1 = txtTelefono1.Text.Trim();
+                    oProveedor.Telefono2 = txtTelefono2.Text.Trim();
+                    oProveedor.Observaciones = txtObservaciones.Text.Trim();
+                    oProveedor.Email = txtEmail.Text.Trim();
+                    oProveedor.Iban = txtIBAN.Text;
+                    oProveedor.Swift = txtSWIFT.Text;
+                    oProveedor.NombreBanco = txtNombreBanco.Text;
+                    oProveedor.NumeroCuenta = txtNumeroCuenta.Text;
                     SGPADatos.SaveChanges();
                     LlenarGrid("");
                 }
@@ -285,7 +280,7 @@ namespace SistemaGestion.Mantenimientos
         {
             strProceso = "";
             txtCodigo.Text = "";
-            txtNombreCliente.Text = "";
+            txtNombreProveedor.Text = "";
             txtDireccion.Text = "";
             txtNifCif.Text = "";
             txtCodigoPostal.Text = "";
@@ -302,7 +297,7 @@ namespace SistemaGestion.Mantenimientos
             BloquearControles(false);
         }
 
-        private void FrmClientes_FormClosing(object sender, FormClosingEventArgs e)
+        private void FrmProveedores_FormClosing(object sender, FormClosingEventArgs e)
         {
             CONTROLES._Ctrl_Buscar._txt_text.Text = "";
             CONTROLES._Ctrl_Buscar._txt_ExistForm.Text = "Cerrado";
@@ -321,22 +316,22 @@ namespace SistemaGestion.Mantenimientos
             {
                 if (ValidarGuardar())
                 {
-                    var oCliente = new Clientes();
-                    oCliente.NombreCliente = txtNombreCliente.Text;
-                    oCliente.Identificacion = txtNifCif.Text.Trim().ToUpper();
-                    oCliente.EmpresaId =  FrmPadre.dcmCodCompania;
-                    oCliente.Direccion = txtDireccion.Text;
-                    oCliente.MunicipioId = Convert.ToDecimal(cmbMunicipios.SelectedValue.ToString());
-                    oCliente.CodigoPostal = txtCodigoPostal.Text.Trim();
-                    oCliente.Telefono1 = txtTelefono1.Text.Trim();
-                    oCliente.Telefono2 = txtTelefono2.Text.Trim();
-                    oCliente.Observaciones = txtObservaciones.Text.Trim();
-                    oCliente.Email = txtEmail.Text.Trim();
-                    oCliente.Iban = txtIBAN.Text;
-                    oCliente.Swift = txtSWIFT.Text;
-                    oCliente.NombreBanco = txtNombreBanco.Text;
-                    oCliente.NumeroCuenta = txtNumeroCuenta.Text;
-                    SGPADatos.Clientes.Add(oCliente);
+                    var oProveedor = new Proveedores();
+                    oProveedor.NombreProveedor = txtNombreProveedor.Text;
+                    oProveedor.Identificacion = txtNifCif.Text.Trim().ToUpper();
+                    oProveedor.EmpresaId =  FrmPadre.dcmCodCompania;
+                    oProveedor.Direccion = txtDireccion.Text;
+                    oProveedor.MunicipioId = Convert.ToDecimal(cmbMunicipios.SelectedValue.ToString());
+                    oProveedor.CodigoPostal = txtCodigoPostal.Text.Trim();
+                    oProveedor.Telefono1 = txtTelefono1.Text.Trim();
+                    oProveedor.Telefono2 = txtTelefono2.Text.Trim();
+                    oProveedor.Observaciones = txtObservaciones.Text.Trim();
+                    oProveedor.Email = txtEmail.Text.Trim();
+                    oProveedor.Iban = txtIBAN.Text;
+                    oProveedor.Swift = txtSWIFT.Text;
+                    oProveedor.NombreBanco = txtNombreBanco.Text;
+                    oProveedor.NumeroCuenta = txtNumeroCuenta.Text;
+                    SGPADatos.Proveedores.Add(oProveedor);
                     SGPADatos.SaveChanges();
                     LlenarGrid("");
                     Inicializar();
@@ -354,7 +349,7 @@ namespace SistemaGestion.Mantenimientos
         {
             if (e.TabPageIndex != 0)
             {
-                if (!txtNombreCliente.Enabled & txtCodigo.Text.Trim().Length == 0)
+                if (!txtNombreProveedor.Enabled & txtCodigo.Text.Trim().Length == 0)
                 {
                     e.Cancel = true;
                 }
@@ -371,26 +366,26 @@ namespace SistemaGestion.Mantenimientos
         {
             try
             {
-                var oCliente = SGPADatos.Clientes.FirstOrDefault(a => a.ClienteId == dcmCliente && a.EmpresaId==FrmPadre.dcmCodCompania);
-                if (oCliente != null)
+                var oProveedor = SGPADatos.Proveedores.FirstOrDefault(a => a.ProveedorId == dcmCliente && a.EmpresaId==FrmPadre.dcmCodCompania);
+                if (oProveedor != null)
                 {
-                    txtNombreCliente.Text = oCliente.NombreCliente;
-                    txtNifCif.Text = oCliente.Identificacion;
-                    txtDireccion.Text = oCliente.Direccion;
-                    var oMunicipio = SGPADatos.Municipios.FirstOrDefault(a => a.MunicipioId == oCliente.MunicipioId);
+                    txtNombreProveedor.Text = oProveedor.NombreProveedor;
+                    txtNifCif.Text = oProveedor.Identificacion;
+                    txtDireccion.Text = oProveedor.Direccion;
+                    var oMunicipio = SGPADatos.Municipios.FirstOrDefault(a => a.MunicipioId == oProveedor.MunicipioId);
                     Clases.Utilidades.AsignarValorCombo(cmbProvincias, oMunicipio.Provincias.NombreProvincia.ToString());
                     LlenarMunicipios();
-                    Clases.Utilidades.AsignarValorCombo(cmbMunicipios, oCliente.Municipios.NombreMunicipio.ToString());
-                    txtCodigoPostal.Text = oCliente.CodigoPostal;
-                    txtTelefono1.Text=oCliente.Telefono1;
-                    txtTelefono2.Text = oCliente.Telefono2;
-                    txtObservaciones.Text = oCliente.Observaciones;
-                    txtEmail.Text = oCliente.Email;
-                    txtIBAN.Text=oCliente.Iban;
-                    txtSWIFT.Text=oCliente.Swift;
-                    txtNombreBanco.Text=oCliente.NombreBanco;
-                    txtNumeroCuenta.Text=oCliente.NumeroCuenta;
-                    txtCodigo.Text = oCliente.ClienteId.ToString();
+                    Clases.Utilidades.AsignarValorCombo(cmbMunicipios, oProveedor.Municipios.NombreMunicipio.ToString());
+                    txtCodigoPostal.Text = oProveedor.CodigoPostal;
+                    txtTelefono1.Text=oProveedor.Telefono1;
+                    txtTelefono2.Text = oProveedor.Telefono2;
+                    txtObservaciones.Text = oProveedor.Observaciones;
+                    txtEmail.Text = oProveedor.Email;
+                    txtIBAN.Text=oProveedor.Iban;
+                    txtSWIFT.Text=oProveedor.Swift;
+                    txtNombreBanco.Text=oProveedor.NombreBanco;
+                    txtNumeroCuenta.Text=oProveedor.NumeroCuenta;
+                    txtCodigo.Text = oProveedor.ProveedorId.ToString();
                 }
             }
             catch
@@ -405,7 +400,7 @@ namespace SistemaGestion.Mantenimientos
                 {
                     Cursor = Cursors.WaitCursor;
                     Inicializar();
-                    CargarData(Convert.ToDecimal(dtgConsulta.SelectedRows[0].Cells["ClienteId"].Value.ToString()));
+                    CargarData(Convert.ToDecimal(dtgConsulta.SelectedRows[0].Cells["ProveedorId"].Value.ToString()));
                     strProceso = "E";
                     ActivarBotonera();
                     Cursor = Cursors.Default;

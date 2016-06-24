@@ -41,11 +41,11 @@
             this.retenciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formaDePagoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.articulosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configuraciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configurarImpresoraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._Ctrl_Buscar1 = new SistemaGestion.CONTROLES._Ctrl_Buscar();
-            this.configuraciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.configurarImpresoraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._Pnl_Espera.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -95,7 +95,7 @@
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
@@ -124,6 +124,7 @@
             this.proveedoresToolStripMenuItem.Name = "proveedoresToolStripMenuItem";
             this.proveedoresToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.proveedoresToolStripMenuItem.Text = "Proveedores";
+            this.proveedoresToolStripMenuItem.Click += new System.EventHandler(this.proveedoresToolStripMenuItem_Click);
             // 
             // impuestosIVAToolStripMenuItem
             // 
@@ -151,28 +152,6 @@
             this.articulosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.articulosToolStripMenuItem.Text = "Articulos";
             // 
-            // ayudaToolStripMenuItem
-            // 
-            this.ayudaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.acercaDeToolStripMenuItem});
-            this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
-            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-            this.ayudaToolStripMenuItem.Text = "Ayuda";
-            // 
-            // acercaDeToolStripMenuItem
-            // 
-            this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
-            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.acercaDeToolStripMenuItem.Text = "Acerca de";
-            // 
-            // _Ctrl_Buscar1
-            // 
-            this._Ctrl_Buscar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this._Ctrl_Buscar1.Location = new System.Drawing.Point(0, 24);
-            this._Ctrl_Buscar1.Name = "_Ctrl_Buscar1";
-            this._Ctrl_Buscar1.Size = new System.Drawing.Size(847, 27);
-            this._Ctrl_Buscar1.TabIndex = 38;
-            // 
             // configuraciónToolStripMenuItem
             // 
             this.configuraciónToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -187,6 +166,28 @@
             this.configurarImpresoraToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.configurarImpresoraToolStripMenuItem.Text = "Configurar impresora";
             this.configurarImpresoraToolStripMenuItem.Click += new System.EventHandler(this.configurarImpresoraToolStripMenuItem_Click);
+            // 
+            // ayudaToolStripMenuItem
+            // 
+            this.ayudaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.acercaDeToolStripMenuItem});
+            this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
+            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.ayudaToolStripMenuItem.Text = "Ayuda";
+            // 
+            // acercaDeToolStripMenuItem
+            // 
+            this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
+            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.acercaDeToolStripMenuItem.Text = "Acerca de";
+            // 
+            // _Ctrl_Buscar1
+            // 
+            this._Ctrl_Buscar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this._Ctrl_Buscar1.Location = new System.Drawing.Point(0, 24);
+            this._Ctrl_Buscar1.Name = "_Ctrl_Buscar1";
+            this._Ctrl_Buscar1.Size = new System.Drawing.Size(847, 27);
+            this._Ctrl_Buscar1.TabIndex = 38;
             // 
             // FrmPadre
             // 

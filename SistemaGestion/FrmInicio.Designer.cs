@@ -34,7 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.cmbEmpresa = new System.Windows.Forms.ComboBox();
+            this.cmbEmpresa = new Clases.ComboBoxConBorde();
             this.btnSalir = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -150,7 +150,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbEmpresa;
+        private Clases.ComboBoxConBorde cmbEmpresa;
         private System.Windows.Forms.Button btnSalir;
     }
 }
