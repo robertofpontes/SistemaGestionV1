@@ -131,6 +131,7 @@
             this.impuestosIVAToolStripMenuItem.Name = "impuestosIVAToolStripMenuItem";
             this.impuestosIVAToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.impuestosIVAToolStripMenuItem.Text = "Impuestos (IVA)";
+            this.impuestosIVAToolStripMenuItem.Click += new System.EventHandler(this.impuestosIVAToolStripMenuItem_Click);
             // 
             // retenciónToolStripMenuItem
             // 
@@ -151,6 +152,7 @@
             this.articulosToolStripMenuItem.Name = "articulosToolStripMenuItem";
             this.articulosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.articulosToolStripMenuItem.Text = "Articulos";
+            this.articulosToolStripMenuItem.Click += new System.EventHandler(this.articulosToolStripMenuItem_Click);
             // 
             // configuraciónToolStripMenuItem
             // 

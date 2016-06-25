@@ -34,5 +34,7 @@ namespace SistemaGestion.Modelo
         public virtual DbSet<Retenciones> Retenciones { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
         public virtual DbSet<SistemaConfiguracion> SistemaConfiguracion { get; set; }
+        public virtual DbSet<Articulos> Articulos { get; set; }
+        public virtual DbSet<Impuestos> Impuestos { get; set; }
     }
 }

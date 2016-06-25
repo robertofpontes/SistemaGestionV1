@@ -19,6 +19,7 @@ namespace SistemaGestion.Modelo
         {
             this.Clientes = new HashSet<Clientes>();
             this.Proveedores = new HashSet<Proveedores>();
+            this.Articulos = new HashSet<Articulos>();
         }
     
         public decimal EmpresaId { get; set; }
@@ -36,5 +37,7 @@ namespace SistemaGestion.Modelo
         public virtual Municipios Municipios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proveedores> Proveedores { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Articulos> Articulos { get; set; }
     }
 }

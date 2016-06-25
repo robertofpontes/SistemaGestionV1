@@ -229,6 +229,28 @@ namespace SistemaGestion.Mantenimientos
                 ErrorValidador.SetError(txtCodigoPostal, "El campo es obligatorio");
                 return false;
             }
+            else
+            {
+                if (!Clases.Utilidades.CodigoPostalEsValido(txtCodigoPostal.Text))
+                {
+                    ErrorValidador.SetError(txtCodigoPostal, "El formato del código postal no es válido");
+                    return false;
+                }
+                else
+                {
+                    string strCodigoBuscar = txtCodigoPostal.Text.Substring(0, 2);
+                    decimal dcmCodigoBuscar = Convert.ToDecimal(strCodigoBuscar);
+                    var oProvincia = SGPADatos.Provincias.FirstOrDefault(a => a.ProvinciaId == dcmCodigoBuscar);
+                    if (oProvincia != null)
+                    {
+                        if(oProvincia.ProvinciaId.ToString()!=cmbProvincias.SelectedValue.ToString())
+                        {
+                            ErrorValidador.SetError(cmbProvincias, "La provincia seleccionada no concuerda con el código postal ingresado");
+                            return false;
+                        }
+                    }
+                }
+            }
             if (txtTelefono1.Text.Trim().Length == 0)
             {
                 ErrorValidador.SetError(txtTelefono1, "El campo es obligatorio");
@@ -237,11 +259,6 @@ namespace SistemaGestion.Mantenimientos
             if (!Clases.Utilidades.EmailEsValido(txtEmail.Text))
             {
                 ErrorValidador.SetError(txtEmail, "El formato del correo es invalido");
-                return false;
-            }
-            if (!Clases.Utilidades.EsValidoCuentaBancaria(txtNumeroCuenta.Text))
-            {
-                ErrorValidador.SetError(txtNumeroCuenta, "El formato del número de cuenta no es válido");
                 return false;
             }
             //if (txtNumeroCuenta.Text.Trim() != "")
@@ -381,7 +398,9 @@ namespace SistemaGestion.Mantenimientos
                     Clases.Utilidades.AsignarValorCombo(cmbProvincias, oMunicipio.Provincias.NombreProvincia.ToString());
                     LlenarMunicipios();
                     Clases.Utilidades.AsignarValorCombo(cmbMunicipios, oCliente.Municipios.NombreMunicipio.ToString());
+                    txtCodigoPostal.TextChanged -= txtCodigoPostal_TextChanged;
                     txtCodigoPostal.Text = oCliente.CodigoPostal;
+                    txtCodigoPostal.TextChanged += txtCodigoPostal_TextChanged;
                     txtTelefono1.Text=oCliente.Telefono1;
                     txtTelefono2.Text = oCliente.Telefono2;
                     txtObservaciones.Text = oCliente.Observaciones;
@@ -397,6 +416,8 @@ namespace SistemaGestion.Mantenimientos
             {
             }
         }
+        
+
         private void dtgConsulta_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -416,6 +437,34 @@ namespace SistemaGestion.Mantenimientos
             {
 
             }
+        }
+
+        private void txtCodigoPostal_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtCodigoPostal.Text.Trim() != "")
+                {
+                    if (txtCodigoPostal.Text.Length ==2)
+                    {
+                        string strCodigoBuscar = txtCodigoPostal.Text.Substring(0, 2);
+                        decimal dcmCodigoBuscar = Convert.ToDecimal(strCodigoBuscar);
+                        var oProvincia = SGPADatos.Provincias.FirstOrDefault(a => a.ProvinciaId== dcmCodigoBuscar);
+                        if (oProvincia != null)
+                        {
+                            Clases.Utilidades.AsignarValorCombo(cmbProvincias, oProvincia.NombreProvincia);
+                        }
+                    }
+                }
+            }
+            catch(Exception ou)
+            {
+            }
+        }
+
+        private void cmbProvincias_DropDown(object sender, EventArgs e)
+        {
+            LlenarProvincias();
         }
     }
 }

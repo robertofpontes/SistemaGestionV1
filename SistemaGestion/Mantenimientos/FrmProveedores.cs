@@ -229,6 +229,28 @@ namespace SistemaGestion.Mantenimientos
                 ErrorValidador.SetError(txtCodigoPostal, "El campo es obligatorio");
                 return false;
             }
+            else
+            {
+                if (!Clases.Utilidades.CodigoPostalEsValido(txtCodigoPostal.Text))
+                {
+                    ErrorValidador.SetError(txtCodigoPostal, "El formato del código postal no es válido");
+                    return false;
+                }
+                else
+                {
+                    string strCodigoBuscar = txtCodigoPostal.Text.Substring(0, 2);
+                    decimal dcmCodigoBuscar = Convert.ToDecimal(strCodigoBuscar);
+                    var oProvincia = SGPADatos.Provincias.FirstOrDefault(a => a.ProvinciaId == dcmCodigoBuscar);
+                    if (oProvincia != null)
+                    {
+                        if (oProvincia.ProvinciaId.ToString() != cmbProvincias.SelectedValue.ToString())
+                        {
+                            ErrorValidador.SetError(cmbProvincias, "La provincia seleccionada no concuerda con el código postal ingresado");
+                            return false;
+                        }
+                    }
+                }
+            }
             if (txtTelefono1.Text.Trim().Length == 0)
             {
                 ErrorValidador.SetError(txtTelefono1, "El campo es obligatorio");
@@ -376,7 +398,9 @@ namespace SistemaGestion.Mantenimientos
                     Clases.Utilidades.AsignarValorCombo(cmbProvincias, oMunicipio.Provincias.NombreProvincia.ToString());
                     LlenarMunicipios();
                     Clases.Utilidades.AsignarValorCombo(cmbMunicipios, oProveedor.Municipios.NombreMunicipio.ToString());
+                    txtCodigoPostal.TextChanged -= txtCodigoPostal_TextChanged;
                     txtCodigoPostal.Text = oProveedor.CodigoPostal;
+                    txtCodigoPostal.TextChanged += txtCodigoPostal_TextChanged;
                     txtTelefono1.Text=oProveedor.Telefono1;
                     txtTelefono2.Text = oProveedor.Telefono2;
                     txtObservaciones.Text = oProveedor.Observaciones;
@@ -411,6 +435,34 @@ namespace SistemaGestion.Mantenimientos
             {
 
             }
+        }
+
+        private void txtCodigoPostal_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtCodigoPostal.Text.Trim() != "")
+                {
+                    if (txtCodigoPostal.Text.Length == 2)
+                    {
+                        string strCodigoBuscar = txtCodigoPostal.Text.Substring(0, 2);
+                        decimal dcmCodigoBuscar = Convert.ToDecimal(strCodigoBuscar);
+                        var oProvincia = SGPADatos.Provincias.FirstOrDefault(a => a.ProvinciaId == dcmCodigoBuscar);
+                        if (oProvincia != null)
+                        {
+                            Clases.Utilidades.AsignarValorCombo(cmbProvincias, oProvincia.NombreProvincia);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void cmbProvincias_DropDown(object sender, EventArgs e)
+        {
+            LlenarProvincias();
         }
     }
 }

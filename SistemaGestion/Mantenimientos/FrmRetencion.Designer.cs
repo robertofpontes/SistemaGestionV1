@@ -45,12 +45,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.ErrorValidador = new System.Windows.Forms.ErrorProvider(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabFormulario.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsulta)).BeginInit();
             this.PnlConsulta.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorValidador)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabFormulario
@@ -61,7 +63,7 @@
             this.tabFormulario.Location = new System.Drawing.Point(0, 0);
             this.tabFormulario.Name = "tabFormulario";
             this.tabFormulario.SelectedIndex = 0;
-            this.tabFormulario.Size = new System.Drawing.Size(453, 220);
+            this.tabFormulario.Size = new System.Drawing.Size(441, 203);
             this.tabFormulario.TabIndex = 2;
             this.tabFormulario.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabFormulario_Selecting);
             // 
@@ -72,7 +74,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(445, 194);
+            this.tabPage1.Size = new System.Drawing.Size(433, 177);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Consulta";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -90,7 +92,7 @@
             this.dtgConsulta.Location = new System.Drawing.Point(3, 47);
             this.dtgConsulta.Name = "dtgConsulta";
             this.dtgConsulta.ReadOnly = true;
-            this.dtgConsulta.Size = new System.Drawing.Size(439, 144);
+            this.dtgConsulta.Size = new System.Drawing.Size(427, 127);
             this.dtgConsulta.TabIndex = 1;
             this.dtgConsulta.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgConsulta_RowHeaderMouseDoubleClick);
             // 
@@ -116,7 +118,7 @@
             this.PnlConsulta.Dock = System.Windows.Forms.DockStyle.Top;
             this.PnlConsulta.Location = new System.Drawing.Point(3, 3);
             this.PnlConsulta.Name = "PnlConsulta";
-            this.PnlConsulta.Size = new System.Drawing.Size(439, 44);
+            this.PnlConsulta.Size = new System.Drawing.Size(427, 44);
             this.PnlConsulta.TabIndex = 0;
             // 
             // label1
@@ -149,14 +151,11 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.label3);
-            this.tabPage2.Controls.Add(this.txtPorcentaje);
-            this.tabPage2.Controls.Add(this.label2);
-            this.tabPage2.Controls.Add(this.txtCodigo);
+            this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(445, 194);
+            this.tabPage2.Size = new System.Drawing.Size(433, 177);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Detalle";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -164,7 +163,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 58);
+            this.label3.Location = new System.Drawing.Point(25, 61);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(61, 13);
             this.label3.TabIndex = 6;
@@ -173,7 +172,7 @@
             // txtPorcentaje
             // 
             this.txtPorcentaje.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPorcentaje.Location = new System.Drawing.Point(99, 56);
+            this.txtPorcentaje.Location = new System.Drawing.Point(97, 59);
             this.txtPorcentaje.MaxLength = 10;
             this.txtPorcentaje.Name = "txtPorcentaje";
             this.txtPorcentaje.Size = new System.Drawing.Size(86, 20);
@@ -183,7 +182,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 32);
+            this.label2.Location = new System.Drawing.Point(25, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 4;
@@ -193,7 +192,7 @@
             // 
             this.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCodigo.Enabled = false;
-            this.txtCodigo.Location = new System.Drawing.Point(99, 30);
+            this.txtCodigo.Location = new System.Drawing.Point(97, 33);
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(86, 20);
             this.txtCodigo.TabIndex = 3;
@@ -202,13 +201,28 @@
             // 
             this.ErrorValidador.ContainerControl = this;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtPorcentaje);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.txtCodigo);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Location = new System.Drawing.Point(16, 17);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(399, 139);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Datos de la Retención";
+            // 
             // FrmRetencion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(453, 220);
+            this.ClientSize = new System.Drawing.Size(441, 203);
             this.Controls.Add(this.tabFormulario);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmRetencion";
             this.Text = "Tipo de Retención";
             this.Activated += new System.EventHandler(this.FrmRetencion_Activated);
@@ -220,8 +234,9 @@
             this.PnlConsulta.ResumeLayout(false);
             this.PnlConsulta.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorValidador)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -243,5 +258,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn RetencionId;
         private System.Windows.Forms.DataGridViewTextBoxColumn Porcentaje;
         private System.Windows.Forms.ErrorProvider ErrorValidador;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

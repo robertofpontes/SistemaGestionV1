@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SGPAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Articulos">
+          <Key>
+            <PropertyRef Name="ArticuloId" />
+          </Key>
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Referencia" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Precio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ImpuestoId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
         <EntityType Name="Clientes">
           <Key>
             <PropertyRef Name="ClienteId" />
@@ -13,7 +24,7 @@
           <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="NombreCliente" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Identificacion" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Direccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="MunicipioId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="CodigoPostal" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Telefono1" Type="varchar" MaxLength="50" Nullable="false" />
@@ -47,6 +58,14 @@
           <Property Name="FormaPagoId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Impuestos">
+          <Key>
+            <PropertyRef Name="ImpuestoId" />
+          </Key>
+          <Property Name="ImpuestoId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Porcentaje" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RecargoEquivalencia" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="Municipios">
           <Key>
             <PropertyRef Name="MunicipioId" />
@@ -63,9 +82,9 @@
           </Key>
           <Property Name="ProveedorId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="NombreProveedor" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NombreProveedor" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Identificacion" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Direccion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="MunicipioId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="CodigoPostal" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Telefono1" Type="varchar" MaxLength="50" Nullable="false" />
@@ -107,6 +126,30 @@
           <Property Name="Usuario" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Clave" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Articulos_Empresas">
+          <End Role="Empresas" Type="Self.Empresas" Multiplicity="1" />
+          <End Role="Articulos" Type="Self.Articulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="Articulos">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Articulos_Impuestos">
+          <End Role="Impuestos" Type="Self.Impuestos" Multiplicity="1" />
+          <End Role="Articulos" Type="Self.Articulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Impuestos">
+              <PropertyRef Name="ImpuestoId" />
+            </Principal>
+            <Dependent Role="Articulos">
+              <PropertyRef Name="ImpuestoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Clientes_Empresas">
           <End Role="Empresas" Type="Self.Empresas" Multiplicity="1" />
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="*" />
@@ -180,15 +223,25 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SGPAModelStoreContainer">
+          <EntitySet Name="Articulos" EntityType="Self.Articulos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empresas" EntityType="Self.Empresas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormasPagos" EntityType="Self.FormasPagos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Impuestos" EntityType="Self.Impuestos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Municipios" EntityType="Self.Municipios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincias" EntityType="Self.Provincias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Retenciones" EntityType="Self.Retenciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SistemaConfiguracion" EntityType="Self.SistemaConfiguracion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Articulos_Empresas" Association="Self.FK_Articulos_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="Articulos" EntitySet="Articulos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Articulos_Impuestos" Association="Self.FK_Articulos_Impuestos">
+            <End Role="Impuestos" EntitySet="Impuestos" />
+            <End Role="Articulos" EntitySet="Articulos" />
+          </AssociationSet>
           <AssociationSet Name="FK_Clientes_Empresas" Association="Self.FK_Clientes_Empresas">
             <End Role="Empresas" EntitySet="Empresas" />
             <End Role="Clientes" EntitySet="Clientes" />
@@ -226,7 +279,7 @@
           <Property Name="EmpresaId" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="NombreCliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Identificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MunicipioId" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="CodigoPostal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Observaciones" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -257,6 +310,7 @@
           <NavigationProperty Name="Clientes" Relationship="Self.FK_Clientes_Empresas" FromRole="Empresas" ToRole="Clientes" />
           <NavigationProperty Name="Municipios" Relationship="Self.FK_Empresas_Municipios" FromRole="Empresas" ToRole="Municipios" />
           <NavigationProperty Name="Proveedores" Relationship="Self.FK_Proveedores_Empresas" FromRole="Empresas" ToRole="Proveedores" />
+          <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_Articulos_Empresas" FromRole="Empresas" ToRole="Articulos" />
         </EntityType>
         <EntityType Name="FormasPagos">
           <Key>
@@ -285,9 +339,9 @@
           </Key>
           <Property Name="ProveedorId" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="EmpresaId" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="NombreProveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombreProveedor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Identificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MunicipioId" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="CodigoPostal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Web" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -419,6 +473,16 @@
             <End Role="Municipios" EntitySet="Municipios" />
             <End Role="Clientes" EntitySet="Clientes" />
           </AssociationSet>
+          <EntitySet Name="Articulos" EntityType="SGPAModel.Articulos" />
+          <EntitySet Name="Impuestos" EntityType="SGPAModel.Impuestos" />
+          <AssociationSet Name="FK_Articulos_Empresas" Association="SGPAModel.FK_Articulos_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="Articulos" EntitySet="Articulos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Articulos_Impuestos" Association="SGPAModel.FK_Articulos_Impuestos">
+            <End Role="Impuestos" EntitySet="Impuestos" />
+            <End Role="Articulos" EntitySet="Articulos" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="SistemaConfiguracion">
           <Key>
@@ -436,6 +500,52 @@
             </Principal>
             <Dependent Role="Clientes">
               <PropertyRef Name="MunicipioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Articulos">
+          <Key>
+            <PropertyRef Name="ArticuloId" />
+          </Key>
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Referencia" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ImpuestoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_Articulos_Empresas" FromRole="Articulos" ToRole="Empresas" />
+          <NavigationProperty Name="Impuestos" Relationship="SGPAModel.FK_Articulos_Impuestos" FromRole="Articulos" ToRole="Impuestos" />
+        </EntityType>
+        <EntityType Name="Impuestos">
+          <Key>
+            <PropertyRef Name="ImpuestoId" />
+          </Key>
+          <Property Name="ImpuestoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Porcentaje" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="RecargoEquivalencia" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_Articulos_Impuestos" FromRole="Impuestos" ToRole="Articulos" />
+        </EntityType>
+        <Association Name="FK_Articulos_Empresas">
+          <End Type="SGPAModel.Empresas" Role="Empresas" Multiplicity="1" />
+          <End Type="SGPAModel.Articulos" Role="Articulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="Articulos">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Articulos_Impuestos">
+          <End Type="SGPAModel.Impuestos" Role="Impuestos" Multiplicity="1" />
+          <End Type="SGPAModel.Articulos" Role="Articulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Impuestos">
+              <PropertyRef Name="ImpuestoId" />
+            </Principal>
+            <Dependent Role="Articulos">
+              <PropertyRef Name="ImpuestoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -553,6 +663,27 @@
               <MappingFragment StoreEntitySet="SistemaConfiguracion">
                 <ScalarProperty Name="NombreImpresora" ColumnName="NombreImpresora" />
                 <ScalarProperty Name="ConfiguracionId" ColumnName="ConfiguracionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Articulos">
+            <EntityTypeMapping TypeName="SGPAModel.Articulos">
+              <MappingFragment StoreEntitySet="Articulos">
+                <ScalarProperty Name="ImpuestoId" ColumnName="ImpuestoId" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Impuestos">
+            <EntityTypeMapping TypeName="SGPAModel.Impuestos">
+              <MappingFragment StoreEntitySet="Impuestos">
+                <ScalarProperty Name="RecargoEquivalencia" ColumnName="RecargoEquivalencia" />
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+                <ScalarProperty Name="ImpuestoId" ColumnName="ImpuestoId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

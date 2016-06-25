@@ -1067,9 +1067,11 @@ namespace SistemaGestion.CONTROLES
 
         private void _Bt_cerrar_sesion_Click(object sender, EventArgs e)
         {
-            //Form _Frm = this.FindForm();
+            FrmInicio frmInicio = new FrmInicio();
+            frmInicio.Show();
+            Form frmForm = this.FindForm();
             //((Frm_Padre)_Frm)._Bol_Cerrar = false;
-            //_Frm.Close();
+            frmForm.Close();
             //Cursor = Cursors.WaitCursor;
             ////new CLASES._Cls_Varios_Metodos(true)._Mtd_Cerrar_T3_Popup("T3BUGS");
             //_Mtd_EliminarUsuarioRestric(Frm_Padre._Str_Use);

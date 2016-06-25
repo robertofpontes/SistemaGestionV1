@@ -11,13 +11,28 @@ using System.Windows.Forms;
 
 namespace SistemaGestion.Mantenimientos
 {
-    public partial class FrmRetencion : Form
+    public partial class FrmArticulos : Form
     {
         SGPAEntities SGPADatos = new SGPAEntities();
-        public FrmRetencion()
+        public FrmArticulos()
         {
             InitializeComponent();
             LlenarGrid("");
+            LlenarImpuestos();
+        }
+        private void LlenarImpuestos()
+        {
+            try
+            {
+                cmbIVA.DataSource = (from impuestos in SGPADatos.Impuestos
+                                            select new { impuestos.ImpuestoId, impuestos.Porcentaje }).ToList();
+                cmbIVA.DisplayMember = "Porcentaje";
+                cmbIVA.ValueMember = "ImpuestoId";
+                cmbIVA.SelectedIndex = -1;
+            }
+            catch
+            {
+            }
         }
         private void CambiarColorControles(Control Controles)
         {
@@ -35,7 +50,7 @@ namespace SistemaGestion.Mantenimientos
             try
             {
                 dtgConsulta.AutoGenerateColumns = false;
-                dtgConsulta.DataSource = (from retenciones in SGPADatos.Retenciones where retenciones.Porcentaje.ToString().Contains(strBusqueda) select retenciones).ToList();
+                dtgConsulta.DataSource = (from articulos in SGPADatos.Articulos where (articulos.Referencia.Contains(strBusqueda) || articulos.Descripcion.Contains(strBusqueda) || articulos.ArticuloId.ToString().Contains(strBusqueda)) && articulos.EmpresaId == FrmPadre.dcmCodCompania select articulos).ToList();
                 tabFormulario.SelectedIndex = 0;
                 dtgConsulta.Columns[0].Width = 80;
             }
@@ -43,45 +58,54 @@ namespace SistemaGestion.Mantenimientos
             {
             }
         }
+        private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 8)
+            {
+                e.Handled = false;
+                return;
+            }
+
+
+            bool IsDec = false;
+            int nroDec = 0;
+
+            for (int i = 0; i < txtPrecio.Text.Length; i++)
+            {
+                if (txtPrecio.Text[i] == ',')
+                    IsDec = true;
+
+                if (IsDec && nroDec++ >= 2)
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+
+            }
+
+            if (e.KeyChar >= 48 && e.KeyChar <= 57)
+                e.Handled = false;
+            else if (e.KeyChar == 44)
+                e.Handled = (IsDec) ? true : false;
+            else
+                e.Handled = true;
+
+        }
 
         private void btnConsultar_Click(object sender, EventArgs e)
         {
             LlenarGrid(txtConsulta.Text);
         }
 
-        private void FrmRetencion_Load(object sender, EventArgs e)
+        private void FrmArticulos_Load(object sender, EventArgs e)
         {
             CambiarColorControles(this);
         }
 
-        private void FrmRetencion_Activated(object sender, EventArgs e)
+        private void FrmArticulos_Activated(object sender, EventArgs e)
         {
             ActivarBotonera();
-        }
-        public bool Eliminar()
-        {
-            try
-            {
-                if (!txtPorcentaje.Enabled)
-                {
-                    var oRetenciones = SGPADatos.Retenciones.FirstOrDefault(a => a.RetencionId.ToString() == txtCodigo.Text);
-                    if (oRetenciones != null)
-                    {
-                        SGPADatos.Retenciones.Remove(oRetenciones);
-                        SGPADatos.SaveChanges();
-                        LlenarGrid("");
-                        Inicializar();
-                        strProceso = "A";
-                        ActivarBotonera();
-                        return true;
-                    }
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
         }
         string strProceso = "G";
         public void ActivarBotonera()
@@ -129,7 +153,7 @@ namespace SistemaGestion.Mantenimientos
             }
             if (strProceso == "")
             {
-                if (txtPorcentaje.Enabled)
+                if (txtDescripcion.Enabled)
                 {
                     ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = false;
                     ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_editar2.Enabled = false;
@@ -155,32 +179,23 @@ namespace SistemaGestion.Mantenimientos
         private void BloquearControles(bool bolActivo)
         {
             txtCodigo.Enabled = false;
-            txtPorcentaje.Enabled = bolActivo;
-        }
-        public bool Modificar()
-        {
-            bool bolEditado = false;
-            if (ValidarGuardar())
-            {
-                var oRetenciones = SGPADatos.Retenciones.FirstOrDefault(a => a.RetencionId.ToString() == txtCodigo.Text);
-                if (oRetenciones != null)
-                {
-                    oRetenciones.Porcentaje = Convert.ToDecimal(txtPorcentaje.Text);
-                    SGPADatos.SaveChanges();
-                    LlenarGrid("");
-                }
-            }
-            return bolEditado;
+            txtDescripcion.Enabled = bolActivo;
+            txtPrecio.Enabled = bolActivo;
+            cmbIVA.Enabled = bolActivo;
+            txtReferencia.Enabled = bolActivo;
         }
         public void Inicializar()
         {
             strProceso = "";
             txtCodigo.Text = "";
-            txtPorcentaje.Text = "";
+            txtReferencia.Text = "";
+            txtPrecio.Text = "";
+            txtDescripcion.Text = "";            
+            cmbIVA.SelectedIndex = -1;
             BloquearControles(false);
         }
 
-        private void FrmRetencion_FormClosing(object sender, FormClosingEventArgs e)
+        private void FrmArticulos_FormClosing(object sender, FormClosingEventArgs e)
         {
             CONTROLES._Ctrl_Buscar._txt_text.Text = "";
             CONTROLES._Ctrl_Buscar._txt_ExistForm.Text = "Cerrado";
@@ -193,43 +208,12 @@ namespace SistemaGestion.Mantenimientos
             tabFormulario.SelectedIndex = 1;
             ActivarBotonera();
         }
-        private bool ValidarGuardar()
-        {
-            ErrorValidador.Dispose();
-            if (txtPorcentaje.Text.Trim().Length == 0)
-            {
-                ErrorValidador.SetError(txtPorcentaje, "El campo es obligatorio");
-                return false;
-            }
-            return true;
-        }
-        public bool Guardar()
-        {
-            try
-            {
-                if (ValidarGuardar())
-                {
-                    var oRetenciones = new Retenciones();
-                    oRetenciones.Porcentaje = Convert.ToDecimal(txtPorcentaje.Text);
-                    SGPADatos.Retenciones.Add(oRetenciones);
-                    SGPADatos.SaveChanges();
-                    LlenarGrid("");
-                    Inicializar();
-                    strProceso = "N";
-                    return true;
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+
         private void tabFormulario_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (e.TabPageIndex != 0)
             {
-                if (!txtPorcentaje.Enabled & txtCodigo.Text.Trim().Length == 0)
+                if (!txtDescripcion.Enabled & txtCodigo.Text.Trim().Length == 0)
                 {
                     e.Cancel = true;
                 }
@@ -242,21 +226,26 @@ namespace SistemaGestion.Mantenimientos
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_cancelar2.Enabled = false;
             }
         }
-        private void CargarData(decimal dcmRetencionId)
+        private void CargarData(decimal dcmArticulo)
         {
             try
             {
-                var oRetenciones = SGPADatos.Retenciones.FirstOrDefault(a => a.RetencionId == dcmRetencionId);
-                if (oRetenciones != null)
+                var oArticulo = SGPADatos.Articulos.FirstOrDefault(a => a.ArticuloId == dcmArticulo && a.EmpresaId == FrmPadre.dcmCodCompania);
+                if (oArticulo != null)
                 {
-                    txtPorcentaje.Text = oRetenciones.Porcentaje.ToString();
-                    txtCodigo.Text = oRetenciones.RetencionId.ToString();
+                    txtDescripcion.Text = oArticulo.Descripcion;
+                    txtPrecio.Text = oArticulo.Precio.ToString();
+                    txtReferencia.Text = oArticulo.Referencia;                    
+                    var oImpuesto = SGPADatos.Impuestos.FirstOrDefault(a => a.ImpuestoId == oArticulo.ImpuestoId);
+                    Clases.Utilidades.AsignarValorCombo(cmbIVA, oImpuesto.Porcentaje.ToString());                    
+                    txtCodigo.Text = oArticulo.ArticuloId.ToString();
                 }
             }
             catch
             {
             }
         }
+
         private void dtgConsulta_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -265,52 +254,91 @@ namespace SistemaGestion.Mantenimientos
                 {
                     Cursor = Cursors.WaitCursor;
                     Inicializar();
-                    CargarData(Convert.ToDecimal(dtgConsulta.SelectedRows[0].Cells["RetencionId"].Value.ToString()));
+                    CargarData(Convert.ToDecimal(dtgConsulta.SelectedRows[0].Cells["ArticuloId"].Value.ToString()));
                     strProceso = "E";
                     ActivarBotonera();
                     Cursor = Cursors.Default;
                     tabFormulario.SelectedIndex = 1;
                 }
             }
-            catch
+            catch (Exception ou)
             {
 
             }
         }
-
-        private void txtPorcentaje_KeyPress(object sender, KeyPressEventArgs e)
+        private bool ValidarGuardar()
         {
-            if (e.KeyChar == 8)
+            ErrorValidador.Dispose();
+            if (txtDescripcion.Text.Trim().Length == 0)
             {
-                e.Handled = false;
-                return;
+                ErrorValidador.SetError(txtDescripcion, "El campo es obligatorio");
+                return false;
             }
-
-
-            bool IsDec = false;
-            int nroDec = 0;
-
-            for (int i = 0; i < txtPorcentaje.Text.Length; i++)
+            if (txtPrecio.Text.Trim().Length == 0)
             {
-                if (txtPorcentaje.Text[i] == ',')
-                    IsDec = true;
-
-                if (IsDec && nroDec++ >= 2)
+                ErrorValidador.SetError(txtPrecio, "El campo es obligatorio");
+                return false;
+            }            
+            if (txtReferencia.Text.Trim().Length == 0)
+            {
+                ErrorValidador.SetError(txtReferencia, "El campo es obligatorio");
+                return false;
+            }
+            if (cmbIVA.SelectedValue == null)
+            {
+                ErrorValidador.SetError(cmbIVA, "El campo es obligatorio");
+                return false;
+            }
+            return true;
+        }
+        public bool Modificar()
+        {
+            bool bolEditado = false;
+            if (ValidarGuardar())
+            {
+                var oArticulo = SGPADatos.Articulos.FirstOrDefault(a => a.ArticuloId.ToString() == txtCodigo.Text && a.EmpresaId== FrmPadre.dcmCodCompania);
+                if (oArticulo != null)
                 {
-                    e.Handled = true;
-                    return;
+                    oArticulo.Descripcion = txtDescripcion.Text;
+                    oArticulo.Referencia = txtReferencia.Text;
+                    oArticulo.Precio = Convert.ToDecimal(txtPrecio.Text);
+                    oArticulo.ImpuestoId = Convert.ToDecimal(cmbIVA.SelectedValue.ToString());
+                    SGPADatos.SaveChanges();
+                    LlenarGrid("");
                 }
-
-
             }
+            return bolEditado;
+        }
+        public bool Guardar()
+        {
+            try
+            {
+                if (ValidarGuardar())
+                {
+                    var oArticulo = new Articulos();
+                    oArticulo.Descripcion = txtDescripcion.Text;
+                    oArticulo.Referencia = txtReferencia.Text;
+                    oArticulo.Precio = Convert.ToDecimal(txtPrecio.Text);
+                    oArticulo.EmpresaId = FrmPadre.dcmCodCompania;
+                    oArticulo.ImpuestoId = Convert.ToDecimal(cmbIVA.SelectedValue.ToString());
+                    SGPADatos.Articulos.Add(oArticulo);
+                    SGPADatos.SaveChanges();
+                    LlenarGrid("");
+                    Inicializar();
+                    strProceso = "N";
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception oException)
+            {
+                return false;
+            }
+        }
 
-            if (e.KeyChar >= 48 && e.KeyChar <= 57)
-                e.Handled = false;
-            else if (e.KeyChar == 44)
-                e.Handled = (IsDec) ? true : false;
-            else
-                e.Handled = true;
-
+        private void cmbIVA_DropDown(object sender, EventArgs e)
+        {
+            LlenarImpuestos();
         }
     }
 }

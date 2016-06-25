@@ -71,6 +71,19 @@ namespace SistemaGestion.Clases
             }
             return true;
         }
+        public static bool CodigoPostalEsValido(string strCodigoPostal)
+        {
+            System.Text.RegularExpressions.Regex rCodigoPostal = new System.Text.RegularExpressions.Regex(@"^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$");
+
+            if (strCodigoPostal.Length > 0 && strCodigoPostal.Trim().Length != 0)
+            {
+                if (!rCodigoPostal.IsMatch(strCodigoPostal.Trim()))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         public void ObtenerFoco()
         {
             foreach (Control _Ctrl_ in ControlF)

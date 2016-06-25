@@ -122,5 +122,19 @@ namespace SistemaGestion
             frmProveedor.MdiParent = this;
             frmProveedor.Show();
         }
+
+        private void articulosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Mantenimientos.FrmArticulos frmArticulos = new Mantenimientos.FrmArticulos();
+            frmArticulos.MdiParent = this;
+            frmArticulos.Show();
+        }
+
+        private void impuestosIVAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Mantenimientos.FrmImpuestos frmImpuestos = new Mantenimientos.FrmImpuestos();
+            frmImpuestos.MdiParent = this;
+            frmImpuestos.Show();
+        }
     }
 }

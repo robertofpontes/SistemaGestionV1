@@ -256,6 +256,7 @@ namespace SistemaGestion.CONTROLES
             this._Bt_actualizar2.Name = "_Bt_actualizar2";
             this._Bt_actualizar2.Size = new System.Drawing.Size(23, 22);
             this._Bt_actualizar2.Text = "Actualizar";
+            this._Bt_actualizar2.Visible = false;
             // 
             // _Bt_actualizar
             // 
@@ -286,6 +287,7 @@ namespace SistemaGestion.CONTROLES
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Visible = false;
             // 
             // _Bt_imprimir
             // 
@@ -297,11 +299,13 @@ namespace SistemaGestion.CONTROLES
             this._Bt_imprimir.Size = new System.Drawing.Size(23, 22);
             this._Bt_imprimir.Text = "toolStripButton5";
             this._Bt_imprimir.ToolTipText = "Imprimir";
+            this._Bt_imprimir.Visible = false;
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator4.Visible = false;
             // 
             // _Bt_ayuda
             // 
@@ -312,12 +316,14 @@ namespace SistemaGestion.CONTROLES
             this._Bt_ayuda.Size = new System.Drawing.Size(23, 22);
             this._Bt_ayuda.Text = "toolStripButton8";
             this._Bt_ayuda.ToolTipText = "Ayuda";
+            this._Bt_ayuda.Visible = false;
             this._Bt_ayuda.Click += new System.EventHandler(this._Bt_ayuda_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator5.Visible = false;
             // 
             // toolStripButton1
             // 
@@ -328,6 +334,7 @@ namespace SistemaGestion.CONTROLES
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.ToolTipText = "Visor informativo";
+            this.toolStripButton1.Visible = false;
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripSeparator6

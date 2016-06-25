@@ -20,6 +20,10 @@
         <AssociationConnector Association="SGPAModel.FK_Proveedores_Municipios" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SGPAModel.SistemaConfiguracion" Width="1.5" PointX="5.375" PointY="0.75" />
         <AssociationConnector Association="SGPAModel.FK_Clientes_Municipios" />
+        <EntityTypeShape EntityType="SGPAModel.Articulos" Width="1.5" PointX="8.5" PointY="0.75" />
+        <EntityTypeShape EntityType="SGPAModel.Impuestos" Width="1.5" PointX="6.25" PointY="10.25" />
+        <AssociationConnector Association="SGPAModel.FK_Articulos_Empresas" />
+        <AssociationConnector Association="SGPAModel.FK_Articulos_Impuestos" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
