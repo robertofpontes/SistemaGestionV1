@@ -19,6 +19,7 @@ namespace SistemaGestion.Mantenimientos
             InitializeComponent();
             LlenarGrid("");
             LlenarImpuestos();
+            LlenarUnidadManejo();
         }
         private void LlenarImpuestos()
         {
@@ -29,6 +30,20 @@ namespace SistemaGestion.Mantenimientos
                 cmbIVA.DisplayMember = "Porcentaje";
                 cmbIVA.ValueMember = "ImpuestoId";
                 cmbIVA.SelectedIndex = -1;
+            }
+            catch
+            {
+            }
+        }
+        private void LlenarUnidadManejo()
+        {
+            try
+            {
+                cmbUnidadManejo.DataSource = (from unidadmanejo in SGPADatos.UnidadManejo
+                                     select new { unidadmanejo.UnidadManejoId, unidadmanejo.Descripcion }).ToList();
+                cmbUnidadManejo.DisplayMember = "Descripcion";
+                cmbUnidadManejo.ValueMember = "UnidadManejoId";
+                cmbUnidadManejo.SelectedIndex = -1;
             }
             catch
             {
@@ -135,7 +150,7 @@ namespace SistemaGestion.Mantenimientos
             }
             if (strProceso == "E")
             {
-                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = false;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = true;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_editar2.Enabled = true;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_guardar2.Enabled = false;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_borrar2.Enabled = false;
@@ -182,6 +197,9 @@ namespace SistemaGestion.Mantenimientos
             txtDescripcion.Enabled = bolActivo;
             txtPrecio.Enabled = bolActivo;
             cmbIVA.Enabled = bolActivo;
+            cmbUnidadManejo.Enabled = bolActivo;
+            ChkCodigoBarra.Enabled = bolActivo;
+            txtCodigoBarra.Enabled = bolActivo;
             txtReferencia.Enabled = bolActivo;
         }
         public void Inicializar()
@@ -190,8 +208,10 @@ namespace SistemaGestion.Mantenimientos
             txtCodigo.Text = "";
             txtReferencia.Text = "";
             txtPrecio.Text = "";
-            txtDescripcion.Text = "";            
+            txtDescripcion.Text = "";
+            txtCodigoBarra.Text = "";           
             cmbIVA.SelectedIndex = -1;
+            cmbUnidadManejo.SelectedIndex = -1;
             BloquearControles(false);
         }
 
@@ -237,8 +257,22 @@ namespace SistemaGestion.Mantenimientos
                     txtPrecio.Text = oArticulo.Precio.ToString();
                     txtReferencia.Text = oArticulo.Referencia;                    
                     var oImpuesto = SGPADatos.Impuestos.FirstOrDefault(a => a.ImpuestoId == oArticulo.ImpuestoId);
-                    Clases.Utilidades.AsignarValorCombo(cmbIVA, oImpuesto.Porcentaje.ToString());                    
+                    Clases.Utilidades.AsignarValorCombo(cmbIVA, oImpuesto.Porcentaje.ToString());
+                    var oUnidadManejo = SGPADatos.UnidadManejo.FirstOrDefault(a => a.UnidadManejoId == oArticulo.UnidadManejoId);
+                    Clases.Utilidades.AsignarValorCombo(cmbUnidadManejo, oUnidadManejo.Descripcion.ToString());
                     txtCodigo.Text = oArticulo.ArticuloId.ToString();
+                    if (oArticulo.CodigoBarra.Length > 0)
+                    {
+                        ChkCodigoBarra.Checked = true;
+                        txtCodigoBarra.Text = oArticulo.CodigoBarra.Trim();
+                        txtCodigoBarra.ReadOnly = false;
+                    }
+                    else
+                    {
+                        txtCodigoBarra.ReadOnly = true;
+                        txtCodigoBarra.Text = "";
+                        ChkCodigoBarra.Checked = false;
+                    }
                 }
             }
             catch
@@ -271,23 +305,44 @@ namespace SistemaGestion.Mantenimientos
             ErrorValidador.Dispose();
             if (txtDescripcion.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtDescripcion, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(txtDescripcion,ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             if (txtPrecio.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtPrecio, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(txtPrecio,ErrorValidador, "El campo es obligatorio");
                 return false;
             }            
             if (txtReferencia.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtReferencia, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(txtReferencia,ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             if (cmbIVA.SelectedValue == null)
             {
-                ErrorValidador.SetError(cmbIVA, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(cmbIVA,ErrorValidador, "El campo es obligatorio");
                 return false;
+            }
+            else
+            {
+                Clases.Utilidades.ColorOriginal(cmbIVA);
+            }
+            if (cmbUnidadManejo.SelectedValue == null)
+            {
+                Clases.Utilidades.MostrarErrorControl(cmbUnidadManejo, ErrorValidador, "El campo es obligatorio");
+                return false;
+            }
+            else
+            {
+                Clases.Utilidades.ColorOriginal(cmbUnidadManejo);
+            }
+            if(ChkCodigoBarra.Checked)
+            {
+                if (txtCodigoBarra.Text.Trim().Length == 0)
+                {
+                    Clases.Utilidades.MostrarErrorControl(txtCodigoBarra, ErrorValidador, "El campo es obligatorio");
+                    return false;
+                }
             }
             return true;
         }
@@ -303,6 +358,8 @@ namespace SistemaGestion.Mantenimientos
                     oArticulo.Referencia = txtReferencia.Text;
                     oArticulo.Precio = Convert.ToDecimal(txtPrecio.Text);
                     oArticulo.ImpuestoId = Convert.ToDecimal(cmbIVA.SelectedValue.ToString());
+                    oArticulo.UnidadManejoId = Convert.ToDecimal(cmbUnidadManejo.SelectedValue.ToString());
+                    oArticulo.CodigoBarra = txtCodigoBarra.Text.Trim();
                     SGPADatos.SaveChanges();
                     LlenarGrid("");
                 }
@@ -320,7 +377,9 @@ namespace SistemaGestion.Mantenimientos
                     oArticulo.Referencia = txtReferencia.Text;
                     oArticulo.Precio = Convert.ToDecimal(txtPrecio.Text);
                     oArticulo.EmpresaId = FrmPadre.dcmCodCompania;
+                    oArticulo.UnidadManejoId= Convert.ToDecimal(cmbUnidadManejo.SelectedValue.ToString());
                     oArticulo.ImpuestoId = Convert.ToDecimal(cmbIVA.SelectedValue.ToString());
+                    oArticulo.CodigoBarra = txtCodigoBarra.Text.Trim();
                     SGPADatos.Articulos.Add(oArticulo);
                     SGPADatos.SaveChanges();
                     LlenarGrid("");
@@ -339,6 +398,24 @@ namespace SistemaGestion.Mantenimientos
         private void cmbIVA_DropDown(object sender, EventArgs e)
         {
             LlenarImpuestos();
+        }
+
+        private void cmbUnidadManejo_DropDown(object sender, EventArgs e)
+        {
+            LlenarUnidadManejo();
+        }
+
+        private void ChkCodigoBarra_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkCodigoBarra.Checked)
+            {
+                txtCodigoBarra.ReadOnly = false;
+            }
+            else
+            {
+                txtCodigoBarra.ReadOnly = true;
+                txtCodigoBarra.Text = "";
+            }
         }
     }
 }

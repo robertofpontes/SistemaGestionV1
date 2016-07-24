@@ -111,7 +111,7 @@ namespace SistemaGestion.Mantenimientos
             }
             if (strProceso == "E")
             {
-                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = false;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = true;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_editar2.Enabled = true;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_guardar2.Enabled = false;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_borrar2.Enabled = false;
@@ -198,7 +198,7 @@ namespace SistemaGestion.Mantenimientos
             ErrorValidador.Dispose();
             if (txtPorcentaje.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtPorcentaje, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(txtPorcentaje,ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             return true;

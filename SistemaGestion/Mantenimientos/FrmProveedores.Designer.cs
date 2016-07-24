@@ -33,6 +33,11 @@
             this.tabFormulario = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dtgConsulta = new System.Windows.Forms.DataGridView();
+            this.ProveedorId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Identificacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PnlConsulta = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.txtConsulta = new System.Windows.Forms.TextBox();
@@ -70,11 +75,6 @@
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.ErrorValidador = new System.Windows.Forms.ErrorProvider(this.components);
-            this.ProveedorId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Identificacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabFormulario.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsulta)).BeginInit();
@@ -128,6 +128,41 @@
             this.dtgConsulta.TabIndex = 1;
             this.dtgConsulta.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgConsulta_RowHeaderMouseDoubleClick);
             // 
+            // ProveedorId
+            // 
+            this.ProveedorId.DataPropertyName = "ProveedorId";
+            this.ProveedorId.HeaderText = "Código";
+            this.ProveedorId.Name = "ProveedorId";
+            this.ProveedorId.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            this.Descripcion.DataPropertyName = "NombreProveedor";
+            this.Descripcion.HeaderText = "Nombre Proveedor";
+            this.Descripcion.Name = "Descripcion";
+            this.Descripcion.ReadOnly = true;
+            // 
+            // Identificacion
+            // 
+            this.Identificacion.DataPropertyName = "Identificacion";
+            this.Identificacion.HeaderText = "NIF / CIF";
+            this.Identificacion.Name = "Identificacion";
+            this.Identificacion.ReadOnly = true;
+            // 
+            // Direccion
+            // 
+            this.Direccion.DataPropertyName = "Direccion";
+            this.Direccion.HeaderText = "Dirección";
+            this.Direccion.Name = "Direccion";
+            this.Direccion.ReadOnly = true;
+            // 
+            // Telefono
+            // 
+            this.Telefono.DataPropertyName = "Telefono1";
+            this.Telefono.HeaderText = "Teléfono";
+            this.Telefono.Name = "Telefono";
+            this.Telefono.ReadOnly = true;
+            // 
             // PnlConsulta
             // 
             this.PnlConsulta.Controls.Add(this.label1);
@@ -151,6 +186,7 @@
             // txtConsulta
             // 
             this.txtConsulta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtConsulta.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtConsulta.Location = new System.Drawing.Point(125, 10);
             this.txtConsulta.Name = "txtConsulta";
             this.txtConsulta.Size = new System.Drawing.Size(218, 20);
@@ -220,6 +256,7 @@
             // txtObservaciones
             // 
             this.txtObservaciones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtObservaciones.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtObservaciones.Location = new System.Drawing.Point(148, 239);
             this.txtObservaciones.MaxLength = 200;
             this.txtObservaciones.Multiline = true;
@@ -239,6 +276,7 @@
             // txtSWIFT
             // 
             this.txtSWIFT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSWIFT.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtSWIFT.Location = new System.Drawing.Point(449, 205);
             this.txtSWIFT.MaxLength = 30;
             this.txtSWIFT.Name = "txtSWIFT";
@@ -257,6 +295,7 @@
             // txtNombreBanco
             // 
             this.txtNombreBanco.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNombreBanco.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtNombreBanco.Location = new System.Drawing.Point(148, 205);
             this.txtNombreBanco.MaxLength = 100;
             this.txtNombreBanco.Name = "txtNombreBanco";
@@ -275,6 +314,7 @@
             // txtIBAN
             // 
             this.txtIBAN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtIBAN.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtIBAN.Location = new System.Drawing.Point(449, 176);
             this.txtIBAN.MaxLength = 30;
             this.txtIBAN.Name = "txtIBAN";
@@ -293,6 +333,7 @@
             // txtNumeroCuenta
             // 
             this.txtNumeroCuenta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNumeroCuenta.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtNumeroCuenta.Location = new System.Drawing.Point(148, 176);
             this.txtNumeroCuenta.MaxLength = 30;
             this.txtNumeroCuenta.Name = "txtNumeroCuenta";
@@ -311,6 +352,7 @@
             // txtEmail
             // 
             this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtEmail.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtEmail.Location = new System.Drawing.Point(537, 145);
             this.txtEmail.MaxLength = 100;
             this.txtEmail.Name = "txtEmail";
@@ -329,6 +371,7 @@
             // txtTelefono2
             // 
             this.txtTelefono2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTelefono2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtTelefono2.Location = new System.Drawing.Point(355, 145);
             this.txtTelefono2.MaxLength = 50;
             this.txtTelefono2.Name = "txtTelefono2";
@@ -347,6 +390,7 @@
             // txtTelefono1
             // 
             this.txtTelefono1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTelefono1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtTelefono1.Location = new System.Drawing.Point(148, 145);
             this.txtTelefono1.MaxLength = 50;
             this.txtTelefono1.Name = "txtTelefono1";
@@ -365,6 +409,7 @@
             // txtCodigoPostal
             // 
             this.txtCodigoPostal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCodigoPostal.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtCodigoPostal.Location = new System.Drawing.Point(148, 116);
             this.txtCodigoPostal.MaxLength = 10;
             this.txtCodigoPostal.Name = "txtCodigoPostal";
@@ -386,16 +431,16 @@
             this.cmbMunicipios.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMunicipios.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbMunicipios.FormattingEnabled = true;
-            this.cmbMunicipios.Location = new System.Drawing.Point(524, 115);
+            this.cmbMunicipios.Location = new System.Drawing.Point(537, 115);
             this.cmbMunicipios.Name = "cmbMunicipios";
-            this.cmbMunicipios.Size = new System.Drawing.Size(163, 21);
+            this.cmbMunicipios.Size = new System.Drawing.Size(150, 21);
             this.cmbMunicipios.TabIndex = 6;
             this.cmbMunicipios.DropDown += new System.EventHandler(this.cmbMunicipios_DropDown);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(463, 115);
+            this.label7.Location = new System.Drawing.Point(476, 116);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(55, 13);
             this.label7.TabIndex = 13;
@@ -406,9 +451,9 @@
             this.cmbProvincias.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbProvincias.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbProvincias.FormattingEnabled = true;
-            this.cmbProvincias.Location = new System.Drawing.Point(302, 115);
+            this.cmbProvincias.Location = new System.Drawing.Point(325, 115);
             this.cmbProvincias.Name = "cmbProvincias";
-            this.cmbProvincias.Size = new System.Drawing.Size(155, 21);
+            this.cmbProvincias.Size = new System.Drawing.Size(145, 21);
             this.cmbProvincias.TabIndex = 5;
             this.cmbProvincias.DropDown += new System.EventHandler(this.cmbProvincias_DropDown);
             this.cmbProvincias.SelectedIndexChanged += new System.EventHandler(this.cmbProvincias_SelectedIndexChanged);
@@ -416,7 +461,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(242, 115);
+            this.label6.Location = new System.Drawing.Point(265, 115);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 13);
             this.label6.TabIndex = 11;
@@ -425,6 +470,7 @@
             // txtDireccion
             // 
             this.txtDireccion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDireccion.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtDireccion.Location = new System.Drawing.Point(148, 85);
             this.txtDireccion.MaxLength = 200;
             this.txtDireccion.Name = "txtDireccion";
@@ -443,6 +489,7 @@
             // txtNifCif
             // 
             this.txtNifCif.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNifCif.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtNifCif.Location = new System.Drawing.Point(325, 33);
             this.txtNifCif.MaxLength = 15;
             this.txtNifCif.Name = "txtNifCif";
@@ -461,6 +508,7 @@
             // txtNombreProveedor
             // 
             this.txtNombreProveedor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNombreProveedor.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtNombreProveedor.Location = new System.Drawing.Point(148, 59);
             this.txtNombreProveedor.MaxLength = 100;
             this.txtNombreProveedor.Name = "txtNombreProveedor";
@@ -479,6 +527,7 @@
             // txtCodigo
             // 
             this.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCodigo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtCodigo.Enabled = false;
             this.txtCodigo.Location = new System.Drawing.Point(148, 33);
             this.txtCodigo.Name = "txtCodigo";
@@ -497,41 +546,6 @@
             // ErrorValidador
             // 
             this.ErrorValidador.ContainerControl = this;
-            // 
-            // ProveedorId
-            // 
-            this.ProveedorId.DataPropertyName = "ProveedorId";
-            this.ProveedorId.HeaderText = "Código";
-            this.ProveedorId.Name = "ProveedorId";
-            this.ProveedorId.ReadOnly = true;
-            // 
-            // Descripcion
-            // 
-            this.Descripcion.DataPropertyName = "NombreProveedor";
-            this.Descripcion.HeaderText = "Nombre Proveedor";
-            this.Descripcion.Name = "Descripcion";
-            this.Descripcion.ReadOnly = true;
-            // 
-            // Identificacion
-            // 
-            this.Identificacion.DataPropertyName = "Identificacion";
-            this.Identificacion.HeaderText = "NIF / CIF";
-            this.Identificacion.Name = "Identificacion";
-            this.Identificacion.ReadOnly = true;
-            // 
-            // Direccion
-            // 
-            this.Direccion.DataPropertyName = "Direccion";
-            this.Direccion.HeaderText = "Dirección";
-            this.Direccion.Name = "Direccion";
-            this.Direccion.ReadOnly = true;
-            // 
-            // Telefono
-            // 
-            this.Telefono.DataPropertyName = "Telefono1";
-            this.Telefono.HeaderText = "Teléfono";
-            this.Telefono.Name = "Telefono";
-            this.Telefono.ReadOnly = true;
             // 
             // FrmProveedores
             // 

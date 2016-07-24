@@ -16,5 +16,7 @@ namespace SistemaGestion.Modelo
     {
         public decimal ConfiguracionId { get; set; }
         public string NombreImpresora { get; set; }
+        public string Equipo { get; set; }
+        public string Serial { get; set; }
     }
 }

@@ -47,6 +47,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -60,10 +61,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clases\BasesImpuestos.cs" />
+    <Compile Include="Clases\DatePickerConBorde.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Clases\ComboBoxConBorde.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Clases\Seguridad.cs" />
     <Compile Include="Clases\Utilidades.cs" />
+    <Compile Include="Compras\FrmAlbaranesProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compras\FrmAlbaranesProveedor.Designer.cs">
+      <DependentUpon>FrmAlbaranesProveedor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controles\_Ctrl_Buscar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -75,6 +87,12 @@
     </Compile>
     <Compile Include="FrmInicio.Designer.cs">
       <DependentUpon>FrmInicio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmLicencia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLicencia.Designer.cs">
+      <DependentUpon>FrmLicencia.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmPadre.cs">
       <SubType>Form</SubType>
@@ -124,6 +142,15 @@
     <Compile Include="Mantenimientos\FrmRetencion.Designer.cs">
       <DependentUpon>FrmRetencion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\AlbaranesClienteDetalles.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\AlbaranesClientes.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\AlbaranesClientesBases.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Modelo\Articulos.cs">
       <DependentUpon>SGPAData.tt</DependentUpon>
     </Compile>
@@ -133,13 +160,37 @@
     <Compile Include="Modelo\Empresas.cs">
       <DependentUpon>SGPAData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\Facturas.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\FacturasBases.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\FacturasDetalles.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Modelo\FormasPagos.cs">
       <DependentUpon>SGPAData.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelo\Impuestos.cs">
       <DependentUpon>SGPAData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\LotesArticulos.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\MovimientosInventario.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Modelo\Municipios.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\Presupuestos.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\PresupuestosBases.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\PresupuestosDetalles.cs">
       <DependentUpon>SGPAData.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelo\Proveedores.cs">
@@ -169,16 +220,58 @@
     <Compile Include="Modelo\SistemaConfiguracion.cs">
       <DependentUpon>SGPAData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\UnidadManejo.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Modelo\Usuarios.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\vw_ArticulosConsulta.cs">
+      <DependentUpon>SGPAData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\vw_PresupuestosConsulta.cs">
       <DependentUpon>SGPAData.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ventas\FrmAlbaranesClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\FrmAlbaranesClientes.Designer.cs">
+      <DependentUpon>FrmAlbaranesClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas\FrmBusquedaArticulos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\FrmBusquedaArticulos.Designer.cs">
+      <DependentUpon>FrmBusquedaArticulos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas\FrmBusquedaClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\FrmBusquedaClientes.Designer.cs">
+      <DependentUpon>FrmBusquedaClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas\FrmFacturas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\FrmFacturas.Designer.cs">
+      <DependentUpon>FrmFacturas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas\FrmPresupuestos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\FrmPresupuestos.Designer.cs">
+      <DependentUpon>FrmPresupuestos.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Controles\_Ctrl_Buscar.resx">
       <DependentUpon>_Ctrl_Buscar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmInicio.resx">
       <DependentUpon>FrmInicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmLicencia.resx">
+      <DependentUpon>FrmLicencia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPadre.resx">
       <DependentUpon>FrmPadre.cs</DependentUpon>
@@ -212,7 +305,20 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Ventas\FrmBusquedaArticulos.resx">
+      <DependentUpon>FrmBusquedaArticulos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ventas\FrmBusquedaClientes.resx">
+      <DependentUpon>FrmBusquedaClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ventas\FrmFacturas.resx">
+      <DependentUpon>FrmFacturas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ventas\FrmPresupuestos.resx">
+      <DependentUpon>FrmPresupuestos.cs</DependentUpon>
+    </EmbeddedResource>
     <EntityDeploy Include="Modelo\SGPAData.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SGPAData.Designer.cs</LastGenOutput>
@@ -246,6 +352,9 @@
       <DependentUpon>SGPAData.edmx</DependentUpon>
       <LastGenOutput>SGPAData.cs</LastGenOutput>
     </Content>
+    <None Include="Resources\invoice-icon.png" />
+    <None Include="Resources\Close-2-icon.png" />
+    <None Include="Resources\1468708463_11_Search.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

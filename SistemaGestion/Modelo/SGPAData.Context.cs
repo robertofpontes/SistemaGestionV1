@@ -36,5 +36,19 @@ namespace SistemaGestion.Modelo
         public virtual DbSet<SistemaConfiguracion> SistemaConfiguracion { get; set; }
         public virtual DbSet<Articulos> Articulos { get; set; }
         public virtual DbSet<Impuestos> Impuestos { get; set; }
+        public virtual DbSet<AlbaranesClienteDetalles> AlbaranesClienteDetalles { get; set; }
+        public virtual DbSet<AlbaranesClientes> AlbaranesClientes { get; set; }
+        public virtual DbSet<AlbaranesClientesBases> AlbaranesClientesBases { get; set; }
+        public virtual DbSet<LotesArticulos> LotesArticulos { get; set; }
+        public virtual DbSet<MovimientosInventario> MovimientosInventario { get; set; }
+        public virtual DbSet<Presupuestos> Presupuestos { get; set; }
+        public virtual DbSet<PresupuestosBases> PresupuestosBases { get; set; }
+        public virtual DbSet<PresupuestosDetalles> PresupuestosDetalles { get; set; }
+        public virtual DbSet<UnidadManejo> UnidadManejo { get; set; }
+        public virtual DbSet<vw_PresupuestosConsulta> vw_PresupuestosConsulta { get; set; }
+        public virtual DbSet<vw_ArticulosConsulta> vw_ArticulosConsulta { get; set; }
+        public virtual DbSet<Facturas> Facturas { get; set; }
+        public virtual DbSet<FacturasBases> FacturasBases { get; set; }
+        public virtual DbSet<FacturasDetalles> FacturasDetalles { get; set; }
     }
 }

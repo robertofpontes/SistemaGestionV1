@@ -14,6 +14,14 @@ namespace SistemaGestion.Modelo
     
     public partial class Clientes
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Clientes()
+        {
+            this.AlbaranesClientes = new HashSet<AlbaranesClientes>();
+            this.Presupuestos = new HashSet<Presupuestos>();
+            this.Facturas = new HashSet<Facturas>();
+        }
+    
         public decimal ClienteId { get; set; }
         public decimal EmpresaId { get; set; }
         public string NombreCliente { get; set; }
@@ -33,5 +41,11 @@ namespace SistemaGestion.Modelo
     
         public virtual Empresas Empresas { get; set; }
         public virtual Municipios Municipios { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AlbaranesClientes> AlbaranesClientes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Presupuestos> Presupuestos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Facturas> Facturas { get; set; }
     }
 }

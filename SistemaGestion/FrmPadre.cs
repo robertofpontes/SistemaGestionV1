@@ -43,8 +43,7 @@ namespace SistemaGestion
         private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Mantenimientos.FrmClientes frmClientes = new Mantenimientos.FrmClientes();
-            frmClientes.MdiParent = this;
-            frmClientes.Show();
+            Clases.Utilidades.AbrirFormulario(frmClientes, this);
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -58,15 +57,13 @@ namespace SistemaGestion
         private void formaDePagoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Mantenimientos.FrmFormaPago frmFormaPago = new Mantenimientos.FrmFormaPago();
-            frmFormaPago.MdiParent = this;
-            frmFormaPago.Show();
+            Clases.Utilidades.AbrirFormulario(frmFormaPago, this);
         }
 
         private void retenciónToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Mantenimientos.FrmRetencion frmRetencion = new Mantenimientos.FrmRetencion();
-            frmRetencion.MdiParent = this;
-            frmRetencion.Show();
+            Clases.Utilidades.AbrirFormulario(frmRetencion, this);
         }
 
         private void configurarImpresoraToolStripMenuItem_Click(object sender, EventArgs e)
@@ -119,22 +116,25 @@ namespace SistemaGestion
         private void proveedoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Mantenimientos.FrmProveedores frmProveedor = new Mantenimientos.FrmProveedores();
-            frmProveedor.MdiParent = this;
-            frmProveedor.Show();
+            Clases.Utilidades.AbrirFormulario(frmProveedor, this);
         }
 
         private void articulosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Mantenimientos.FrmArticulos frmArticulos = new Mantenimientos.FrmArticulos();
-            frmArticulos.MdiParent = this;
-            frmArticulos.Show();
+            Clases.Utilidades.AbrirFormulario(frmArticulos, this);
         }
 
         private void impuestosIVAToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Mantenimientos.FrmImpuestos frmImpuestos = new Mantenimientos.FrmImpuestos();
-            frmImpuestos.MdiParent = this;
-            frmImpuestos.Show();
+            Clases.Utilidades.AbrirFormulario(frmImpuestos, this);
+        }
+
+        private void presupuestosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Ventas.FrmPresupuestos frmPresupuestos = new Ventas.FrmPresupuestos();
+            Clases.Utilidades.AbrirFormulario(frmPresupuestos, this);
         }
     }
 }

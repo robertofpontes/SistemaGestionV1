@@ -17,6 +17,11 @@ namespace SistemaGestion.Clases
         {
             ControlF = Controles;
         }
+        public static void ColorOriginal(Control ctrControl)
+        {
+            Color ControlColorC = new Color();
+            ctrControl.BackColor = ControlColorC;
+        }
         public static bool EsValidoNifCif(string strValor)
         {
             bool bolValido = false;
@@ -52,6 +57,46 @@ namespace SistemaGestion.Clases
             {
             }
             return strTipo;
+        }
+        public static void MostrarErrorControl(Control ctrControl, ErrorProvider erroProvider,string strMensaje)
+        {
+            erroProvider.SetError(ctrControl, strMensaje);
+            ctrControl.BackColor = Color.Khaki;
+            ctrControl.LostFocus += CtrControl_LostFocus;
+        }
+        public static void MostrarErrorControl(ErrorProvider erroProvider,Control ctrControl, string strMensaje)
+        {
+            erroProvider.SetError(ctrControl, strMensaje);
+            ctrControl.BackColor = Color.Khaki;
+            ctrControl.LostFocus += CtrControl_LostFocus;
+        }
+        private static void CtrControl_LostFocus(object sender, EventArgs e)
+        {
+            Color ControlColor = new Color();
+            if (sender.GetType() == typeof(TextBox))
+            {
+                ((TextBox)sender).BackColor = ControlColor;
+            }
+            if (sender.GetType() == typeof(CheckBox))
+            {
+                ((CheckBox)sender).BackColor = ControlColor;
+            }
+            if (sender.GetType() == typeof(RadioButton))
+            {
+                ((RadioButton)sender).BackColor = ControlColor;
+            }
+            if (sender.GetType() == typeof(ComboBox))
+            {
+                ((ComboBox)sender).BackColor = ControlColor;
+            }
+            if (sender.GetType() == typeof(DateTimePicker))
+            {
+                ((DateTimePicker)sender).BackColor = ControlColor;
+            }
+            if (sender.GetType() == typeof(MonthCalendar))
+            {
+                ((MonthCalendar)sender).BackColor = ControlColor;
+            }
         }
 
         public static void AsignarValorCombo(ComboBox cmbCombo,string strValor)
@@ -92,6 +137,28 @@ namespace SistemaGestion.Clases
                 _Ctrl_.Enter += new EventHandler(ControlEnter);
             }
         }
+        public static void AbrirFormulario(Form frmFormulario, Form frmPadre)
+        {
+            FormCollection frmFormulariosAbiertos = Application.OpenForms;
+            bool bolAbierto = false;
+            foreach (Form frmForm in frmFormulariosAbiertos)
+            {
+                if (frmForm.Name == frmFormulario.Name)
+                {
+                    frmForm.Show();
+                    frmForm.BringToFront();
+                    frmForm.Activate();
+                    bolAbierto = true;
+                    break;
+                }
+            }
+            if (!bolAbierto)
+            {
+                frmFormulario.MdiParent = frmPadre;
+                frmFormulario.Show();
+            }
+        }
+
         void ControlLeave(object sender, EventArgs e)
         {
 
@@ -146,6 +213,37 @@ namespace SistemaGestion.Clases
             {
                 ((MonthCalendar)sender).BackColor = Color.Khaki;
             }
+        }
+        // Clase de Encriptamiento de caracteres creado por Roberto Ferreira
+        /// <summary>
+        /// Método que encripta un string cualquiera
+        /// </summary>
+        /// <param name="variable">String a ser encriptado</param>
+        /// <returns>String</returns>
+        public static string Encriptar(string variable)
+        {
+            Byte[] bytEncriptar = Encoding.UTF8.GetBytes(variable);
+            string strEncriptar;
+            strEncriptar = Convert.ToBase64String(bytEncriptar);
+            string strEncriptar2;
+            Byte[] bytEncriptar2 = Encoding.UTF7.GetBytes(strEncriptar);
+            strEncriptar2 = Convert.ToBase64String(bytEncriptar2);
+            string strEncriptar3 = strEncriptar2.Replace("=", "SGv");
+            return strEncriptar3;
+        }
+        /// <summary>
+        /// Método que desencripta un string que haya sido encriptado por la clase _Mtd_EncriptarString
+        /// </summary>
+        /// <param name="variable2">String a ser desencriptado</param>
+        /// <returns>String</returns>
+        public static string Desemcriptar(string variable2)
+        {
+            string strEncriptar = variable2.Replace("SGv", "=");
+            Byte[] bytEncriptar = Convert.FromBase64String(strEncriptar);
+            string strEncriptar2 = Encoding.UTF7.GetString(bytEncriptar);
+            Byte[] bytEncriptar2 = Convert.FromBase64String(strEncriptar2);
+            string strEncriptar3 = Encoding.UTF8.GetString(bytEncriptar2);
+            return strEncriptar3;
         }
     }
 }

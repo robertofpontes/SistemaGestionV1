@@ -5,6 +5,45 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SGPAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AlbaranesClienteDetalles">
+          <Key>
+            <PropertyRef Name="AlbaranesClienteDetallesId" />
+          </Key>
+          <Property Name="AlbaranesClienteDetallesId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AlbaranId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Descuento" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Subtotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AlbaranesClientes">
+          <Key>
+            <PropertyRef Name="AlbaranId" />
+          </Key>
+          <Property Name="AlbaranId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ClienteId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Facturado" Type="bit" Nullable="false" />
+          <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="AlbaranesRecargo" Type="bit" />
+        </EntityType>
+        <EntityType Name="AlbaranesClientesBases">
+          <Key>
+            <PropertyRef Name="AlbaranBaseId" />
+          </Key>
+          <Property Name="AlbaranBaseId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AlbaranId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Base" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CuotaIVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RecargoEquivalencia" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CuotaRecargoEquivalencia" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Retencion" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CuotaRetencion" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="Articulos">
           <Key>
             <PropertyRef Name="ArticuloId" />
@@ -15,6 +54,8 @@
           <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Precio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ImpuestoId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CodigoBarra" Type="varchar" MaxLength="100" />
+          <Property Name="UnidadManejoId" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="Clientes">
           <Key>
@@ -51,6 +92,45 @@
           <Property Name="MunicipioId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="CodigoPostal" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Facturas">
+          <Key>
+            <PropertyRef Name="FacturaId" />
+          </Key>
+          <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ClienteId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Impreso" Type="bit" Nullable="false" />
+          <Property Name="PresupuestoRecargo" Type="bit" />
+          <Property Name="FormaPagoId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FacturasBases">
+          <Key>
+            <PropertyRef Name="FacturaBaseId" />
+          </Key>
+          <Property Name="FacturaBaseId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Base" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CuotaIVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RecargoEquivalencia" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CuotaRecargoEquivalencia" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Retencion" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CuotaRetencion" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FacturasDetalles">
+          <Key>
+            <PropertyRef Name="FacturaDetalleId" />
+          </Key>
+          <Property Name="FacturaDetalleId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Descuento" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Subtotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="FormasPagos">
           <Key>
             <PropertyRef Name="FormaPagoId" />
@@ -66,6 +146,33 @@
           <Property Name="Porcentaje" Type="numeric" Precision="18" Scale="2" Nullable="false" />
           <Property Name="RecargoEquivalencia" Type="numeric" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
+        <EntityType Name="LotesArticulos">
+          <Key>
+            <PropertyRef Name="LoteArticuloId" />
+          </Key>
+          <Property Name="LoteArticuloId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="AlbaranId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="PoseeFechaVencimiento" Type="bit" Nullable="false" />
+          <Property Name="FechaVencimiento" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MovimientosInventario">
+          <Key>
+            <PropertyRef Name="MovimientoId" />
+          </Key>
+          <Property Name="MovimientoId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LoteArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TipoMovimiento" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="CantidadAntes" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CantidadDespues" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DocumentoRelacionado" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TipoDocumentoRelacionado" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="Municipios">
           <Key>
             <PropertyRef Name="MunicipioId" />
@@ -75,6 +182,45 @@
           <Property Name="ProvinciaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="NombreMunicipio" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DC" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Presupuestos">
+          <Key>
+            <PropertyRef Name="PresupuestoId" />
+          </Key>
+          <Property Name="PresupuestoId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ClienteId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Facturado" Type="bit" Nullable="false" />
+          <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PresupuestoRecargo" Type="bit" />
+        </EntityType>
+        <EntityType Name="PresupuestosBases">
+          <Key>
+            <PropertyRef Name="PresupuestoBaseId" />
+          </Key>
+          <Property Name="PresupuestoBaseId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PresupuestoId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Base" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CuotaIVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RecargoEquivalencia" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CuotaRecargoEquivalencia" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Retencion" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CuotaRetencion" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PresupuestosDetalles">
+          <Key>
+            <PropertyRef Name="PresupuestoDetalleId" />
+          </Key>
+          <Property Name="PresupuestoDetalleId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PresupuestoId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Descuento" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Subtotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Proveedores">
           <Key>
@@ -116,7 +262,16 @@
             <PropertyRef Name="ConfiguracionId" />
           </Key>
           <Property Name="ConfiguracionId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NombreImpresora" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="NombreImpresora" Type="varchar" MaxLength="100" />
+          <Property Name="Equipo" Type="varchar" MaxLength="100" />
+          <Property Name="Serial" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="UnidadManejo">
+          <Key>
+            <PropertyRef Name="UnidadManejoId" />
+          </Key>
+          <Property Name="UnidadManejoId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Usuarios">
           <Key>
@@ -126,6 +281,91 @@
           <Property Name="Usuario" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Clave" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SGPA.dbo.vw_ArticulosConsulta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vw_ArticulosConsulta">
+          <Key>
+            <PropertyRef Name="ArticuloId" />
+            <PropertyRef Name="Referencia" />
+            <PropertyRef Name="EmpresaId" />
+            <PropertyRef Name="Descripcion" />
+            <PropertyRef Name="Precio" />
+          </Key>
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Referencia" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Precio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Cantidad" Type="numeric" Precision="38" Scale="0" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vw_PresupuestosConsulta">
+          <Key>
+            <PropertyRef Name="Fecha" />
+            <PropertyRef Name="PresupuestoId" />
+            <PropertyRef Name="Identificacion" />
+            <PropertyRef Name="NombreCliente" />
+            <PropertyRef Name="EmpresaId" />
+          </Key>
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="PresupuestoId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Identificacion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NombreCliente" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Base" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaIVA" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaRetencion" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="Total" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Albaranes_Clientes">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
+          <End Role="AlbaranesClientes" Type="Self.AlbaranesClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ClienteId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientes">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Albaranes_Empresas">
+          <End Role="Empresas" Type="Self.Empresas" Multiplicity="1" />
+          <End Role="AlbaranesClientes" Type="Self.AlbaranesClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientes">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlbaranesClienteDetalles_AlbaranesClientes">
+          <End Role="AlbaranesClientes" Type="Self.AlbaranesClientes" Multiplicity="1" />
+          <End Role="AlbaranesClienteDetalles" Type="Self.AlbaranesClienteDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbaranesClientes">
+              <PropertyRef Name="AlbaranId" />
+            </Principal>
+            <Dependent Role="AlbaranesClienteDetalles">
+              <PropertyRef Name="AlbaranId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlbaranesClientesBases_AlbaranesClientes">
+          <End Role="AlbaranesClientes" Type="Self.AlbaranesClientes" Multiplicity="1" />
+          <End Role="AlbaranesClientesBases" Type="Self.AlbaranesClientesBases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbaranesClientes">
+              <PropertyRef Name="AlbaranId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientesBases">
+              <PropertyRef Name="AlbaranId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Articulos_Empresas">
           <End Role="Empresas" Type="Self.Empresas" Multiplicity="1" />
           <End Role="Articulos" Type="Self.Articulos" Multiplicity="*" />
@@ -147,6 +387,18 @@
             </Principal>
             <Dependent Role="Articulos">
               <PropertyRef Name="ImpuestoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Articulos_UnidadManejo">
+          <End Role="UnidadManejo" Type="Self.UnidadManejo" Multiplicity="0..1" />
+          <End Role="Articulos" Type="Self.Articulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnidadManejo">
+              <PropertyRef Name="UnidadManejoId" />
+            </Principal>
+            <Dependent Role="Articulos">
+              <PropertyRef Name="UnidadManejoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -186,6 +438,126 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Facturas_Clientes">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ClienteId" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Empresas">
+          <End Role="Empresas" Type="Self.Empresas" Multiplicity="1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_FormasPagos">
+          <End Role="FormasPagos" Type="Self.FormasPagos" Multiplicity="1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormasPagos">
+              <PropertyRef Name="FormaPagoId" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="FormaPagoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacturasBases_Facturas">
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
+          <End Role="FacturasBases" Type="Self.FacturasBases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="FacturaId" />
+            </Principal>
+            <Dependent Role="FacturasBases">
+              <PropertyRef Name="FacturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacturasDetalles_Articulos">
+          <End Role="Articulos" Type="Self.Articulos" Multiplicity="1" />
+          <End Role="FacturasDetalles" Type="Self.FacturasDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="FacturasDetalles">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacturasDetalles_Facturas">
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
+          <End Role="FacturasDetalles" Type="Self.FacturasDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="FacturaId" />
+            </Principal>
+            <Dependent Role="FacturasDetalles">
+              <PropertyRef Name="FacturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LotesArticulos_Articulos">
+          <End Role="Articulos" Type="Self.Articulos" Multiplicity="1" />
+          <End Role="LotesArticulos" Type="Self.LotesArticulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="LotesArticulos">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LotesArticulos_Empresas">
+          <End Role="Empresas" Type="Self.Empresas" Multiplicity="1" />
+          <End Role="LotesArticulos" Type="Self.LotesArticulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="LotesArticulos">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosInventario_Articulos">
+          <End Role="Articulos" Type="Self.Articulos" Multiplicity="1" />
+          <End Role="MovimientosInventario" Type="Self.MovimientosInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="MovimientosInventario">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosInventario_Empresas">
+          <End Role="Empresas" Type="Self.Empresas" Multiplicity="1" />
+          <End Role="MovimientosInventario" Type="Self.MovimientosInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="MovimientosInventario">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Municipios_Provincias">
           <End Role="Provincias" Type="Self.Provincias" Multiplicity="1" />
           <End Role="Municipios" Type="Self.Municipios" Multiplicity="*" />
@@ -195,6 +567,66 @@
             </Principal>
             <Dependent Role="Municipios">
               <PropertyRef Name="ProvinciaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Presupuestos_Clientes">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
+          <End Role="Presupuestos" Type="Self.Presupuestos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ClienteId" />
+            </Principal>
+            <Dependent Role="Presupuestos">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Presupuestos_Empresas">
+          <End Role="Empresas" Type="Self.Empresas" Multiplicity="1" />
+          <End Role="Presupuestos" Type="Self.Presupuestos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="Presupuestos">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresupuestosBases_Presupuestos">
+          <End Role="Presupuestos" Type="Self.Presupuestos" Multiplicity="1" />
+          <End Role="PresupuestosBases" Type="Self.PresupuestosBases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Presupuestos">
+              <PropertyRef Name="PresupuestoId" />
+            </Principal>
+            <Dependent Role="PresupuestosBases">
+              <PropertyRef Name="PresupuestoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresupuestosDetalles_Articulos">
+          <End Role="Articulos" Type="Self.Articulos" Multiplicity="1" />
+          <End Role="PresupuestosDetalles" Type="Self.PresupuestosDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="PresupuestosDetalles">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresupuestosDetalles_Presupuestos">
+          <End Role="Presupuestos" Type="Self.Presupuestos" Multiplicity="1" />
+          <End Role="PresupuestosDetalles" Type="Self.PresupuestosDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Presupuestos">
+              <PropertyRef Name="PresupuestoId" />
+            </Principal>
+            <Dependent Role="PresupuestosDetalles">
+              <PropertyRef Name="PresupuestoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -223,23 +655,78 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SGPAModelStoreContainer">
+          <EntitySet Name="AlbaranesClienteDetalles" EntityType="Self.AlbaranesClienteDetalles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AlbaranesClientes" EntityType="Self.AlbaranesClientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AlbaranesClientesBases" EntityType="Self.AlbaranesClientesBases" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Articulos" EntityType="Self.Articulos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empresas" EntityType="Self.Empresas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FacturasBases" EntityType="Self.FacturasBases" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FacturasDetalles" EntityType="Self.FacturasDetalles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormasPagos" EntityType="Self.FormasPagos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Impuestos" EntityType="Self.Impuestos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LotesArticulos" EntityType="Self.LotesArticulos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovimientosInventario" EntityType="Self.MovimientosInventario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Municipios" EntityType="Self.Municipios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Presupuestos" EntityType="Self.Presupuestos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PresupuestosBases" EntityType="Self.PresupuestosBases" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PresupuestosDetalles" EntityType="Self.PresupuestosDetalles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincias" EntityType="Self.Provincias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Retenciones" EntityType="Self.Retenciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SistemaConfiguracion" EntityType="Self.SistemaConfiguracion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnidadManejo" EntityType="Self.UnidadManejo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_ArticulosConsulta" EntityType="Self.vw_ArticulosConsulta" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_ArticulosConsulta].[ArticuloId] AS [ArticuloId], 
+    [vw_ArticulosConsulta].[Referencia] AS [Referencia], 
+    [vw_ArticulosConsulta].[EmpresaId] AS [EmpresaId], 
+    [vw_ArticulosConsulta].[Descripcion] AS [Descripcion], 
+    [vw_ArticulosConsulta].[Precio] AS [Precio], 
+    [vw_ArticulosConsulta].[Cantidad] AS [Cantidad]
+    FROM [dbo].[vw_ArticulosConsulta] AS [vw_ArticulosConsulta]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_PresupuestosConsulta" EntityType="Self.vw_PresupuestosConsulta" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_PresupuestosConsulta].[Fecha] AS [Fecha], 
+    [vw_PresupuestosConsulta].[PresupuestoId] AS [PresupuestoId], 
+    [vw_PresupuestosConsulta].[Identificacion] AS [Identificacion], 
+    [vw_PresupuestosConsulta].[NombreCliente] AS [NombreCliente], 
+    [vw_PresupuestosConsulta].[Base] AS [Base], 
+    [vw_PresupuestosConsulta].[CuotaIVA] AS [CuotaIVA], 
+    [vw_PresupuestosConsulta].[CuotaRetencion] AS [CuotaRetencion], 
+    [vw_PresupuestosConsulta].[Total] AS [Total], 
+    [vw_PresupuestosConsulta].[EmpresaId] AS [EmpresaId]
+    FROM [dbo].[vw_PresupuestosConsulta] AS [vw_PresupuestosConsulta]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Albaranes_Clientes" Association="Self.FK_Albaranes_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Albaranes_Empresas" Association="Self.FK_Albaranes_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlbaranesClienteDetalles_AlbaranesClientes" Association="Self.FK_AlbaranesClienteDetalles_AlbaranesClientes">
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+            <End Role="AlbaranesClienteDetalles" EntitySet="AlbaranesClienteDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlbaranesClientesBases_AlbaranesClientes" Association="Self.FK_AlbaranesClientesBases_AlbaranesClientes">
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+            <End Role="AlbaranesClientesBases" EntitySet="AlbaranesClientesBases" />
+          </AssociationSet>
           <AssociationSet Name="FK_Articulos_Empresas" Association="Self.FK_Articulos_Empresas">
             <End Role="Empresas" EntitySet="Empresas" />
             <End Role="Articulos" EntitySet="Articulos" />
           </AssociationSet>
           <AssociationSet Name="FK_Articulos_Impuestos" Association="Self.FK_Articulos_Impuestos">
             <End Role="Impuestos" EntitySet="Impuestos" />
+            <End Role="Articulos" EntitySet="Articulos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Articulos_UnidadManejo" Association="Self.FK_Articulos_UnidadManejo">
+            <End Role="UnidadManejo" EntitySet="UnidadManejo" />
             <End Role="Articulos" EntitySet="Articulos" />
           </AssociationSet>
           <AssociationSet Name="FK_Clientes_Empresas" Association="Self.FK_Clientes_Empresas">
@@ -254,9 +741,69 @@
             <End Role="Municipios" EntitySet="Municipios" />
             <End Role="Empresas" EntitySet="Empresas" />
           </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Clientes" Association="Self.FK_Facturas_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Empresas" Association="Self.FK_Facturas_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_FormasPagos" Association="Self.FK_Facturas_FormasPagos">
+            <End Role="FormasPagos" EntitySet="FormasPagos" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacturasBases_Facturas" Association="Self.FK_FacturasBases_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="FacturasBases" EntitySet="FacturasBases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacturasDetalles_Articulos" Association="Self.FK_FacturasDetalles_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="FacturasDetalles" EntitySet="FacturasDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacturasDetalles_Facturas" Association="Self.FK_FacturasDetalles_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="FacturasDetalles" EntitySet="FacturasDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LotesArticulos_Articulos" Association="Self.FK_LotesArticulos_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="LotesArticulos" EntitySet="LotesArticulos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LotesArticulos_Empresas" Association="Self.FK_LotesArticulos_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="LotesArticulos" EntitySet="LotesArticulos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosInventario_Articulos" Association="Self.FK_MovimientosInventario_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="MovimientosInventario" EntitySet="MovimientosInventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosInventario_Empresas" Association="Self.FK_MovimientosInventario_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="MovimientosInventario" EntitySet="MovimientosInventario" />
+          </AssociationSet>
           <AssociationSet Name="FK_Municipios_Provincias" Association="Self.FK_Municipios_Provincias">
             <End Role="Provincias" EntitySet="Provincias" />
             <End Role="Municipios" EntitySet="Municipios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Presupuestos_Clientes" Association="Self.FK_Presupuestos_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Presupuestos" EntitySet="Presupuestos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Presupuestos_Empresas" Association="Self.FK_Presupuestos_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="Presupuestos" EntitySet="Presupuestos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresupuestosBases_Presupuestos" Association="Self.FK_PresupuestosBases_Presupuestos">
+            <End Role="Presupuestos" EntitySet="Presupuestos" />
+            <End Role="PresupuestosBases" EntitySet="PresupuestosBases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresupuestosDetalles_Articulos" Association="Self.FK_PresupuestosDetalles_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="PresupuestosDetalles" EntitySet="PresupuestosDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresupuestosDetalles_Presupuestos" Association="Self.FK_PresupuestosDetalles_Presupuestos">
+            <End Role="Presupuestos" EntitySet="Presupuestos" />
+            <End Role="PresupuestosDetalles" EntitySet="PresupuestosDetalles" />
           </AssociationSet>
           <AssociationSet Name="FK_Proveedores_Empresas" Association="Self.FK_Proveedores_Empresas">
             <End Role="Empresas" EntitySet="Empresas" />
@@ -293,6 +840,9 @@
           <Property Name="NumeroCuenta" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Swift" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Municipios" Relationship="SGPAModel.FK_Clientes_Municipios" FromRole="Clientes" ToRole="Municipios" />
+          <NavigationProperty Name="AlbaranesClientes" Relationship="SGPAModel.FK_Albaranes_Clientes" FromRole="Clientes" ToRole="AlbaranesClientes" />
+          <NavigationProperty Name="Presupuestos" Relationship="SGPAModel.FK_Presupuestos_Clientes" FromRole="Clientes" ToRole="Presupuestos" />
+          <NavigationProperty Name="Facturas" Relationship="SGPAModel.FK_Facturas_Clientes" FromRole="Clientes" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="Empresas">
           <Key>
@@ -311,6 +861,11 @@
           <NavigationProperty Name="Municipios" Relationship="Self.FK_Empresas_Municipios" FromRole="Empresas" ToRole="Municipios" />
           <NavigationProperty Name="Proveedores" Relationship="Self.FK_Proveedores_Empresas" FromRole="Empresas" ToRole="Proveedores" />
           <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_Articulos_Empresas" FromRole="Empresas" ToRole="Articulos" />
+          <NavigationProperty Name="AlbaranesClientes" Relationship="SGPAModel.FK_Albaranes_Empresas" FromRole="Empresas" ToRole="AlbaranesClientes" />
+          <NavigationProperty Name="LotesArticulos" Relationship="SGPAModel.FK_LotesArticulos_Empresas" FromRole="Empresas" ToRole="LotesArticulos" />
+          <NavigationProperty Name="MovimientosInventario" Relationship="SGPAModel.FK_MovimientosInventario_Empresas" FromRole="Empresas" ToRole="MovimientosInventario" />
+          <NavigationProperty Name="Presupuestos" Relationship="SGPAModel.FK_Presupuestos_Empresas" FromRole="Empresas" ToRole="Presupuestos" />
+          <NavigationProperty Name="Facturas" Relationship="SGPAModel.FK_Facturas_Empresas" FromRole="Empresas" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="FormasPagos">
           <Key>
@@ -318,6 +873,7 @@
           </Key>
           <Property Name="FormaPagoId" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Facturas" Relationship="SGPAModel.FK_Facturas_FormasPagos" FromRole="FormasPagos" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="Municipios">
           <Key>
@@ -483,13 +1039,109 @@
             <End Role="Impuestos" EntitySet="Impuestos" />
             <End Role="Articulos" EntitySet="Articulos" />
           </AssociationSet>
+          <EntitySet Name="AlbaranesClienteDetalles" EntityType="SGPAModel.AlbaranesClienteDetalles" />
+          <EntitySet Name="AlbaranesClientes" EntityType="SGPAModel.AlbaranesClientes" />
+          <EntitySet Name="AlbaranesClientesBases" EntityType="SGPAModel.AlbaranesClientesBases" />
+          <EntitySet Name="LotesArticulos" EntityType="SGPAModel.LotesArticulos" />
+          <EntitySet Name="MovimientosInventario" EntityType="SGPAModel.MovimientosInventario" />
+          <EntitySet Name="Presupuestos" EntityType="SGPAModel.Presupuestos" />
+          <EntitySet Name="PresupuestosBases" EntityType="SGPAModel.PresupuestosBases" />
+          <EntitySet Name="PresupuestosDetalles" EntityType="SGPAModel.PresupuestosDetalles" />
+          <AssociationSet Name="FK_AlbaranesClienteDetalles_AlbaranesClientes" Association="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes">
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+            <End Role="AlbaranesClienteDetalles" EntitySet="AlbaranesClienteDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Albaranes_Clientes" Association="SGPAModel.FK_Albaranes_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Albaranes_Empresas" Association="SGPAModel.FK_Albaranes_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlbaranesClientesBases_AlbaranesClientes" Association="SGPAModel.FK_AlbaranesClientesBases_AlbaranesClientes">
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+            <End Role="AlbaranesClientesBases" EntitySet="AlbaranesClientesBases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LotesArticulos_Articulos" Association="SGPAModel.FK_LotesArticulos_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="LotesArticulos" EntitySet="LotesArticulos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosInventario_Articulos" Association="SGPAModel.FK_MovimientosInventario_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="MovimientosInventario" EntitySet="MovimientosInventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresupuestosDetalles_Articulos" Association="SGPAModel.FK_PresupuestosDetalles_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="PresupuestosDetalles" EntitySet="PresupuestosDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Presupuestos_Clientes" Association="SGPAModel.FK_Presupuestos_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Presupuestos" EntitySet="Presupuestos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LotesArticulos_Empresas" Association="SGPAModel.FK_LotesArticulos_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="LotesArticulos" EntitySet="LotesArticulos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosInventario_Empresas" Association="SGPAModel.FK_MovimientosInventario_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="MovimientosInventario" EntitySet="MovimientosInventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Presupuestos_Empresas" Association="SGPAModel.FK_Presupuestos_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="Presupuestos" EntitySet="Presupuestos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresupuestosBases_Presupuestos" Association="SGPAModel.FK_PresupuestosBases_Presupuestos">
+            <End Role="Presupuestos" EntitySet="Presupuestos" />
+            <End Role="PresupuestosBases" EntitySet="PresupuestosBases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresupuestosDetalles_Presupuestos" Association="SGPAModel.FK_PresupuestosDetalles_Presupuestos">
+            <End Role="Presupuestos" EntitySet="Presupuestos" />
+            <End Role="PresupuestosDetalles" EntitySet="PresupuestosDetalles" />
+          </AssociationSet>
+          <EntitySet Name="UnidadManejo" EntityType="SGPAModel.UnidadManejo" />
+          <AssociationSet Name="FK_Articulos_UnidadManejo" Association="SGPAModel.FK_Articulos_UnidadManejo">
+            <End Role="UnidadManejo" EntitySet="UnidadManejo" />
+            <End Role="Articulos" EntitySet="Articulos" />
+          </AssociationSet>
+          <EntitySet Name="vw_PresupuestosConsulta" EntityType="SGPAModel.vw_PresupuestosConsulta" />
+          <EntitySet Name="vw_ArticulosConsulta" EntityType="SGPAModel.vw_ArticulosConsulta" />
+          <EntitySet Name="Facturas" EntityType="SGPAModel.Facturas" />
+          <EntitySet Name="FacturasBases" EntityType="SGPAModel.FacturasBases" />
+          <EntitySet Name="FacturasDetalles" EntityType="SGPAModel.FacturasDetalles" />
+          <AssociationSet Name="FK_FacturasDetalles_Articulos" Association="SGPAModel.FK_FacturasDetalles_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="FacturasDetalles" EntitySet="FacturasDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Clientes" Association="SGPAModel.FK_Facturas_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Empresas" Association="SGPAModel.FK_Facturas_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacturasBases_Facturas" Association="SGPAModel.FK_FacturasBases_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="FacturasBases" EntitySet="FacturasBases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacturasDetalles_Facturas" Association="SGPAModel.FK_FacturasDetalles_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="FacturasDetalles" EntitySet="FacturasDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_FormasPagos" Association="SGPAModel.FK_Facturas_FormasPagos">
+            <End Role="FormasPagos" EntitySet="FormasPagos" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="SistemaConfiguracion">
           <Key>
             <PropertyRef Name="ConfiguracionId" />
           </Key>
           <Property Name="ConfiguracionId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NombreImpresora" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NombreImpresora" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Equipo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Serial" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Clientes_Municipios">
           <End Type="SGPAModel.Municipios" Role="Municipios" Multiplicity="1" />
@@ -515,6 +1167,13 @@
           <Property Name="ImpuestoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_Articulos_Empresas" FromRole="Articulos" ToRole="Empresas" />
           <NavigationProperty Name="Impuestos" Relationship="SGPAModel.FK_Articulos_Impuestos" FromRole="Articulos" ToRole="Impuestos" />
+          <Property Name="CodigoBarra" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UnidadManejoId" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="LotesArticulos" Relationship="SGPAModel.FK_LotesArticulos_Articulos" FromRole="Articulos" ToRole="LotesArticulos" />
+          <NavigationProperty Name="MovimientosInventario" Relationship="SGPAModel.FK_MovimientosInventario_Articulos" FromRole="Articulos" ToRole="MovimientosInventario" />
+          <NavigationProperty Name="PresupuestosDetalles" Relationship="SGPAModel.FK_PresupuestosDetalles_Articulos" FromRole="Articulos" ToRole="PresupuestosDetalles" />
+          <NavigationProperty Name="UnidadManejo" Relationship="SGPAModel.FK_Articulos_UnidadManejo" FromRole="Articulos" ToRole="UnidadManejo" />
+          <NavigationProperty Name="FacturasDetalles" Relationship="SGPAModel.FK_FacturasDetalles_Articulos" FromRole="Articulos" ToRole="FacturasDetalles" />
         </EntityType>
         <EntityType Name="Impuestos">
           <Key>
@@ -546,6 +1205,456 @@
             </Principal>
             <Dependent Role="Articulos">
               <PropertyRef Name="ImpuestoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AlbaranesClienteDetalles">
+          <Key>
+            <PropertyRef Name="AlbaranesClienteDetallesId" />
+          </Key>
+          <Property Name="AlbaranesClienteDetallesId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AlbaranId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Subtotal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="AlbaranesClientes" Relationship="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes" FromRole="AlbaranesClienteDetalles" ToRole="AlbaranesClientes" />
+        </EntityType>
+        <EntityType Name="AlbaranesClientes">
+          <Key>
+            <PropertyRef Name="AlbaranId" />
+          </Key>
+          <Property Name="AlbaranId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ClienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Facturado" Type="Boolean" Nullable="false" />
+          <Property Name="FacturaId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="AlbaranesRecargo" Type="Boolean" />
+          <NavigationProperty Name="AlbaranesClienteDetalles" Relationship="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes" FromRole="AlbaranesClientes" ToRole="AlbaranesClienteDetalles" />
+          <NavigationProperty Name="Clientes" Relationship="SGPAModel.FK_Albaranes_Clientes" FromRole="AlbaranesClientes" ToRole="Clientes" />
+          <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_Albaranes_Empresas" FromRole="AlbaranesClientes" ToRole="Empresas" />
+          <NavigationProperty Name="AlbaranesClientesBases" Relationship="SGPAModel.FK_AlbaranesClientesBases_AlbaranesClientes" FromRole="AlbaranesClientes" ToRole="AlbaranesClientesBases" />
+        </EntityType>
+        <EntityType Name="AlbaranesClientesBases">
+          <Key>
+            <PropertyRef Name="AlbaranBaseId" />
+          </Key>
+          <Property Name="AlbaranBaseId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AlbaranId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Base" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CuotaIVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="RecargoEquivalencia" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CuotaRecargoEquivalencia" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Retencion" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CuotaRetencion" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="AlbaranesClientes" Relationship="SGPAModel.FK_AlbaranesClientesBases_AlbaranesClientes" FromRole="AlbaranesClientesBases" ToRole="AlbaranesClientes" />
+        </EntityType>
+        <EntityType Name="LotesArticulos">
+          <Key>
+            <PropertyRef Name="LoteArticuloId" />
+          </Key>
+          <Property Name="LoteArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="AlbaranId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="PoseeFechaVencimiento" Type="Boolean" Nullable="false" />
+          <Property Name="FechaVencimiento" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_LotesArticulos_Articulos" FromRole="LotesArticulos" ToRole="Articulos" />
+          <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_LotesArticulos_Empresas" FromRole="LotesArticulos" ToRole="Empresas" />
+        </EntityType>
+        <EntityType Name="MovimientosInventario">
+          <Key>
+            <PropertyRef Name="MovimientoId" />
+          </Key>
+          <Property Name="MovimientoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LoteArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TipoMovimiento" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CantidadAntes" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CantidadDespues" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DocumentoRelacionado" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TipoDocumentoRelacionado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_MovimientosInventario_Articulos" FromRole="MovimientosInventario" ToRole="Articulos" />
+          <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_MovimientosInventario_Empresas" FromRole="MovimientosInventario" ToRole="Empresas" />
+        </EntityType>
+        <EntityType Name="Presupuestos">
+          <Key>
+            <PropertyRef Name="PresupuestoId" />
+          </Key>
+          <Property Name="PresupuestoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ClienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Facturado" Type="Boolean" Nullable="false" />
+          <Property Name="FacturaId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PresupuestoRecargo" Type="Boolean" />
+          <NavigationProperty Name="Clientes" Relationship="SGPAModel.FK_Presupuestos_Clientes" FromRole="Presupuestos" ToRole="Clientes" />
+          <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_Presupuestos_Empresas" FromRole="Presupuestos" ToRole="Empresas" />
+          <NavigationProperty Name="PresupuestosBases" Relationship="SGPAModel.FK_PresupuestosBases_Presupuestos" FromRole="Presupuestos" ToRole="PresupuestosBases" />
+          <NavigationProperty Name="PresupuestosDetalles" Relationship="SGPAModel.FK_PresupuestosDetalles_Presupuestos" FromRole="Presupuestos" ToRole="PresupuestosDetalles" />
+        </EntityType>
+        <EntityType Name="PresupuestosBases">
+          <Key>
+            <PropertyRef Name="PresupuestoBaseId" />
+          </Key>
+          <Property Name="PresupuestoBaseId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PresupuestoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Base" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CuotaIVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="RecargoEquivalencia" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CuotaRecargoEquivalencia" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Retencion" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CuotaRetencion" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Presupuestos" Relationship="SGPAModel.FK_PresupuestosBases_Presupuestos" FromRole="PresupuestosBases" ToRole="Presupuestos" />
+        </EntityType>
+        <EntityType Name="PresupuestosDetalles">
+          <Key>
+            <PropertyRef Name="PresupuestoDetalleId" />
+          </Key>
+          <Property Name="PresupuestoDetalleId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PresupuestoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Subtotal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_PresupuestosDetalles_Articulos" FromRole="PresupuestosDetalles" ToRole="Articulos" />
+          <NavigationProperty Name="Presupuestos" Relationship="SGPAModel.FK_PresupuestosDetalles_Presupuestos" FromRole="PresupuestosDetalles" ToRole="Presupuestos" />
+        </EntityType>
+        <Association Name="FK_AlbaranesClienteDetalles_AlbaranesClientes">
+          <End Type="SGPAModel.AlbaranesClientes" Role="AlbaranesClientes" Multiplicity="1" />
+          <End Type="SGPAModel.AlbaranesClienteDetalles" Role="AlbaranesClienteDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbaranesClientes">
+              <PropertyRef Name="AlbaranId" />
+            </Principal>
+            <Dependent Role="AlbaranesClienteDetalles">
+              <PropertyRef Name="AlbaranId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Albaranes_Clientes">
+          <End Type="SGPAModel.Clientes" Role="Clientes" Multiplicity="1" />
+          <End Type="SGPAModel.AlbaranesClientes" Role="AlbaranesClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ClienteId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientes">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Albaranes_Empresas">
+          <End Type="SGPAModel.Empresas" Role="Empresas" Multiplicity="1" />
+          <End Type="SGPAModel.AlbaranesClientes" Role="AlbaranesClientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientes">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlbaranesClientesBases_AlbaranesClientes">
+          <End Type="SGPAModel.AlbaranesClientes" Role="AlbaranesClientes" Multiplicity="1" />
+          <End Type="SGPAModel.AlbaranesClientesBases" Role="AlbaranesClientesBases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbaranesClientes">
+              <PropertyRef Name="AlbaranId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientesBases">
+              <PropertyRef Name="AlbaranId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LotesArticulos_Articulos">
+          <End Type="SGPAModel.Articulos" Role="Articulos" Multiplicity="1" />
+          <End Type="SGPAModel.LotesArticulos" Role="LotesArticulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="LotesArticulos">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosInventario_Articulos">
+          <End Type="SGPAModel.Articulos" Role="Articulos" Multiplicity="1" />
+          <End Type="SGPAModel.MovimientosInventario" Role="MovimientosInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="MovimientosInventario">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresupuestosDetalles_Articulos">
+          <End Type="SGPAModel.Articulos" Role="Articulos" Multiplicity="1" />
+          <End Type="SGPAModel.PresupuestosDetalles" Role="PresupuestosDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="PresupuestosDetalles">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Presupuestos_Clientes">
+          <End Type="SGPAModel.Clientes" Role="Clientes" Multiplicity="1" />
+          <End Type="SGPAModel.Presupuestos" Role="Presupuestos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ClienteId" />
+            </Principal>
+            <Dependent Role="Presupuestos">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LotesArticulos_Empresas">
+          <End Type="SGPAModel.Empresas" Role="Empresas" Multiplicity="1" />
+          <End Type="SGPAModel.LotesArticulos" Role="LotesArticulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="LotesArticulos">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosInventario_Empresas">
+          <End Type="SGPAModel.Empresas" Role="Empresas" Multiplicity="1" />
+          <End Type="SGPAModel.MovimientosInventario" Role="MovimientosInventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="MovimientosInventario">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Presupuestos_Empresas">
+          <End Type="SGPAModel.Empresas" Role="Empresas" Multiplicity="1" />
+          <End Type="SGPAModel.Presupuestos" Role="Presupuestos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="Presupuestos">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresupuestosBases_Presupuestos">
+          <End Type="SGPAModel.Presupuestos" Role="Presupuestos" Multiplicity="1" />
+          <End Type="SGPAModel.PresupuestosBases" Role="PresupuestosBases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Presupuestos">
+              <PropertyRef Name="PresupuestoId" />
+            </Principal>
+            <Dependent Role="PresupuestosBases">
+              <PropertyRef Name="PresupuestoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresupuestosDetalles_Presupuestos">
+          <End Type="SGPAModel.Presupuestos" Role="Presupuestos" Multiplicity="1" />
+          <End Type="SGPAModel.PresupuestosDetalles" Role="PresupuestosDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Presupuestos">
+              <PropertyRef Name="PresupuestoId" />
+            </Principal>
+            <Dependent Role="PresupuestosDetalles">
+              <PropertyRef Name="PresupuestoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UnidadManejo">
+          <Key>
+            <PropertyRef Name="UnidadManejoId" />
+          </Key>
+          <Property Name="UnidadManejoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_Articulos_UnidadManejo" FromRole="UnidadManejo" ToRole="Articulos" />
+        </EntityType>
+        <Association Name="FK_Articulos_UnidadManejo">
+          <End Type="SGPAModel.UnidadManejo" Role="UnidadManejo" Multiplicity="0..1" />
+          <End Type="SGPAModel.Articulos" Role="Articulos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnidadManejo">
+              <PropertyRef Name="UnidadManejoId" />
+            </Principal>
+            <Dependent Role="Articulos">
+              <PropertyRef Name="UnidadManejoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vw_PresupuestosConsulta">
+          <Key>
+            <PropertyRef Name="Fecha" />
+            <PropertyRef Name="PresupuestoId" />
+            <PropertyRef Name="Identificacion" />
+            <PropertyRef Name="NombreCliente" />
+            <PropertyRef Name="EmpresaId" />
+          </Key>
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PresupuestoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Identificacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCliente" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Base" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaIVA" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaRetencion" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="vw_ArticulosConsulta">
+          <Key>
+            <PropertyRef Name="ArticuloId" />
+            <PropertyRef Name="Referencia" />
+            <PropertyRef Name="EmpresaId" />
+            <PropertyRef Name="Descripcion" />
+            <PropertyRef Name="Precio" />
+          </Key>
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Referencia" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Cantidad" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="Facturas">
+          <Key>
+            <PropertyRef Name="FacturaId" />
+          </Key>
+          <Property Name="FacturaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ClienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Impreso" Type="Boolean" Nullable="false" />
+          <Property Name="PresupuestoRecargo" Type="Boolean" />
+          <NavigationProperty Name="Clientes" Relationship="SGPAModel.FK_Facturas_Clientes" FromRole="Facturas" ToRole="Clientes" />
+          <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_Facturas_Empresas" FromRole="Facturas" ToRole="Empresas" />
+          <NavigationProperty Name="FacturasBases" Relationship="SGPAModel.FK_FacturasBases_Facturas" FromRole="Facturas" ToRole="FacturasBases" />
+          <NavigationProperty Name="FacturasDetalles" Relationship="SGPAModel.FK_FacturasDetalles_Facturas" FromRole="Facturas" ToRole="FacturasDetalles" />
+          <Property Name="FormaPagoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="FormasPagos" Relationship="SGPAModel.FK_Facturas_FormasPagos" FromRole="Facturas" ToRole="FormasPagos" />
+        </EntityType>
+        <EntityType Name="FacturasBases">
+          <Key>
+            <PropertyRef Name="FacturaBaseId" />
+          </Key>
+          <Property Name="FacturaBaseId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacturaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Base" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CuotaIVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="RecargoEquivalencia" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CuotaRecargoEquivalencia" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Retencion" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CuotaRetencion" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Facturas" Relationship="SGPAModel.FK_FacturasBases_Facturas" FromRole="FacturasBases" ToRole="Facturas" />
+        </EntityType>
+        <EntityType Name="FacturasDetalles">
+          <Key>
+            <PropertyRef Name="FacturaDetalleId" />
+          </Key>
+          <Property Name="FacturaDetalleId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacturaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Subtotal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_FacturasDetalles_Articulos" FromRole="FacturasDetalles" ToRole="Articulos" />
+          <NavigationProperty Name="Facturas" Relationship="SGPAModel.FK_FacturasDetalles_Facturas" FromRole="FacturasDetalles" ToRole="Facturas" />
+        </EntityType>
+        <Association Name="FK_FacturasDetalles_Articulos">
+          <End Type="SGPAModel.Articulos" Role="Articulos" Multiplicity="1" />
+          <End Type="SGPAModel.FacturasDetalles" Role="FacturasDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="FacturasDetalles">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Clientes">
+          <End Type="SGPAModel.Clientes" Role="Clientes" Multiplicity="1" />
+          <End Type="SGPAModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="ClienteId" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Empresas">
+          <End Type="SGPAModel.Empresas" Role="Empresas" Multiplicity="1" />
+          <End Type="SGPAModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacturasBases_Facturas">
+          <End Type="SGPAModel.Facturas" Role="Facturas" Multiplicity="1" />
+          <End Type="SGPAModel.FacturasBases" Role="FacturasBases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="FacturaId" />
+            </Principal>
+            <Dependent Role="FacturasBases">
+              <PropertyRef Name="FacturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacturasDetalles_Facturas">
+          <End Type="SGPAModel.Facturas" Role="Facturas" Multiplicity="1" />
+          <End Type="SGPAModel.FacturasDetalles" Role="FacturasDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="FacturaId" />
+            </Principal>
+            <Dependent Role="FacturasDetalles">
+              <PropertyRef Name="FacturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_FormasPagos">
+          <End Type="SGPAModel.FormasPagos" Role="FormasPagos" Multiplicity="1" />
+          <End Type="SGPAModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormasPagos">
+              <PropertyRef Name="FormaPagoId" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="FormaPagoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -661,6 +1770,8 @@
           <EntitySetMapping Name="SistemaConfiguracion">
             <EntityTypeMapping TypeName="SGPAModel.SistemaConfiguracion">
               <MappingFragment StoreEntitySet="SistemaConfiguracion">
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
+                <ScalarProperty Name="Equipo" ColumnName="Equipo" />
                 <ScalarProperty Name="NombreImpresora" ColumnName="NombreImpresora" />
                 <ScalarProperty Name="ConfiguracionId" ColumnName="ConfiguracionId" />
               </MappingFragment>
@@ -669,6 +1780,8 @@
           <EntitySetMapping Name="Articulos">
             <EntityTypeMapping TypeName="SGPAModel.Articulos">
               <MappingFragment StoreEntitySet="Articulos">
+                <ScalarProperty Name="UnidadManejoId" ColumnName="UnidadManejoId" />
+                <ScalarProperty Name="CodigoBarra" ColumnName="CodigoBarra" />
                 <ScalarProperty Name="ImpuestoId" ColumnName="ImpuestoId" />
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
@@ -684,6 +1797,196 @@
                 <ScalarProperty Name="RecargoEquivalencia" ColumnName="RecargoEquivalencia" />
                 <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
                 <ScalarProperty Name="ImpuestoId" ColumnName="ImpuestoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlbaranesClienteDetalles">
+            <EntityTypeMapping TypeName="SGPAModel.AlbaranesClienteDetalles">
+              <MappingFragment StoreEntitySet="AlbaranesClienteDetalles">
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+                <ScalarProperty Name="AlbaranId" ColumnName="AlbaranId" />
+                <ScalarProperty Name="AlbaranesClienteDetallesId" ColumnName="AlbaranesClienteDetallesId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlbaranesClientes">
+            <EntityTypeMapping TypeName="SGPAModel.AlbaranesClientes">
+              <MappingFragment StoreEntitySet="AlbaranesClientes">
+                <ScalarProperty Name="AlbaranesRecargo" ColumnName="AlbaranesRecargo" />
+                <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
+                <ScalarProperty Name="Facturado" ColumnName="Facturado" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="AlbaranId" ColumnName="AlbaranId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlbaranesClientesBases">
+            <EntityTypeMapping TypeName="SGPAModel.AlbaranesClientesBases">
+              <MappingFragment StoreEntitySet="AlbaranesClientesBases">
+                <ScalarProperty Name="CuotaRetencion" ColumnName="CuotaRetencion" />
+                <ScalarProperty Name="Retencion" ColumnName="Retencion" />
+                <ScalarProperty Name="CuotaRecargoEquivalencia" ColumnName="CuotaRecargoEquivalencia" />
+                <ScalarProperty Name="RecargoEquivalencia" ColumnName="RecargoEquivalencia" />
+                <ScalarProperty Name="CuotaIVA" ColumnName="CuotaIVA" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Base" ColumnName="Base" />
+                <ScalarProperty Name="AlbaranId" ColumnName="AlbaranId" />
+                <ScalarProperty Name="AlbaranBaseId" ColumnName="AlbaranBaseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LotesArticulos">
+            <EntityTypeMapping TypeName="SGPAModel.LotesArticulos">
+              <MappingFragment StoreEntitySet="LotesArticulos">
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="PoseeFechaVencimiento" ColumnName="PoseeFechaVencimiento" />
+                <ScalarProperty Name="AlbaranId" ColumnName="AlbaranId" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="LoteArticuloId" ColumnName="LoteArticuloId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovimientosInventario">
+            <EntityTypeMapping TypeName="SGPAModel.MovimientosInventario">
+              <MappingFragment StoreEntitySet="MovimientosInventario">
+                <ScalarProperty Name="TipoDocumentoRelacionado" ColumnName="TipoDocumentoRelacionado" />
+                <ScalarProperty Name="DocumentoRelacionado" ColumnName="DocumentoRelacionado" />
+                <ScalarProperty Name="CantidadDespues" ColumnName="CantidadDespues" />
+                <ScalarProperty Name="CantidadAntes" ColumnName="CantidadAntes" />
+                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="LoteArticuloId" ColumnName="LoteArticuloId" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="MovimientoId" ColumnName="MovimientoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Presupuestos">
+            <EntityTypeMapping TypeName="SGPAModel.Presupuestos">
+              <MappingFragment StoreEntitySet="Presupuestos">
+                <ScalarProperty Name="PresupuestoRecargo" ColumnName="PresupuestoRecargo" />
+                <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
+                <ScalarProperty Name="Facturado" ColumnName="Facturado" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="PresupuestoId" ColumnName="PresupuestoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PresupuestosBases">
+            <EntityTypeMapping TypeName="SGPAModel.PresupuestosBases">
+              <MappingFragment StoreEntitySet="PresupuestosBases">
+                <ScalarProperty Name="CuotaRetencion" ColumnName="CuotaRetencion" />
+                <ScalarProperty Name="Retencion" ColumnName="Retencion" />
+                <ScalarProperty Name="CuotaRecargoEquivalencia" ColumnName="CuotaRecargoEquivalencia" />
+                <ScalarProperty Name="RecargoEquivalencia" ColumnName="RecargoEquivalencia" />
+                <ScalarProperty Name="CuotaIVA" ColumnName="CuotaIVA" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Base" ColumnName="Base" />
+                <ScalarProperty Name="PresupuestoId" ColumnName="PresupuestoId" />
+                <ScalarProperty Name="PresupuestoBaseId" ColumnName="PresupuestoBaseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PresupuestosDetalles">
+            <EntityTypeMapping TypeName="SGPAModel.PresupuestosDetalles">
+              <MappingFragment StoreEntitySet="PresupuestosDetalles">
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+                <ScalarProperty Name="PresupuestoId" ColumnName="PresupuestoId" />
+                <ScalarProperty Name="PresupuestoDetalleId" ColumnName="PresupuestoDetalleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnidadManejo">
+            <EntityTypeMapping TypeName="SGPAModel.UnidadManejo">
+              <MappingFragment StoreEntitySet="UnidadManejo">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="UnidadManejoId" ColumnName="UnidadManejoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_PresupuestosConsulta">
+            <EntityTypeMapping TypeName="SGPAModel.vw_PresupuestosConsulta">
+              <MappingFragment StoreEntitySet="vw_PresupuestosConsulta">
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="CuotaRetencion" ColumnName="CuotaRetencion" />
+                <ScalarProperty Name="CuotaIVA" ColumnName="CuotaIVA" />
+                <ScalarProperty Name="Base" ColumnName="Base" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="PresupuestoId" ColumnName="PresupuestoId" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_ArticulosConsulta">
+            <EntityTypeMapping TypeName="SGPAModel.vw_ArticulosConsulta">
+              <MappingFragment StoreEntitySet="vw_ArticulosConsulta">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facturas">
+            <EntityTypeMapping TypeName="SGPAModel.Facturas">
+              <MappingFragment StoreEntitySet="Facturas">
+                <ScalarProperty Name="FormaPagoId" ColumnName="FormaPagoId" />
+                <ScalarProperty Name="PresupuestoRecargo" ColumnName="PresupuestoRecargo" />
+                <ScalarProperty Name="Impreso" ColumnName="Impreso" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacturasBases">
+            <EntityTypeMapping TypeName="SGPAModel.FacturasBases">
+              <MappingFragment StoreEntitySet="FacturasBases">
+                <ScalarProperty Name="CuotaRetencion" ColumnName="CuotaRetencion" />
+                <ScalarProperty Name="Retencion" ColumnName="Retencion" />
+                <ScalarProperty Name="CuotaRecargoEquivalencia" ColumnName="CuotaRecargoEquivalencia" />
+                <ScalarProperty Name="RecargoEquivalencia" ColumnName="RecargoEquivalencia" />
+                <ScalarProperty Name="CuotaIVA" ColumnName="CuotaIVA" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Base" ColumnName="Base" />
+                <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
+                <ScalarProperty Name="FacturaBaseId" ColumnName="FacturaBaseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacturasDetalles">
+            <EntityTypeMapping TypeName="SGPAModel.FacturasDetalles">
+              <MappingFragment StoreEntitySet="FacturasDetalles">
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+                <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
+                <ScalarProperty Name="FacturaDetalleId" ColumnName="FacturaDetalleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

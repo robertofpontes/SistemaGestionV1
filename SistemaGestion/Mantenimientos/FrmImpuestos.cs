@@ -133,7 +133,7 @@ namespace SistemaGestion.Mantenimientos
             }
             if (strProceso == "E")
             {
-                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = false;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = true;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_editar2.Enabled = true;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_guardar2.Enabled = false;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_borrar2.Enabled = false;
@@ -177,12 +177,14 @@ namespace SistemaGestion.Mantenimientos
         private void BloquearControles(bool bolActivo)
         {
             txtCodigo.Enabled = false;
+            txtRecargo.Enabled = bolActivo;
             txtPorcentaje.Enabled = bolActivo;
         }
         public void Inicializar()
         {
             strProceso = "";
             txtCodigo.Text = "";
+            txtRecargo.Text = "";
             txtPorcentaje.Text = "";
             BloquearControles(false);
         }
@@ -213,6 +215,7 @@ namespace SistemaGestion.Mantenimientos
                 {
                     txtPorcentaje.Text = oImpuesto.Porcentaje.ToString();
                     txtCodigo.Text = oImpuesto.ImpuestoId.ToString();
+                    txtRecargo.Text= oImpuesto.RecargoEquivalencia.ToString();
                 }
             }
             catch
@@ -245,7 +248,7 @@ namespace SistemaGestion.Mantenimientos
             ErrorValidador.Dispose();
             if (txtPorcentaje.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtPorcentaje, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(txtPorcentaje,ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             return true;
@@ -253,12 +256,18 @@ namespace SistemaGestion.Mantenimientos
         public bool Modificar()
         {
             bool bolEditado = false;
+            decimal dcmRecargo = 0;
+            if (txtRecargo.Text.Trim().Length > 0)
+            {
+                dcmRecargo=Convert.ToDecimal(txtRecargo.Text.Trim());
+            }
             if (ValidarGuardar())
             {
                 var oImpuesto = SGPADatos.Impuestos.FirstOrDefault(a => a.ImpuestoId.ToString() == txtCodigo.Text);
                 if (oImpuesto != null)
                 {
                     oImpuesto.Porcentaje = Convert.ToDecimal(txtPorcentaje.Text);
+                    oImpuesto.RecargoEquivalencia = dcmRecargo;
                     SGPADatos.SaveChanges();
                     LlenarGrid("");
                 }
@@ -269,12 +278,18 @@ namespace SistemaGestion.Mantenimientos
         {
             try
             {
+                decimal dcmRecargo = 0;
+                if (txtRecargo.Text.Trim().Length > 0)
+                {
+                    dcmRecargo = Convert.ToDecimal(txtRecargo.Text.Trim());
+                }
                 if (ValidarGuardar())
                 {
                     var oImpuesto = new Impuestos();
                     oImpuesto.Porcentaje = Convert.ToDecimal(txtPorcentaje.Text);
+                    oImpuesto.RecargoEquivalencia = dcmRecargo;
                     SGPADatos.Impuestos.Add(oImpuesto);
-                    SGPADatos.SaveChanges();
+                    SGPADatos.SaveChanges();                    
                     LlenarGrid("");
                     Inicializar();
                     strProceso = "N";
@@ -286,6 +301,40 @@ namespace SistemaGestion.Mantenimientos
             {
                 return false;
             }
+        }
+
+        private void txtRecargo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 8)
+            {
+                e.Handled = false;
+                return;
+            }
+
+
+            bool IsDec = false;
+            int nroDec = 0;
+
+            for (int i = 0; i < txtRecargo.Text.Length; i++)
+            {
+                if (txtRecargo.Text[i] == ',')
+                    IsDec = true;
+
+                if (IsDec && nroDec++ >= 2)
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+
+            }
+
+            if (e.KeyChar >= 48 && e.KeyChar <= 57)
+                e.Handled = false;
+            else if (e.KeyChar == 44)
+                e.Handled = (IsDec) ? true : false;
+            else
+                e.Handled = true;
         }
     }
 }

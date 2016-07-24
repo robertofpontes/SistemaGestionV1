@@ -46,6 +46,8 @@
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.ErrorValidador = new System.Windows.Forms.ErrorProvider(this.components);
+            this.txtRecargo = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabFormulario.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsulta)).BeginInit();
@@ -133,6 +135,7 @@
             // txtConsulta
             // 
             this.txtConsulta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtConsulta.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtConsulta.Location = new System.Drawing.Point(125, 10);
             this.txtConsulta.Name = "txtConsulta";
             this.txtConsulta.Size = new System.Drawing.Size(156, 20);
@@ -162,6 +165,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtRecargo);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtPorcentaje);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtCodigo);
@@ -176,6 +181,7 @@
             // txtPorcentaje
             // 
             this.txtPorcentaje.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPorcentaje.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtPorcentaje.Location = new System.Drawing.Point(95, 59);
             this.txtPorcentaje.MaxLength = 10;
             this.txtPorcentaje.Name = "txtPorcentaje";
@@ -195,6 +201,7 @@
             // txtCodigo
             // 
             this.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCodigo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtCodigo.Enabled = false;
             this.txtCodigo.Location = new System.Drawing.Point(95, 33);
             this.txtCodigo.Name = "txtCodigo";
@@ -213,6 +220,26 @@
             // ErrorValidador
             // 
             this.ErrorValidador.ContainerControl = this;
+            // 
+            // txtRecargo
+            // 
+            this.txtRecargo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtRecargo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtRecargo.Location = new System.Drawing.Point(95, 87);
+            this.txtRecargo.MaxLength = 10;
+            this.txtRecargo.Name = "txtRecargo";
+            this.txtRecargo.Size = new System.Drawing.Size(117, 20);
+            this.txtRecargo.TabIndex = 11;
+            this.txtRecargo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtRecargo_KeyPress);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(29, 89);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Recargo:";
             // 
             // FrmImpuestos
             // 
@@ -259,5 +286,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ImpuestoId;
         private System.Windows.Forms.DataGridViewTextBoxColumn Porcentaje;
         private System.Windows.Forms.ErrorProvider ErrorValidador;
+        private System.Windows.Forms.TextBox txtRecargo;
+        private System.Windows.Forms.Label label3;
     }
 }

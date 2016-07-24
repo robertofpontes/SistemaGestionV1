@@ -122,7 +122,7 @@ namespace SistemaGestion.Mantenimientos
             }
             if (strProceso == "E")
             {
-                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = false;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = true;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_editar2.Enabled = true;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_guardar2.Enabled = false;
                 ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_borrar2.Enabled = false;
@@ -196,44 +196,52 @@ namespace SistemaGestion.Mantenimientos
             ErrorValidador.Dispose();
             if (txtNombreProveedor.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtNombreProveedor, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(txtNombreProveedor,ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             if (txtNifCif.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtNifCif, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(txtNifCif,ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             if (!Clases.Utilidades.EsValidoNifCif(txtNifCif.Text))
             {
-                ErrorValidador.SetError(txtNifCif, "El NIT o CIF es incorrecto");
+                Clases.Utilidades.MostrarErrorControl(txtNifCif,ErrorValidador, "El NIT o CIF es incorrecto");
                 return false;
             }
             if (txtDireccion.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtDireccion, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(txtDireccion,ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             if (cmbProvincias.SelectedValue == null)
             {
-                ErrorValidador.SetError(cmbProvincias, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(cmbProvincias,ErrorValidador, "El campo es obligatorio");
                 return false;
+            }
+            else
+            {
+                Clases.Utilidades.ColorOriginal(cmbProvincias);
             }
             if (cmbMunicipios.SelectedValue == null)
             {
-                ErrorValidador.SetError(cmbMunicipios, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(cmbMunicipios,ErrorValidador, "El campo es obligatorio");
                 return false;
+            }
+            else
+            {
+                Clases.Utilidades.ColorOriginal(cmbMunicipios);
             }
             if (txtCodigoPostal.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtCodigoPostal, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(txtCodigoPostal,ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             else
             {
                 if (!Clases.Utilidades.CodigoPostalEsValido(txtCodigoPostal.Text))
                 {
-                    ErrorValidador.SetError(txtCodigoPostal, "El formato del código postal no es válido");
+                    Clases.Utilidades.MostrarErrorControl(txtCodigoPostal,ErrorValidador, "El formato del código postal no es válido");
                     return false;
                 }
                 else
@@ -245,20 +253,24 @@ namespace SistemaGestion.Mantenimientos
                     {
                         if (oProvincia.ProvinciaId.ToString() != cmbProvincias.SelectedValue.ToString())
                         {
-                            ErrorValidador.SetError(cmbProvincias, "La provincia seleccionada no concuerda con el código postal ingresado");
+                            Clases.Utilidades.MostrarErrorControl(cmbProvincias,ErrorValidador, "La provincia seleccionada no concuerda con el código postal ingresado");
                             return false;
+                        }
+                        else
+                        {
+                            Clases.Utilidades.ColorOriginal(cmbProvincias);
                         }
                     }
                 }
             }
             if (txtTelefono1.Text.Trim().Length == 0)
             {
-                ErrorValidador.SetError(txtTelefono1, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(txtTelefono1,ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             if (!Clases.Utilidades.EmailEsValido(txtEmail.Text))
             {
-                ErrorValidador.SetError(txtEmail, "El formato del correo es invalido");
+                Clases.Utilidades.MostrarErrorControl(txtEmail,ErrorValidador, "El formato del correo es invalido");
                 return false;
             }
             //if (txtNumeroCuenta.Text.Trim() != "")

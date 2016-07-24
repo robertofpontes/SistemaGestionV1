@@ -20,6 +20,11 @@ namespace SistemaGestion.Modelo
             this.Clientes = new HashSet<Clientes>();
             this.Proveedores = new HashSet<Proveedores>();
             this.Articulos = new HashSet<Articulos>();
+            this.AlbaranesClientes = new HashSet<AlbaranesClientes>();
+            this.LotesArticulos = new HashSet<LotesArticulos>();
+            this.MovimientosInventario = new HashSet<MovimientosInventario>();
+            this.Presupuestos = new HashSet<Presupuestos>();
+            this.Facturas = new HashSet<Facturas>();
         }
     
         public decimal EmpresaId { get; set; }
@@ -39,5 +44,15 @@ namespace SistemaGestion.Modelo
         public virtual ICollection<Proveedores> Proveedores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Articulos> Articulos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AlbaranesClientes> AlbaranesClientes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LotesArticulos> LotesArticulos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MovimientosInventario> MovimientosInventario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Presupuestos> Presupuestos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Facturas> Facturas { get; set; }
     }
 }
