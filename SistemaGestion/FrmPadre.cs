@@ -136,5 +136,17 @@ namespace SistemaGestion
             Ventas.FrmPresupuestos frmPresupuestos = new Ventas.FrmPresupuestos();
             Clases.Utilidades.AbrirFormulario(frmPresupuestos, this);
         }
+
+        private void facturasEmitidasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Ventas.FrmFacturas frmFacturas = new Ventas.FrmFacturas();
+            Clases.Utilidades.AbrirFormulario(frmFacturas, this);
+        }
+
+        private void albaranesEmitidosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Ventas.FrmAlbaranesCliente frmAlbaranes = new Ventas.FrmAlbaranesCliente();
+            Clases.Utilidades.AbrirFormulario(frmAlbaranes, this);
+        }
     }
 }

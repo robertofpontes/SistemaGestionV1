@@ -14,6 +14,13 @@ namespace SistemaGestion.Modelo
     
     public partial class LotesArticulos
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public LotesArticulos()
+        {
+            this.FacturasDetallesLotes = new HashSet<FacturasDetallesLotes>();
+            this.AlbaranesClientesDetallesLotes = new HashSet<AlbaranesClientesDetallesLotes>();
+        }
+    
         public decimal LoteArticuloId { get; set; }
         public decimal EmpresaId { get; set; }
         public decimal ArticuloId { get; set; }
@@ -21,8 +28,13 @@ namespace SistemaGestion.Modelo
         public decimal AlbaranId { get; set; }
         public bool PoseeFechaVencimiento { get; set; }
         public Nullable<System.DateTime> FechaVencimiento { get; set; }
+        public decimal CantidadComprometida { get; set; }
     
         public virtual Articulos Articulos { get; set; }
         public virtual Empresas Empresas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FacturasDetallesLotes> FacturasDetallesLotes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AlbaranesClientesDetallesLotes> AlbaranesClientesDetallesLotes { get; set; }
     }
 }

@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="SGPAModel.Empresas" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SGPAModel.FormasPagos" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SGPAModel.Municipios" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SGPAModel.Proveedores" Width="1.5" PointX="10.5" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SGPAModel.Proveedores" Width="1.5" PointX="10" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="SGPAModel.Provincias" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SGPAModel.Retenciones" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SGPAModel.Usuarios" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
@@ -24,15 +24,13 @@
         <EntityTypeShape EntityType="SGPAModel.Impuestos" Width="1.5" PointX="6.25" PointY="10.25" />
         <AssociationConnector Association="SGPAModel.FK_Articulos_Empresas" />
         <AssociationConnector Association="SGPAModel.FK_Articulos_Impuestos" />
-        <EntityTypeShape EntityType="SGPAModel.AlbaranesClienteDetalles" Width="1.5" PointX="15" PointY="10.25" />
-        <EntityTypeShape EntityType="SGPAModel.AlbaranesClientes" Width="1.5" PointX="12.75" PointY="8.5" />
-        <EntityTypeShape EntityType="SGPAModel.AlbaranesClientesBases" Width="1.5" PointX="15" PointY="7" />
+        <EntityTypeShape EntityType="SGPAModel.AlbaranesClientes" Width="2.375" PointX="11.875" PointY="8.5" />
+        <EntityTypeShape EntityType="SGPAModel.AlbaranesClientesBases" Width="2.625" PointX="15" PointY="7" />
         <EntityTypeShape EntityType="SGPAModel.LotesArticulos" Width="1.5" PointX="12.75" PointY="5" />
         <EntityTypeShape EntityType="SGPAModel.MovimientosInventario" Width="1.5" PointX="10.75" PointY="0.75" />
         <EntityTypeShape EntityType="SGPAModel.Presupuestos" Width="1.5" PointX="9.75" PointY="10.5" />
         <EntityTypeShape EntityType="SGPAModel.PresupuestosBases" Width="1.5" PointX="12" PointY="13.875" />
         <EntityTypeShape EntityType="SGPAModel.PresupuestosDetalles" Width="1.5" PointX="15" PointY="3" />
-        <AssociationConnector Association="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes" />
         <AssociationConnector Association="SGPAModel.FK_Albaranes_Clientes" />
         <AssociationConnector Association="SGPAModel.FK_Albaranes_Empresas" />
         <AssociationConnector Association="SGPAModel.FK_AlbaranesClientesBases_AlbaranesClientes" />
@@ -58,6 +56,23 @@
         <AssociationConnector Association="SGPAModel.FK_FacturasBases_Facturas" />
         <AssociationConnector Association="SGPAModel.FK_FacturasDetalles_Facturas" />
         <AssociationConnector Association="SGPAModel.FK_Facturas_FormasPagos" />
+        <EntityTypeShape EntityType="SGPAModel.Recibos" Width="1.5" PointX="16" PointY="19.25" />
+        <AssociationConnector Association="SGPAModel.FK_Recibos_Facturas" />
+        <AssociationConnector Association="SGPAModel.FK_Facturas_Presupuestos" />
+        <EntityTypeShape EntityType="SGPAModel.vw_FacturasConsulta" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="SGPAModel.AlbaranesClientesDetalles" Width="2.5" PointX="15.375" PointY="27.125" />
+        <EntityTypeShape EntityType="SGPAModel.MovimientosInventarioComprometido" Width="1.5" PointX="12.125" PointY="0.75" />
+        <EntityTypeShape EntityType="SGPAModel.vw_AlbaranesClientesConsulta" Width="3.25" PointX="0.75" PointY="18.125" />
+        <AssociationConnector Association="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes1" />
+        <AssociationConnector Association="SGPAModel.FK_MovimientosInventarioComprometido_Articulos" />
+        <AssociationConnector Association="SGPAModel.FK_MovimientosInventarioComprometido_Empresas" />
+        <EntityTypeShape EntityType="SGPAModel.FacturasDetallesLotes" Width="1.5" PointX="19" PointY="3.625" />
+        <AssociationConnector Association="SGPAModel.FK_FacturasDetallesLotes_Facturas" />
+        <AssociationConnector Association="SGPAModel.FK_FacturasDetallesLotes_LotesArticulos" />
+        <EntityTypeShape EntityType="SGPAModel.AlbaranesClientesDetallesLotes" Width="1.5" PointX="15" PointY="11.625" />
+        <AssociationConnector Association="SGPAModel.FK_AlbaranesClientesDetallesLotes_Facturas" />
+        <AssociationConnector Association="SGPAModel.FK_AlbaranesClientesDetalles_Articulos" />
+        <AssociationConnector Association="SGPAModel.FK_AlbaranesClientesDetallesLotes_LotesArticulos" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

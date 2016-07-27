@@ -73,6 +73,26 @@ namespace SistemaGestion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap calender_icon {
+            get {
+                object obj = ResourceManager.GetObject("calender-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap check_1_icon {
+            get {
+                object obj = ResourceManager.GetObject("check-1-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Close_2_icon {
             get {
                 object obj = ResourceManager.GetObject("Close-2-icon", resourceCulture);

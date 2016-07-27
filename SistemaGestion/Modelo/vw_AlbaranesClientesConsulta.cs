@@ -12,17 +12,18 @@ namespace SistemaGestion.Modelo
     using System;
     using System.Collections.Generic;
     
-    public partial class AlbaranesClienteDetalles
+    public partial class vw_AlbaranesClientesConsulta
     {
-        public decimal AlbaranesClienteDetallesId { get; set; }
+        public System.DateTime Fecha { get; set; }
         public decimal AlbaranId { get; set; }
-        public decimal ArticuloId { get; set; }
-        public decimal Cantidad { get; set; }
-        public decimal Precio { get; set; }
-        public decimal Descuento { get; set; }
-        public decimal IVA { get; set; }
-        public decimal Subtotal { get; set; }
-    
-        public virtual AlbaranesClientes AlbaranesClientes { get; set; }
+        public string Identificacion { get; set; }
+        public string NombreCliente { get; set; }
+        public Nullable<decimal> Base { get; set; }
+        public Nullable<decimal> CuotaIVA { get; set; }
+        public Nullable<decimal> CuotaRetencion { get; set; }
+        public Nullable<decimal> Total { get; set; }
+        public decimal EmpresaId { get; set; }
+        public bool Facturado { get; set; }
+        public decimal ClienteId { get; set; }
     }
 }

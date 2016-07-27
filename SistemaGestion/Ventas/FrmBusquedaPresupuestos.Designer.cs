@@ -1,6 +1,6 @@
 ﻿namespace SistemaGestion.Ventas
 {
-    partial class FrmBusquedaArticulos
+    partial class FrmBusquedaPresupuestos
     {
         /// <summary>
         /// Required designer variable.
@@ -29,16 +29,15 @@
         private void InitializeComponent()
         {
             this.dtgConsulta = new System.Windows.Forms.DataGridView();
+            this.PresupuestoId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ClienteId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NombreCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PnlConsulta = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.txtConsulta = new System.Windows.Forms.TextBox();
             this.btnConsultar = new System.Windows.Forms.Button();
-            this.Referencia = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ArticuloId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CantidadComprometida = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsulta)).BeginInit();
             this.PnlConsulta.SuspendLayout();
             this.SuspendLayout();
@@ -50,12 +49,11 @@
             this.dtgConsulta.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtgConsulta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgConsulta.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Referencia,
-            this.ArticuloId,
-            this.Descripcion,
-            this.Precio,
-            this.Cantidad,
-            this.CantidadComprometida});
+            this.PresupuestoId,
+            this.Fecha,
+            this.ClienteId,
+            this.NombreCliente,
+            this.Total});
             this.dtgConsulta.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtgConsulta.Location = new System.Drawing.Point(0, 44);
             this.dtgConsulta.Name = "dtgConsulta";
@@ -63,6 +61,41 @@
             this.dtgConsulta.Size = new System.Drawing.Size(633, 218);
             this.dtgConsulta.TabIndex = 3;
             this.dtgConsulta.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgConsulta_RowHeaderMouseDoubleClick);
+            // 
+            // PresupuestoId
+            // 
+            this.PresupuestoId.DataPropertyName = "PresupuestoId";
+            this.PresupuestoId.HeaderText = "N° Presupuesto";
+            this.PresupuestoId.Name = "PresupuestoId";
+            this.PresupuestoId.ReadOnly = true;
+            // 
+            // Fecha
+            // 
+            this.Fecha.DataPropertyName = "Fecha";
+            this.Fecha.HeaderText = "Fecha";
+            this.Fecha.Name = "Fecha";
+            this.Fecha.ReadOnly = true;
+            // 
+            // ClienteId
+            // 
+            this.ClienteId.DataPropertyName = "ClienteId";
+            this.ClienteId.HeaderText = "N° Cliente";
+            this.ClienteId.Name = "ClienteId";
+            this.ClienteId.ReadOnly = true;
+            // 
+            // NombreCliente
+            // 
+            this.NombreCliente.DataPropertyName = "NombreCliente";
+            this.NombreCliente.HeaderText = "Descripción";
+            this.NombreCliente.Name = "NombreCliente";
+            this.NombreCliente.ReadOnly = true;
+            // 
+            // Total
+            // 
+            this.Total.DataPropertyName = "Total";
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
             // 
             // PnlConsulta
             // 
@@ -103,50 +136,7 @@
             this.btnConsultar.UseVisualStyleBackColor = true;
             this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
             // 
-            // Referencia
-            // 
-            this.Referencia.DataPropertyName = "Referencia";
-            this.Referencia.HeaderText = "Referencia";
-            this.Referencia.Name = "Referencia";
-            this.Referencia.ReadOnly = true;
-            // 
-            // ArticuloId
-            // 
-            this.ArticuloId.DataPropertyName = "ArticuloId";
-            this.ArticuloId.HeaderText = "ArticuloId";
-            this.ArticuloId.Name = "ArticuloId";
-            this.ArticuloId.ReadOnly = true;
-            this.ArticuloId.Visible = false;
-            // 
-            // Descripcion
-            // 
-            this.Descripcion.DataPropertyName = "Descripcion";
-            this.Descripcion.HeaderText = "Descripción";
-            this.Descripcion.Name = "Descripcion";
-            this.Descripcion.ReadOnly = true;
-            // 
-            // Precio
-            // 
-            this.Precio.DataPropertyName = "Precio";
-            this.Precio.HeaderText = "Precio";
-            this.Precio.Name = "Precio";
-            this.Precio.ReadOnly = true;
-            // 
-            // Cantidad
-            // 
-            this.Cantidad.DataPropertyName = "Cantidad";
-            this.Cantidad.HeaderText = "Inventario (Und)";
-            this.Cantidad.Name = "Cantidad";
-            this.Cantidad.ReadOnly = true;
-            // 
-            // CantidadComprometida
-            // 
-            this.CantidadComprometida.DataPropertyName = "CantidadComprometida";
-            this.CantidadComprometida.HeaderText = "Inventario Comprometido";
-            this.CantidadComprometida.Name = "CantidadComprometida";
-            this.CantidadComprometida.ReadOnly = true;
-            // 
-            // FrmBusquedaArticulos
+            // FrmBusquedaPresupuestos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -155,8 +145,8 @@
             this.Controls.Add(this.PnlConsulta);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmBusquedaArticulos";
-            this.Text = "Artículos";
+            this.Name = "FrmBusquedaPresupuestos";
+            this.Text = "Presupuestos";
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsulta)).EndInit();
             this.PnlConsulta.ResumeLayout(false);
             this.PnlConsulta.PerformLayout();
@@ -171,11 +161,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtConsulta;
         private System.Windows.Forms.Button btnConsultar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Referencia;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ArticuloId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Precio;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CantidadComprometida;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PresupuestoId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Fecha;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ClienteId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NombreCliente;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
     }
 }

@@ -36,7 +36,6 @@ namespace SistemaGestion.Modelo
         public virtual DbSet<SistemaConfiguracion> SistemaConfiguracion { get; set; }
         public virtual DbSet<Articulos> Articulos { get; set; }
         public virtual DbSet<Impuestos> Impuestos { get; set; }
-        public virtual DbSet<AlbaranesClienteDetalles> AlbaranesClienteDetalles { get; set; }
         public virtual DbSet<AlbaranesClientes> AlbaranesClientes { get; set; }
         public virtual DbSet<AlbaranesClientesBases> AlbaranesClientesBases { get; set; }
         public virtual DbSet<LotesArticulos> LotesArticulos { get; set; }
@@ -50,5 +49,12 @@ namespace SistemaGestion.Modelo
         public virtual DbSet<Facturas> Facturas { get; set; }
         public virtual DbSet<FacturasBases> FacturasBases { get; set; }
         public virtual DbSet<FacturasDetalles> FacturasDetalles { get; set; }
+        public virtual DbSet<Recibos> Recibos { get; set; }
+        public virtual DbSet<vw_FacturasConsulta> vw_FacturasConsulta { get; set; }
+        public virtual DbSet<AlbaranesClientesDetalles> AlbaranesClientesDetalles { get; set; }
+        public virtual DbSet<MovimientosInventarioComprometido> MovimientosInventarioComprometido { get; set; }
+        public virtual DbSet<vw_AlbaranesClientesConsulta> vw_AlbaranesClientesConsulta { get; set; }
+        public virtual DbSet<FacturasDetallesLotes> FacturasDetallesLotes { get; set; }
+        public virtual DbSet<AlbaranesClientesDetallesLotes> AlbaranesClientesDetallesLotes { get; set; }
     }
 }

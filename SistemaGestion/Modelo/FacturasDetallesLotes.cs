@@ -12,14 +12,15 @@ namespace SistemaGestion.Modelo
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_ArticulosConsulta
+    public partial class FacturasDetallesLotes
     {
+        public decimal FacturaDetalleLoteId { get; set; }
+        public decimal FacturaId { get; set; }
         public decimal ArticuloId { get; set; }
-        public string Referencia { get; set; }
-        public decimal EmpresaId { get; set; }
-        public string Descripcion { get; set; }
-        public decimal Precio { get; set; }
-        public Nullable<decimal> Cantidad { get; set; }
-        public Nullable<decimal> CantidadComprometida { get; set; }
+        public decimal LoteArticuloId { get; set; }
+        public decimal Cantidad { get; set; }
+    
+        public virtual Facturas Facturas { get; set; }
+        public virtual LotesArticulos LotesArticulos { get; set; }
     }
 }

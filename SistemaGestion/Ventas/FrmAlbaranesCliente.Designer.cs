@@ -1,6 +1,6 @@
 ﻿namespace SistemaGestion.Ventas
 {
-    partial class FrmFacturas
+    partial class FrmAlbaranesCliente
     {
         /// <summary>
         /// Required designer variable.
@@ -32,18 +32,23 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFacturas));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAlbaranesCliente));
             this.tabFormulario = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dtgConsulta = new System.Windows.Forms.DataGridView();
+            this.Fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AlbaranId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Identificacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Base = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IVAAlbaran = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RetencionPres = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PnlConsulta = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.txtConsulta = new System.Windows.Forms.TextBox();
             this.btnConsultar = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.txtNumeroPlazos = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -55,7 +60,7 @@
             this.txtIVA = new System.Windows.Forms.TextBox();
             this.txtRecargo = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.dtgBasesFacturas = new System.Windows.Forms.DataGridView();
+            this.dtgBasesAlbaran = new System.Windows.Forms.DataGridView();
             this.BaseTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IVATotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CuotaIVA = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,7 +71,7 @@
             this.Retencion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chkRecargo = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dtgArticulosFacturas = new System.Windows.Forms.DataGridView();
+            this.dtgArticulosAlbaran = new System.Windows.Forms.DataGridView();
             this.NombreProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ArticuloId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -75,46 +80,34 @@
             this.IVA = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Importe = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblEliminarArticulo = new System.Windows.Forms.Label();
+            this.btnEliminarArticulo = new System.Windows.Forms.Button();
             this.txtArticuloId = new System.Windows.Forms.TextBox();
+            this.btnBuscarArticulos = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtPresupuesto = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.txtNombreCliente = new System.Windows.Forms.TextBox();
             this.txtNIF = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnBuscarClientes = new System.Windows.Forms.Button();
             this.txtClienteId = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtNumeroFactura = new System.Windows.Forms.TextBox();
+            this.txtNumeroAlbaran = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.ErrorValidador = new System.Windows.Forms.ErrorProvider(this.components);
-            this.Fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FacturaId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Identificacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Base = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IVAPresupuesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RetencionPres = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmbFormaPago = new SistemaGestion.Clases.ComboBoxConBorde();
-            this.btnFinalizarFactura = new System.Windows.Forms.Button();
-            this.btnVencimiento = new System.Windows.Forms.Button();
-            this.btnEliminarArticulo = new System.Windows.Forms.Button();
-            this.btnBuscarArticulos = new System.Windows.Forms.Button();
-            this.btnBuscarPresupuesto = new System.Windows.Forms.Button();
-            this.btnBuscarClientes = new System.Windows.Forms.Button();
+            this.btnFinalizarAlbaran = new System.Windows.Forms.Button();
             this.tabFormulario.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsulta)).BeginInit();
             this.PnlConsulta.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgBasesFacturas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgBasesAlbaran)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgArticulosFacturas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgArticulosAlbaran)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorValidador)).BeginInit();
@@ -128,7 +121,7 @@
             this.tabFormulario.Location = new System.Drawing.Point(0, 0);
             this.tabFormulario.Name = "tabFormulario";
             this.tabFormulario.SelectedIndex = 0;
-            this.tabFormulario.Size = new System.Drawing.Size(878, 604);
+            this.tabFormulario.Size = new System.Drawing.Size(878, 599);
             this.tabFormulario.TabIndex = 3;
             this.tabFormulario.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabFormulario_Selecting);
             // 
@@ -139,7 +132,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(870, 578);
+            this.tabPage1.Size = new System.Drawing.Size(870, 555);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Consulta";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -152,20 +145,76 @@
             this.dtgConsulta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgConsulta.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Fecha,
-            this.FacturaId,
+            this.AlbaranId,
             this.Identificacion,
             this.Nombre,
             this.Base,
-            this.IVAPresupuesto,
+            this.IVAAlbaran,
             this.RetencionPres,
             this.Total});
             this.dtgConsulta.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtgConsulta.Location = new System.Drawing.Point(3, 47);
             this.dtgConsulta.Name = "dtgConsulta";
             this.dtgConsulta.ReadOnly = true;
-            this.dtgConsulta.Size = new System.Drawing.Size(864, 528);
+            this.dtgConsulta.Size = new System.Drawing.Size(864, 505);
             this.dtgConsulta.TabIndex = 1;
             this.dtgConsulta.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgConsulta_RowHeaderMouseDoubleClick);
+            // 
+            // Fecha
+            // 
+            this.Fecha.DataPropertyName = "Fecha";
+            this.Fecha.HeaderText = "Fecha";
+            this.Fecha.Name = "Fecha";
+            this.Fecha.ReadOnly = true;
+            // 
+            // AlbaranId
+            // 
+            this.AlbaranId.DataPropertyName = "AlbaranId";
+            this.AlbaranId.HeaderText = "N° Albaran";
+            this.AlbaranId.Name = "AlbaranId";
+            this.AlbaranId.ReadOnly = true;
+            // 
+            // Identificacion
+            // 
+            this.Identificacion.DataPropertyName = "Identificacion";
+            this.Identificacion.HeaderText = "NIF / CIF";
+            this.Identificacion.Name = "Identificacion";
+            this.Identificacion.ReadOnly = true;
+            // 
+            // Nombre
+            // 
+            this.Nombre.DataPropertyName = "NombreCliente";
+            this.Nombre.HeaderText = "Nombre Cliente";
+            this.Nombre.Name = "Nombre";
+            this.Nombre.ReadOnly = true;
+            // 
+            // Base
+            // 
+            this.Base.DataPropertyName = "Base";
+            this.Base.HeaderText = "Base";
+            this.Base.Name = "Base";
+            this.Base.ReadOnly = true;
+            // 
+            // IVAAlbaran
+            // 
+            this.IVAAlbaran.DataPropertyName = "CuotaIVA";
+            this.IVAAlbaran.HeaderText = "IVA";
+            this.IVAAlbaran.Name = "IVAAlbaran";
+            this.IVAAlbaran.ReadOnly = true;
+            // 
+            // RetencionPres
+            // 
+            this.RetencionPres.DataPropertyName = "CuotaRetencion";
+            this.RetencionPres.HeaderText = "Retención";
+            this.RetencionPres.Name = "RetencionPres";
+            this.RetencionPres.ReadOnly = true;
+            // 
+            // Total
+            // 
+            this.Total.DataPropertyName = "Total";
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
             // 
             // PnlConsulta
             // 
@@ -208,53 +257,19 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.btnFinalizarFactura);
-            this.tabPage2.Controls.Add(this.btnVencimiento);
-            this.tabPage2.Controls.Add(this.txtNumeroPlazos);
-            this.tabPage2.Controls.Add(this.label15);
-            this.tabPage2.Controls.Add(this.label13);
+            this.tabPage2.Controls.Add(this.btnFinalizarAlbaran);
             this.tabPage2.Controls.Add(this.groupBox3);
-            this.tabPage2.Controls.Add(this.dtgBasesFacturas);
+            this.tabPage2.Controls.Add(this.dtgBasesAlbaran);
             this.tabPage2.Controls.Add(this.chkRecargo);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Controls.Add(this.cmbFormaPago);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(870, 578);
+            this.tabPage2.Size = new System.Drawing.Size(870, 573);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Detalle";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // txtNumeroPlazos
-            // 
-            this.txtNumeroPlazos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNumeroPlazos.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtNumeroPlazos.Location = new System.Drawing.Point(496, 545);
-            this.txtNumeroPlazos.MaxLength = 2;
-            this.txtNumeroPlazos.Name = "txtNumeroPlazos";
-            this.txtNumeroPlazos.Size = new System.Drawing.Size(38, 20);
-            this.txtNumeroPlazos.TabIndex = 29;
-            this.txtNumeroPlazos.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumeroPlazos_KeyPress);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(434, 549);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(56, 13);
-            this.label15.TabIndex = 28;
-            this.label15.Text = "N° Plazos:";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(138, 548);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(82, 13);
-            this.label13.TabIndex = 27;
-            this.label13.Text = "Forma de Pago:";
             // 
             // groupBox3
             // 
@@ -375,11 +390,11 @@
             this.label10.TabIndex = 19;
             this.label10.Text = "Recargo:";
             // 
-            // dtgBasesFacturas
+            // dtgBasesAlbaran
             // 
-            this.dtgBasesFacturas.AllowUserToAddRows = false;
-            this.dtgBasesFacturas.AllowUserToDeleteRows = false;
-            this.dtgBasesFacturas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtgBasesAlbaran.AllowUserToAddRows = false;
+            this.dtgBasesAlbaran.AllowUserToDeleteRows = false;
+            this.dtgBasesAlbaran.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -387,9 +402,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgBasesFacturas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dtgBasesFacturas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgBasesFacturas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dtgBasesAlbaran.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dtgBasesAlbaran.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgBasesAlbaran.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.BaseTotal,
             this.IVATotal,
             this.CuotaIVA,
@@ -405,9 +420,9 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtgBasesFacturas.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dtgBasesFacturas.Location = new System.Drawing.Point(11, 382);
-            this.dtgBasesFacturas.Name = "dtgBasesFacturas";
+            this.dtgBasesAlbaran.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dtgBasesAlbaran.Location = new System.Drawing.Point(11, 382);
+            this.dtgBasesAlbaran.Name = "dtgBasesAlbaran";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -415,12 +430,12 @@
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtgBasesFacturas.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dtgBasesFacturas.Size = new System.Drawing.Size(592, 155);
-            this.dtgBasesFacturas.TabIndex = 14;
-            this.dtgBasesFacturas.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgBasesPresupuestos_CellValueChanged);
-            this.dtgBasesFacturas.CurrentCellDirtyStateChanged += new System.EventHandler(this.dtgBasesPresupuestos_CurrentCellDirtyStateChanged);
-            this.dtgBasesFacturas.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dtgBasesPresupuestos_EditingControlShowing);
+            this.dtgBasesAlbaran.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dtgBasesAlbaran.Size = new System.Drawing.Size(592, 155);
+            this.dtgBasesAlbaran.TabIndex = 14;
+            this.dtgBasesAlbaran.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgBasesAlbaranes_CellValueChanged);
+            this.dtgBasesAlbaran.CurrentCellDirtyStateChanged += new System.EventHandler(this.dtgBasesAlbaranes_CurrentCellDirtyStateChanged);
+            this.dtgBasesAlbaran.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dtgBasesAlbaranes_EditingControlShowing);
             // 
             // BaseTotal
             // 
@@ -472,7 +487,7 @@
             // chkRecargo
             // 
             this.chkRecargo.AutoSize = true;
-            this.chkRecargo.Location = new System.Drawing.Point(11, 350);
+            this.chkRecargo.Location = new System.Drawing.Point(11, 347);
             this.chkRecargo.Name = "chkRecargo";
             this.chkRecargo.Size = new System.Drawing.Size(158, 17);
             this.chkRecargo.TabIndex = 0;
@@ -482,7 +497,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.dtgArticulosFacturas);
+            this.groupBox2.Controls.Add(this.dtgArticulosAlbaran);
             this.groupBox2.Controls.Add(this.panel1);
             this.groupBox2.Location = new System.Drawing.Point(8, 126);
             this.groupBox2.Name = "groupBox2";
@@ -491,13 +506,13 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Artículos";
             // 
-            // dtgArticulosFacturas
+            // dtgArticulosAlbaran
             // 
-            this.dtgArticulosFacturas.AllowUserToAddRows = false;
-            this.dtgArticulosFacturas.AllowUserToDeleteRows = false;
-            this.dtgArticulosFacturas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dtgArticulosFacturas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgArticulosFacturas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dtgArticulosAlbaran.AllowUserToAddRows = false;
+            this.dtgArticulosAlbaran.AllowUserToDeleteRows = false;
+            this.dtgArticulosAlbaran.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtgArticulosAlbaran.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgArticulosAlbaran.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.NombreProducto,
             this.ArticuloId,
             this.Cantidad,
@@ -505,17 +520,17 @@
             this.Dcto,
             this.IVA,
             this.Importe});
-            this.dtgArticulosFacturas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dtgArticulosFacturas.Location = new System.Drawing.Point(3, 56);
-            this.dtgArticulosFacturas.Name = "dtgArticulosFacturas";
-            this.dtgArticulosFacturas.Size = new System.Drawing.Size(822, 155);
-            this.dtgArticulosFacturas.TabIndex = 13;
-            this.dtgArticulosFacturas.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgArticulosPresupuesto_CellEndEdit);
-            this.dtgArticulosFacturas.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dtgArticulosPresupuesto_CellValidating);
-            this.dtgArticulosFacturas.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgArticulosPresupuesto_CellValueChanged);
-            this.dtgArticulosFacturas.CurrentCellDirtyStateChanged += new System.EventHandler(this.dtgArticulosPresupuesto_CurrentCellDirtyStateChanged);
-            this.dtgArticulosFacturas.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dtgArticulosPresupuesto_EditingControlShowing);
-            this.dtgArticulosFacturas.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgArticulosPresupuesto_RowHeaderMouseClick);
+            this.dtgArticulosAlbaran.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtgArticulosAlbaran.Location = new System.Drawing.Point(3, 56);
+            this.dtgArticulosAlbaran.Name = "dtgArticulosAlbaran";
+            this.dtgArticulosAlbaran.Size = new System.Drawing.Size(822, 155);
+            this.dtgArticulosAlbaran.TabIndex = 13;
+            this.dtgArticulosAlbaran.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgArticulosAlbaran_CellEndEdit);
+            this.dtgArticulosAlbaran.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dtgArticulosAlbaran_CellValidating);
+            this.dtgArticulosAlbaran.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgArticulosAlbaran_CellValueChanged);
+            this.dtgArticulosAlbaran.CurrentCellDirtyStateChanged += new System.EventHandler(this.dtgArticulosAlbaran_CurrentCellDirtyStateChanged);
+            this.dtgArticulosAlbaran.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dtgArticulosAlbaran_EditingControlShowing);
+            this.dtgArticulosAlbaran.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgArticulosAlbaran_RowHeaderMouseClick);
             // 
             // NombreProducto
             // 
@@ -562,6 +577,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.lblEliminarArticulo);
             this.panel1.Controls.Add(this.btnEliminarArticulo);
             this.panel1.Controls.Add(this.txtArticuloId);
             this.panel1.Controls.Add(this.btnBuscarArticulos);
@@ -572,6 +588,28 @@
             this.panel1.Size = new System.Drawing.Size(822, 40);
             this.panel1.TabIndex = 12;
             // 
+            // lblEliminarArticulo
+            // 
+            this.lblEliminarArticulo.AutoSize = true;
+            this.lblEliminarArticulo.Location = new System.Drawing.Point(265, 13);
+            this.lblEliminarArticulo.Name = "lblEliminarArticulo";
+            this.lblEliminarArticulo.Size = new System.Drawing.Size(151, 13);
+            this.lblEliminarArticulo.TabIndex = 11;
+            this.lblEliminarArticulo.Text = "Eliminar artículo seleccionado:";
+            this.lblEliminarArticulo.Visible = false;
+            // 
+            // btnEliminarArticulo
+            // 
+            this.btnEliminarArticulo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEliminarArticulo.Image = global::SistemaGestion.Properties.Resources.Close_2_icon;
+            this.btnEliminarArticulo.Location = new System.Drawing.Point(420, 9);
+            this.btnEliminarArticulo.Name = "btnEliminarArticulo";
+            this.btnEliminarArticulo.Size = new System.Drawing.Size(27, 20);
+            this.btnEliminarArticulo.TabIndex = 10;
+            this.btnEliminarArticulo.UseVisualStyleBackColor = true;
+            this.btnEliminarArticulo.Visible = false;
+            this.btnEliminarArticulo.Click += new System.EventHandler(this.btnEliminarArticulo_Click);
+            // 
             // txtArticuloId
             // 
             this.txtArticuloId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -581,6 +619,17 @@
             this.txtArticuloId.Name = "txtArticuloId";
             this.txtArticuloId.Size = new System.Drawing.Size(86, 20);
             this.txtArticuloId.TabIndex = 0;
+            // 
+            // btnBuscarArticulos
+            // 
+            this.btnBuscarArticulos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscarArticulos.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
+            this.btnBuscarArticulos.Location = new System.Drawing.Point(215, 9);
+            this.btnBuscarArticulos.Name = "btnBuscarArticulos";
+            this.btnBuscarArticulos.Size = new System.Drawing.Size(26, 20);
+            this.btnBuscarArticulos.TabIndex = 1;
+            this.btnBuscarArticulos.UseVisualStyleBackColor = true;
+            this.btnBuscarArticulos.Click += new System.EventHandler(this.btnBuscarArticulos_Click);
             // 
             // label9
             // 
@@ -593,9 +642,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnBuscarPresupuesto);
-            this.groupBox1.Controls.Add(this.txtPresupuesto);
-            this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.dtpFecha);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtNombreCliente);
@@ -605,7 +651,7 @@
             this.groupBox1.Controls.Add(this.txtClienteId);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.txtNumeroFactura);
+            this.groupBox1.Controls.Add(this.txtNumeroAlbaran);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(8, 12);
             this.groupBox1.Name = "groupBox1";
@@ -614,29 +660,10 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cabecera";
             // 
-            // txtPresupuesto
-            // 
-            this.txtPresupuesto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPresupuesto.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtPresupuesto.Enabled = false;
-            this.txtPresupuesto.Location = new System.Drawing.Point(689, 27);
-            this.txtPresupuesto.Name = "txtPresupuesto";
-            this.txtPresupuesto.Size = new System.Drawing.Size(86, 20);
-            this.txtPresupuesto.TabIndex = 17;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(599, 33);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(84, 13);
-            this.label14.TabIndex = 19;
-            this.label14.Text = "N° Presupuesto:";
-            // 
             // dtpFecha
             // 
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFecha.Location = new System.Drawing.Point(275, 27);
+            this.dtpFecha.Location = new System.Drawing.Point(306, 27);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(107, 20);
             this.dtpFecha.TabIndex = 16;
@@ -644,7 +671,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(388, 61);
+            this.label6.Location = new System.Drawing.Point(419, 61);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(99, 13);
             this.label6.TabIndex = 15;
@@ -655,10 +682,10 @@
             this.txtNombreCliente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNombreCliente.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtNombreCliente.Enabled = false;
-            this.txtNombreCliente.Location = new System.Drawing.Point(493, 56);
+            this.txtNombreCliente.Location = new System.Drawing.Point(524, 56);
             this.txtNombreCliente.Name = "txtNombreCliente";
             this.txtNombreCliente.ReadOnly = true;
-            this.txtNombreCliente.Size = new System.Drawing.Size(314, 20);
+            this.txtNombreCliente.Size = new System.Drawing.Size(286, 20);
             this.txtNombreCliente.TabIndex = 14;
             // 
             // txtNIF
@@ -666,7 +693,7 @@
             this.txtNIF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNIF.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtNIF.Enabled = false;
-            this.txtNIF.Location = new System.Drawing.Point(274, 56);
+            this.txtNIF.Location = new System.Drawing.Point(305, 56);
             this.txtNIF.Name = "txtNIF";
             this.txtNIF.ReadOnly = true;
             this.txtNIF.Size = new System.Drawing.Size(108, 20);
@@ -675,18 +702,29 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(228, 61);
+            this.label3.Location = new System.Drawing.Point(259, 61);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(27, 13);
             this.label3.TabIndex = 13;
             this.label3.Text = "NIF:";
+            // 
+            // btnBuscarClientes
+            // 
+            this.btnBuscarClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscarClientes.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
+            this.btnBuscarClientes.Location = new System.Drawing.Point(218, 59);
+            this.btnBuscarClientes.Name = "btnBuscarClientes";
+            this.btnBuscarClientes.Size = new System.Drawing.Size(26, 20);
+            this.btnBuscarClientes.TabIndex = 2;
+            this.btnBuscarClientes.UseVisualStyleBackColor = true;
+            this.btnBuscarClientes.Click += new System.EventHandler(this.btnBuscarClientes_Click);
             // 
             // txtClienteId
             // 
             this.txtClienteId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtClienteId.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtClienteId.Enabled = false;
-            this.txtClienteId.Location = new System.Drawing.Point(95, 59);
+            this.txtClienteId.Location = new System.Drawing.Point(126, 59);
             this.txtClienteId.Name = "txtClienteId";
             this.txtClienteId.Size = new System.Drawing.Size(86, 20);
             this.txtClienteId.TabIndex = 1;
@@ -703,22 +741,22 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(228, 33);
+            this.label4.Location = new System.Drawing.Point(259, 33);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 13);
             this.label4.TabIndex = 7;
             this.label4.Text = "Fecha:";
             // 
-            // txtNumeroFactura
+            // txtNumeroAlbaran
             // 
-            this.txtNumeroFactura.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNumeroFactura.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtNumeroFactura.Enabled = false;
-            this.txtNumeroFactura.Location = new System.Drawing.Point(95, 28);
-            this.txtNumeroFactura.Name = "txtNumeroFactura";
-            this.txtNumeroFactura.ReadOnly = true;
-            this.txtNumeroFactura.Size = new System.Drawing.Size(86, 20);
-            this.txtNumeroFactura.TabIndex = 0;
+            this.txtNumeroAlbaran.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNumeroAlbaran.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtNumeroAlbaran.Enabled = false;
+            this.txtNumeroAlbaran.Location = new System.Drawing.Point(126, 28);
+            this.txtNumeroAlbaran.Name = "txtNumeroAlbaran";
+            this.txtNumeroAlbaran.ReadOnly = true;
+            this.txtNumeroAlbaran.Size = new System.Drawing.Size(86, 20);
+            this.txtNumeroAlbaran.TabIndex = 0;
             // 
             // label2
             // 
@@ -727,165 +765,39 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "N° Factura:";
+            this.label2.Text = "N° Albaran:";
             // 
             // ErrorValidador
             // 
             this.ErrorValidador.ContainerControl = this;
             // 
-            // Fecha
+            // btnFinalizarAlbaran
             // 
-            this.Fecha.DataPropertyName = "Fecha";
-            this.Fecha.HeaderText = "Fecha";
-            this.Fecha.Name = "Fecha";
-            this.Fecha.ReadOnly = true;
+            this.btnFinalizarAlbaran.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFinalizarAlbaran.Image = global::SistemaGestion.Properties.Resources.check_1_icon;
+            this.btnFinalizarAlbaran.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnFinalizarAlbaran.Location = new System.Drawing.Point(691, 545);
+            this.btnFinalizarAlbaran.Name = "btnFinalizarAlbaran";
+            this.btnFinalizarAlbaran.Size = new System.Drawing.Size(137, 22);
+            this.btnFinalizarAlbaran.TabIndex = 32;
+            this.btnFinalizarAlbaran.Text = "Finalizar Albaran";
+            this.btnFinalizarAlbaran.UseVisualStyleBackColor = true;
+            this.btnFinalizarAlbaran.Click += new System.EventHandler(this.btnFinalizarAlbaran_Click);
             // 
-            // FacturaId
-            // 
-            this.FacturaId.DataPropertyName = "FacturaId";
-            this.FacturaId.HeaderText = "N°Factura";
-            this.FacturaId.Name = "FacturaId";
-            this.FacturaId.ReadOnly = true;
-            // 
-            // Identificacion
-            // 
-            this.Identificacion.DataPropertyName = "Identificacion";
-            this.Identificacion.HeaderText = "NIF / CIF";
-            this.Identificacion.Name = "Identificacion";
-            this.Identificacion.ReadOnly = true;
-            // 
-            // Nombre
-            // 
-            this.Nombre.DataPropertyName = "NombreCliente";
-            this.Nombre.HeaderText = "Nombre Cliente";
-            this.Nombre.Name = "Nombre";
-            this.Nombre.ReadOnly = true;
-            // 
-            // Base
-            // 
-            this.Base.DataPropertyName = "Base";
-            this.Base.HeaderText = "Base";
-            this.Base.Name = "Base";
-            this.Base.ReadOnly = true;
-            // 
-            // IVAPresupuesto
-            // 
-            this.IVAPresupuesto.DataPropertyName = "CuotaIVA";
-            this.IVAPresupuesto.HeaderText = "IVA";
-            this.IVAPresupuesto.Name = "IVAPresupuesto";
-            this.IVAPresupuesto.ReadOnly = true;
-            // 
-            // RetencionPres
-            // 
-            this.RetencionPres.DataPropertyName = "CuotaRetencion";
-            this.RetencionPres.HeaderText = "Retención";
-            this.RetencionPres.Name = "RetencionPres";
-            this.RetencionPres.ReadOnly = true;
-            // 
-            // Total
-            // 
-            this.Total.DataPropertyName = "Total";
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
-            this.Total.ReadOnly = true;
-            // 
-            // cmbFormaPago
-            // 
-            this.cmbFormaPago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFormaPago.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cmbFormaPago.FormattingEnabled = true;
-            this.cmbFormaPago.Location = new System.Drawing.Point(226, 544);
-            this.cmbFormaPago.Name = "cmbFormaPago";
-            this.cmbFormaPago.Size = new System.Drawing.Size(202, 21);
-            this.cmbFormaPago.TabIndex = 26;
-            // 
-            // btnFinalizarFactura
-            // 
-            this.btnFinalizarFactura.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFinalizarFactura.Image = global::SistemaGestion.Properties.Resources.check_1_icon;
-            this.btnFinalizarFactura.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnFinalizarFactura.Location = new System.Drawing.Point(689, 543);
-            this.btnFinalizarFactura.Name = "btnFinalizarFactura";
-            this.btnFinalizarFactura.Size = new System.Drawing.Size(137, 22);
-            this.btnFinalizarFactura.TabIndex = 31;
-            this.btnFinalizarFactura.Text = "Finalizar Factura";
-            this.btnFinalizarFactura.UseVisualStyleBackColor = true;
-            this.btnFinalizarFactura.Click += new System.EventHandler(this.btnFinalizarFactura_Click);
-            // 
-            // btnVencimiento
-            // 
-            this.btnVencimiento.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnVencimiento.Image = global::SistemaGestion.Properties.Resources.calender_icon;
-            this.btnVencimiento.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVencimiento.Location = new System.Drawing.Point(543, 543);
-            this.btnVencimiento.Name = "btnVencimiento";
-            this.btnVencimiento.Size = new System.Drawing.Size(129, 22);
-            this.btnVencimiento.TabIndex = 30;
-            this.btnVencimiento.Text = "Vencimiento";
-            this.btnVencimiento.UseVisualStyleBackColor = true;
-            this.btnVencimiento.Click += new System.EventHandler(this.btnVencimiento_Click);
-            // 
-            // btnEliminarArticulo
-            // 
-            this.btnEliminarArticulo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEliminarArticulo.Image = global::SistemaGestion.Properties.Resources.Close_2_icon;
-            this.btnEliminarArticulo.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEliminarArticulo.Location = new System.Drawing.Point(261, 8);
-            this.btnEliminarArticulo.Name = "btnEliminarArticulo";
-            this.btnEliminarArticulo.Size = new System.Drawing.Size(137, 21);
-            this.btnEliminarArticulo.TabIndex = 10;
-            this.btnEliminarArticulo.Text = "Eliminar Artículo";
-            this.btnEliminarArticulo.UseVisualStyleBackColor = true;
-            this.btnEliminarArticulo.Visible = false;
-            this.btnEliminarArticulo.Click += new System.EventHandler(this.btnEliminarArticulo_Click);
-            // 
-            // btnBuscarArticulos
-            // 
-            this.btnBuscarArticulos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarArticulos.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
-            this.btnBuscarArticulos.Location = new System.Drawing.Point(215, 9);
-            this.btnBuscarArticulos.Name = "btnBuscarArticulos";
-            this.btnBuscarArticulos.Size = new System.Drawing.Size(26, 20);
-            this.btnBuscarArticulos.TabIndex = 1;
-            this.btnBuscarArticulos.UseVisualStyleBackColor = true;
-            this.btnBuscarArticulos.Click += new System.EventHandler(this.btnBuscarArticulos_Click);
-            // 
-            // btnBuscarPresupuesto
-            // 
-            this.btnBuscarPresupuesto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarPresupuesto.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
-            this.btnBuscarPresupuesto.Location = new System.Drawing.Point(781, 27);
-            this.btnBuscarPresupuesto.Name = "btnBuscarPresupuesto";
-            this.btnBuscarPresupuesto.Size = new System.Drawing.Size(26, 20);
-            this.btnBuscarPresupuesto.TabIndex = 18;
-            this.btnBuscarPresupuesto.UseVisualStyleBackColor = true;
-            this.btnBuscarPresupuesto.Click += new System.EventHandler(this.btnBuscarPresupuesto_Click);
-            // 
-            // btnBuscarClientes
-            // 
-            this.btnBuscarClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarClientes.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
-            this.btnBuscarClientes.Location = new System.Drawing.Point(187, 59);
-            this.btnBuscarClientes.Name = "btnBuscarClientes";
-            this.btnBuscarClientes.Size = new System.Drawing.Size(26, 20);
-            this.btnBuscarClientes.TabIndex = 2;
-            this.btnBuscarClientes.UseVisualStyleBackColor = true;
-            this.btnBuscarClientes.Click += new System.EventHandler(this.btnBuscarClientes_Click);
-            // 
-            // FrmFacturas
+            // FrmAlbaranesCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(878, 604);
+            this.ClientSize = new System.Drawing.Size(878, 599);
             this.Controls.Add(this.tabFormulario);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmFacturas";
-            this.Text = "Facturas";
-            this.Activated += new System.EventHandler(this.FrmPresupuestos_Activated);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmPresupuestos_FormClosing);
-            this.Load += new System.EventHandler(this.FrmPresupuestos_Load);
+            this.Name = "FrmAlbaranesCliente";
+            this.Text = "Albaranes Clientes";
+            this.Activated += new System.EventHandler(this.FrmAlbaranesCliente_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmAlbaranesCliente_FormClosing);
+            this.Load += new System.EventHandler(this.FrmAlbaranesCliente_Load);
             this.tabFormulario.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsulta)).EndInit();
@@ -895,9 +807,9 @@
             this.tabPage2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgBasesFacturas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgBasesAlbaran)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dtgArticulosFacturas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgArticulosAlbaran)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -919,7 +831,7 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtNumeroFactura;
+        private System.Windows.Forms.TextBox txtNumeroAlbaran;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtClienteId;
         private System.Windows.Forms.Label label5;
@@ -933,9 +845,9 @@
         private System.Windows.Forms.TextBox txtNIF;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dtgArticulosFacturas;
+        private System.Windows.Forms.DataGridView dtgArticulosAlbaran;
         private System.Windows.Forms.CheckBox chkRecargo;
-        private System.Windows.Forms.DataGridView dtgBasesFacturas;
+        private System.Windows.Forms.DataGridView dtgBasesAlbaran;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox txtTotal;
         private System.Windows.Forms.Label label7;
@@ -965,22 +877,15 @@
         private System.Windows.Forms.ErrorProvider ErrorValidador;
         private System.Windows.Forms.DateTimePicker dtpFecha;
         private System.Windows.Forms.Button btnEliminarArticulo;
-        private Clases.ComboBoxConBorde cmbFormaPago;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button btnBuscarPresupuesto;
-        private System.Windows.Forms.TextBox txtPresupuesto;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button btnVencimiento;
-        private System.Windows.Forms.TextBox txtNumeroPlazos;
+        private System.Windows.Forms.Label lblEliminarArticulo;
         private System.Windows.Forms.DataGridViewTextBoxColumn Fecha;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FacturaId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AlbaranId;
         private System.Windows.Forms.DataGridViewTextBoxColumn Identificacion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn Base;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IVAPresupuesto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IVAAlbaran;
         private System.Windows.Forms.DataGridViewTextBoxColumn RetencionPres;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.Button btnFinalizarFactura;
+        private System.Windows.Forms.Button btnFinalizarAlbaran;
     }
 }

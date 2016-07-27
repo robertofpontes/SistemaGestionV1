@@ -12,14 +12,15 @@ namespace SistemaGestion.Modelo
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_ArticulosConsulta
+    public partial class Recibos
     {
-        public decimal ArticuloId { get; set; }
-        public string Referencia { get; set; }
-        public decimal EmpresaId { get; set; }
-        public string Descripcion { get; set; }
-        public decimal Precio { get; set; }
-        public Nullable<decimal> Cantidad { get; set; }
-        public Nullable<decimal> CantidadComprometida { get; set; }
+        public decimal ReciboId { get; set; }
+        public decimal PlazoId { get; set; }
+        public decimal FacturaId { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public decimal Importe { get; set; }
+        public bool Cobrado { get; set; }
+    
+        public virtual Facturas Facturas { get; set; }
     }
 }

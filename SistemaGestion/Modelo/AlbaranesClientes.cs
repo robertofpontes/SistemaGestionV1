@@ -17,8 +17,9 @@ namespace SistemaGestion.Modelo
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AlbaranesClientes()
         {
-            this.AlbaranesClienteDetalles = new HashSet<AlbaranesClienteDetalles>();
             this.AlbaranesClientesBases = new HashSet<AlbaranesClientesBases>();
+            this.AlbaranesClientesDetalles = new HashSet<AlbaranesClientesDetalles>();
+            this.AlbaranesClientesDetallesLotes = new HashSet<AlbaranesClientesDetallesLotes>();
         }
     
         public decimal AlbaranId { get; set; }
@@ -28,12 +29,15 @@ namespace SistemaGestion.Modelo
         public bool Facturado { get; set; }
         public Nullable<decimal> FacturaId { get; set; }
         public Nullable<bool> AlbaranesRecargo { get; set; }
+        public bool Finalizado { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AlbaranesClienteDetalles> AlbaranesClienteDetalles { get; set; }
         public virtual Clientes Clientes { get; set; }
         public virtual Empresas Empresas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlbaranesClientesBases> AlbaranesClientesBases { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AlbaranesClientesDetalles> AlbaranesClientesDetalles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AlbaranesClientesDetallesLotes> AlbaranesClientesDetallesLotes { get; set; }
     }
 }

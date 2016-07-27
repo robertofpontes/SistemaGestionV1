@@ -25,6 +25,7 @@ namespace SistemaGestion.Modelo
             this.MovimientosInventario = new HashSet<MovimientosInventario>();
             this.Presupuestos = new HashSet<Presupuestos>();
             this.Facturas = new HashSet<Facturas>();
+            this.MovimientosInventarioComprometido = new HashSet<MovimientosInventarioComprometido>();
         }
     
         public decimal EmpresaId { get; set; }
@@ -54,5 +55,7 @@ namespace SistemaGestion.Modelo
         public virtual ICollection<Presupuestos> Presupuestos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Facturas> Facturas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MovimientosInventarioComprometido> MovimientosInventarioComprometido { get; set; }
     }
 }

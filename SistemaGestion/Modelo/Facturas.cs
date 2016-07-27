@@ -19,6 +19,8 @@ namespace SistemaGestion.Modelo
         {
             this.FacturasBases = new HashSet<FacturasBases>();
             this.FacturasDetalles = new HashSet<FacturasDetalles>();
+            this.Recibos = new HashSet<Recibos>();
+            this.FacturasDetallesLotes = new HashSet<FacturasDetallesLotes>();
         }
     
         public decimal FacturaId { get; set; }
@@ -26,8 +28,10 @@ namespace SistemaGestion.Modelo
         public decimal ClienteId { get; set; }
         public System.DateTime Fecha { get; set; }
         public bool Impreso { get; set; }
-        public Nullable<bool> PresupuestoRecargo { get; set; }
         public decimal FormaPagoId { get; set; }
+        public Nullable<bool> FacturaRecargo { get; set; }
+        public Nullable<decimal> PresupuestoId { get; set; }
+        public bool Finalizado { get; set; }
     
         public virtual Clientes Clientes { get; set; }
         public virtual Empresas Empresas { get; set; }
@@ -36,5 +40,10 @@ namespace SistemaGestion.Modelo
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FacturasDetalles> FacturasDetalles { get; set; }
         public virtual FormasPagos FormasPagos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Recibos> Recibos { get; set; }
+        public virtual Presupuestos Presupuestos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FacturasDetallesLotes> FacturasDetallesLotes { get; set; }
     }
 }

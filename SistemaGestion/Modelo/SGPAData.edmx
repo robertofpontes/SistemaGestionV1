@@ -5,19 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SGPAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="AlbaranesClienteDetalles">
-          <Key>
-            <PropertyRef Name="AlbaranesClienteDetallesId" />
-          </Key>
-          <Property Name="AlbaranesClienteDetallesId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AlbaranId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Descuento" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Subtotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-        </EntityType>
         <EntityType Name="AlbaranesClientes">
           <Key>
             <PropertyRef Name="AlbaranId" />
@@ -29,6 +16,7 @@
           <Property Name="Facturado" Type="bit" Nullable="false" />
           <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" />
           <Property Name="AlbaranesRecargo" Type="bit" />
+          <Property Name="Finalizado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="AlbaranesClientesBases">
           <Key>
@@ -43,6 +31,29 @@
           <Property Name="CuotaRecargoEquivalencia" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Retencion" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="CuotaRetencion" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AlbaranesClientesDetalles">
+          <Key>
+            <PropertyRef Name="AlbaranesClienteDetallesId" />
+          </Key>
+          <Property Name="AlbaranesClienteDetallesId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AlbaranId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Descuento" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Subtotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AlbaranesClientesDetallesLotes">
+          <Key>
+            <PropertyRef Name="AlbaranClienteDetalleLoteId" />
+          </Key>
+          <Property Name="AlbaranClienteDetalleLoteId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AlbaranId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LoteArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="Articulos">
           <Key>
@@ -101,8 +112,10 @@
           <Property Name="ClienteId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="Impreso" Type="bit" Nullable="false" />
-          <Property Name="PresupuestoRecargo" Type="bit" />
+          <Property Name="FacturaRecargo" Type="bit" />
           <Property Name="FormaPagoId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="PresupuestoId" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Finalizado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="FacturasBases">
           <Key>
@@ -131,6 +144,16 @@
           <Property Name="IVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Subtotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
+        <EntityType Name="FacturasDetallesLotes">
+          <Key>
+            <PropertyRef Name="FacturaDetalleLoteId" />
+          </Key>
+          <Property Name="FacturaDetalleLoteId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LoteArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
         <EntityType Name="FormasPagos">
           <Key>
             <PropertyRef Name="FormaPagoId" />
@@ -157,8 +180,24 @@
           <Property Name="AlbaranId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="PoseeFechaVencimiento" Type="bit" Nullable="false" />
           <Property Name="FechaVencimiento" Type="datetime" />
+          <Property Name="CantidadComprometida" Type="numeric" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="MovimientosInventario">
+          <Key>
+            <PropertyRef Name="MovimientoId" />
+          </Key>
+          <Property Name="MovimientoId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="LoteArticuloId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TipoMovimiento" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="CantidadAntes" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CantidadDespues" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DocumentoRelacionado" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TipoDocumentoRelacionado" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovimientosInventarioComprometido">
           <Key>
             <PropertyRef Name="MovimientoId" />
           </Key>
@@ -192,7 +231,6 @@
           <Property Name="ClienteId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="Facturado" Type="bit" Nullable="false" />
-          <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" />
           <Property Name="PresupuestoRecargo" Type="bit" />
         </EntityType>
         <EntityType Name="PresupuestosBases">
@@ -250,6 +288,17 @@
           <Property Name="ProvinciaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="NombreProvincia" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Recibos">
+          <Key>
+            <PropertyRef Name="ReciboId" />
+          </Key>
+          <Property Name="ReciboId" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlazoId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Importe" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Cobrado" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Retenciones">
           <Key>
             <PropertyRef Name="RetencionId" />
@@ -282,6 +331,30 @@
           <Property Name="Clave" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SGPA.dbo.vw_AlbaranesClientesConsulta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vw_AlbaranesClientesConsulta">
+          <Key>
+            <PropertyRef Name="Fecha" />
+            <PropertyRef Name="AlbaranId" />
+            <PropertyRef Name="Identificacion" />
+            <PropertyRef Name="NombreCliente" />
+            <PropertyRef Name="EmpresaId" />
+            <PropertyRef Name="Facturado" />
+            <PropertyRef Name="ClienteId" />
+          </Key>
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="AlbaranId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Identificacion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NombreCliente" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Base" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaIVA" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaRetencion" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="Total" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Facturado" Type="bit" Nullable="false" />
+          <Property Name="ClienteId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SGPA.dbo.vw_ArticulosConsulta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vw_ArticulosConsulta">
           <Key>
@@ -297,6 +370,34 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_ArticulosConsulta' no tiene defi
           <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Precio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Cantidad" Type="numeric" Precision="38" Scale="0" />
+          <Property Name="CantidadComprometida" Type="numeric" Precision="38" Scale="0" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SGPA.dbo.vw_FacturasConsulta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vw_FacturasConsulta">
+          <Key>
+            <PropertyRef Name="Fecha" />
+            <PropertyRef Name="Identificacion" />
+            <PropertyRef Name="NombreCliente" />
+            <PropertyRef Name="EmpresaId" />
+            <PropertyRef Name="Impreso" />
+            <PropertyRef Name="ClienteId" />
+            <PropertyRef Name="FacturaId" />
+            <PropertyRef Name="Finalizado" />
+          </Key>
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="PresupuestoId" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Identificacion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NombreCliente" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Base" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaIVA" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaRetencion" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="Total" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Impreso" Type="bit" Nullable="false" />
+          <Property Name="ClienteId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Finalizado" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -307,6 +408,8 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             <PropertyRef Name="Identificacion" />
             <PropertyRef Name="NombreCliente" />
             <PropertyRef Name="EmpresaId" />
+            <PropertyRef Name="Facturado" />
+            <PropertyRef Name="ClienteId" />
           </Key>
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="PresupuestoId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
@@ -317,6 +420,8 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <Property Name="CuotaRetencion" Type="decimal" Precision="38" Scale="2" />
           <Property Name="Total" Type="decimal" Precision="38" Scale="2" />
           <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Facturado" Type="bit" Nullable="false" />
+          <Property Name="ClienteId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <Association Name="FK_Albaranes_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
@@ -344,12 +449,12 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
         </Association>
         <Association Name="FK_AlbaranesClienteDetalles_AlbaranesClientes">
           <End Role="AlbaranesClientes" Type="Self.AlbaranesClientes" Multiplicity="1" />
-          <End Role="AlbaranesClienteDetalles" Type="Self.AlbaranesClienteDetalles" Multiplicity="*" />
+          <End Role="AlbaranesClientesDetalles" Type="Self.AlbaranesClientesDetalles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AlbaranesClientes">
               <PropertyRef Name="AlbaranId" />
             </Principal>
-            <Dependent Role="AlbaranesClienteDetalles">
+            <Dependent Role="AlbaranesClientesDetalles">
               <PropertyRef Name="AlbaranId" />
             </Dependent>
           </ReferentialConstraint>
@@ -363,6 +468,42 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             </Principal>
             <Dependent Role="AlbaranesClientesBases">
               <PropertyRef Name="AlbaranId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlbaranesClientesDetalles_Articulos">
+          <End Role="Articulos" Type="Self.Articulos" Multiplicity="1" />
+          <End Role="AlbaranesClientesDetalles" Type="Self.AlbaranesClientesDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientesDetalles">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlbaranesClientesDetallesLotes_Facturas">
+          <End Role="AlbaranesClientes" Type="Self.AlbaranesClientes" Multiplicity="1" />
+          <End Role="AlbaranesClientesDetallesLotes" Type="Self.AlbaranesClientesDetallesLotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbaranesClientes">
+              <PropertyRef Name="AlbaranId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientesDetallesLotes">
+              <PropertyRef Name="AlbaranId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlbaranesClientesDetallesLotes_LotesArticulos">
+          <End Role="LotesArticulos" Type="Self.LotesArticulos" Multiplicity="1" />
+          <End Role="AlbaranesClientesDetallesLotes" Type="Self.AlbaranesClientesDetallesLotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LotesArticulos">
+              <PropertyRef Name="LoteArticuloId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientesDetallesLotes">
+              <PropertyRef Name="LoteArticuloId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -474,6 +615,18 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Facturas_Presupuestos">
+          <End Role="Presupuestos" Type="Self.Presupuestos" Multiplicity="0..1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Presupuestos">
+              <PropertyRef Name="PresupuestoId" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="PresupuestoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_FacturasBases_Facturas">
           <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
           <End Role="FacturasBases" Type="Self.FacturasBases" Multiplicity="*" />
@@ -507,6 +660,30 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             </Principal>
             <Dependent Role="FacturasDetalles">
               <PropertyRef Name="FacturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacturasDetallesLotes_Facturas">
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
+          <End Role="FacturasDetallesLotes" Type="Self.FacturasDetallesLotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="FacturaId" />
+            </Principal>
+            <Dependent Role="FacturasDetallesLotes">
+              <PropertyRef Name="FacturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacturasDetallesLotes_LotesArticulos">
+          <End Role="LotesArticulos" Type="Self.LotesArticulos" Multiplicity="1" />
+          <End Role="FacturasDetallesLotes" Type="Self.FacturasDetallesLotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LotesArticulos">
+              <PropertyRef Name="LoteArticuloId" />
+            </Principal>
+            <Dependent Role="FacturasDetallesLotes">
+              <PropertyRef Name="LoteArticuloId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -554,6 +731,30 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
               <PropertyRef Name="EmpresaId" />
             </Principal>
             <Dependent Role="MovimientosInventario">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosInventarioComprometido_Articulos">
+          <End Role="Articulos" Type="Self.Articulos" Multiplicity="1" />
+          <End Role="MovimientosInventarioComprometido" Type="Self.MovimientosInventarioComprometido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="MovimientosInventarioComprometido">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosInventarioComprometido_Empresas">
+          <End Role="Empresas" Type="Self.Empresas" Multiplicity="1" />
+          <End Role="MovimientosInventarioComprometido" Type="Self.MovimientosInventarioComprometido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="MovimientosInventarioComprometido">
               <PropertyRef Name="EmpresaId" />
             </Dependent>
           </ReferentialConstraint>
@@ -654,30 +855,61 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Recibos_Facturas">
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
+          <End Role="Recibos" Type="Self.Recibos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="FacturaId" />
+            </Principal>
+            <Dependent Role="Recibos">
+              <PropertyRef Name="FacturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SGPAModelStoreContainer">
-          <EntitySet Name="AlbaranesClienteDetalles" EntityType="Self.AlbaranesClienteDetalles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlbaranesClientes" EntityType="Self.AlbaranesClientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlbaranesClientesBases" EntityType="Self.AlbaranesClientesBases" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AlbaranesClientesDetalles" EntityType="Self.AlbaranesClientesDetalles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AlbaranesClientesDetallesLotes" EntityType="Self.AlbaranesClientesDetallesLotes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Articulos" EntityType="Self.Articulos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empresas" EntityType="Self.Empresas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FacturasBases" EntityType="Self.FacturasBases" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FacturasDetalles" EntityType="Self.FacturasDetalles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FacturasDetallesLotes" EntityType="Self.FacturasDetallesLotes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormasPagos" EntityType="Self.FormasPagos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Impuestos" EntityType="Self.Impuestos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LotesArticulos" EntityType="Self.LotesArticulos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovimientosInventario" EntityType="Self.MovimientosInventario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovimientosInventarioComprometido" EntityType="Self.MovimientosInventarioComprometido" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Municipios" EntityType="Self.Municipios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Presupuestos" EntityType="Self.Presupuestos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PresupuestosBases" EntityType="Self.PresupuestosBases" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PresupuestosDetalles" EntityType="Self.PresupuestosDetalles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincias" EntityType="Self.Provincias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recibos" EntityType="Self.Recibos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Retenciones" EntityType="Self.Retenciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SistemaConfiguracion" EntityType="Self.SistemaConfiguracion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnidadManejo" EntityType="Self.UnidadManejo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_AlbaranesClientesConsulta" EntityType="Self.vw_AlbaranesClientesConsulta" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_AlbaranesClientesConsulta].[Fecha] AS [Fecha], 
+    [vw_AlbaranesClientesConsulta].[AlbaranId] AS [AlbaranId], 
+    [vw_AlbaranesClientesConsulta].[Identificacion] AS [Identificacion], 
+    [vw_AlbaranesClientesConsulta].[NombreCliente] AS [NombreCliente], 
+    [vw_AlbaranesClientesConsulta].[Base] AS [Base], 
+    [vw_AlbaranesClientesConsulta].[CuotaIVA] AS [CuotaIVA], 
+    [vw_AlbaranesClientesConsulta].[CuotaRetencion] AS [CuotaRetencion], 
+    [vw_AlbaranesClientesConsulta].[Total] AS [Total], 
+    [vw_AlbaranesClientesConsulta].[EmpresaId] AS [EmpresaId], 
+    [vw_AlbaranesClientesConsulta].[Facturado] AS [Facturado], 
+    [vw_AlbaranesClientesConsulta].[ClienteId] AS [ClienteId]
+    FROM [dbo].[vw_AlbaranesClientesConsulta] AS [vw_AlbaranesClientesConsulta]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_ArticulosConsulta" EntityType="Self.vw_ArticulosConsulta" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_ArticulosConsulta].[ArticuloId] AS [ArticuloId], 
@@ -685,8 +917,26 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
     [vw_ArticulosConsulta].[EmpresaId] AS [EmpresaId], 
     [vw_ArticulosConsulta].[Descripcion] AS [Descripcion], 
     [vw_ArticulosConsulta].[Precio] AS [Precio], 
-    [vw_ArticulosConsulta].[Cantidad] AS [Cantidad]
+    [vw_ArticulosConsulta].[Cantidad] AS [Cantidad], 
+    [vw_ArticulosConsulta].[CantidadComprometida] AS [CantidadComprometida]
     FROM [dbo].[vw_ArticulosConsulta] AS [vw_ArticulosConsulta]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_FacturasConsulta" EntityType="Self.vw_FacturasConsulta" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_FacturasConsulta].[Fecha] AS [Fecha], 
+    [vw_FacturasConsulta].[PresupuestoId] AS [PresupuestoId], 
+    [vw_FacturasConsulta].[Identificacion] AS [Identificacion], 
+    [vw_FacturasConsulta].[NombreCliente] AS [NombreCliente], 
+    [vw_FacturasConsulta].[Base] AS [Base], 
+    [vw_FacturasConsulta].[CuotaIVA] AS [CuotaIVA], 
+    [vw_FacturasConsulta].[CuotaRetencion] AS [CuotaRetencion], 
+    [vw_FacturasConsulta].[Total] AS [Total], 
+    [vw_FacturasConsulta].[EmpresaId] AS [EmpresaId], 
+    [vw_FacturasConsulta].[Impreso] AS [Impreso], 
+    [vw_FacturasConsulta].[ClienteId] AS [ClienteId], 
+    [vw_FacturasConsulta].[FacturaId] AS [FacturaId], 
+    [vw_FacturasConsulta].[Finalizado] AS [Finalizado]
+    FROM [dbo].[vw_FacturasConsulta] AS [vw_FacturasConsulta]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_PresupuestosConsulta" EntityType="Self.vw_PresupuestosConsulta" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -698,7 +948,9 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
     [vw_PresupuestosConsulta].[CuotaIVA] AS [CuotaIVA], 
     [vw_PresupuestosConsulta].[CuotaRetencion] AS [CuotaRetencion], 
     [vw_PresupuestosConsulta].[Total] AS [Total], 
-    [vw_PresupuestosConsulta].[EmpresaId] AS [EmpresaId]
+    [vw_PresupuestosConsulta].[EmpresaId] AS [EmpresaId], 
+    [vw_PresupuestosConsulta].[Facturado] AS [Facturado], 
+    [vw_PresupuestosConsulta].[ClienteId] AS [ClienteId]
     FROM [dbo].[vw_PresupuestosConsulta] AS [vw_PresupuestosConsulta]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Albaranes_Clientes" Association="Self.FK_Albaranes_Clientes">
@@ -711,11 +963,23 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           </AssociationSet>
           <AssociationSet Name="FK_AlbaranesClienteDetalles_AlbaranesClientes" Association="Self.FK_AlbaranesClienteDetalles_AlbaranesClientes">
             <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
-            <End Role="AlbaranesClienteDetalles" EntitySet="AlbaranesClienteDetalles" />
+            <End Role="AlbaranesClientesDetalles" EntitySet="AlbaranesClientesDetalles" />
           </AssociationSet>
           <AssociationSet Name="FK_AlbaranesClientesBases_AlbaranesClientes" Association="Self.FK_AlbaranesClientesBases_AlbaranesClientes">
             <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
             <End Role="AlbaranesClientesBases" EntitySet="AlbaranesClientesBases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlbaranesClientesDetalles_Articulos" Association="Self.FK_AlbaranesClientesDetalles_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="AlbaranesClientesDetalles" EntitySet="AlbaranesClientesDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlbaranesClientesDetallesLotes_Facturas" Association="Self.FK_AlbaranesClientesDetallesLotes_Facturas">
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+            <End Role="AlbaranesClientesDetallesLotes" EntitySet="AlbaranesClientesDetallesLotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlbaranesClientesDetallesLotes_LotesArticulos" Association="Self.FK_AlbaranesClientesDetallesLotes_LotesArticulos">
+            <End Role="LotesArticulos" EntitySet="LotesArticulos" />
+            <End Role="AlbaranesClientesDetallesLotes" EntitySet="AlbaranesClientesDetallesLotes" />
           </AssociationSet>
           <AssociationSet Name="FK_Articulos_Empresas" Association="Self.FK_Articulos_Empresas">
             <End Role="Empresas" EntitySet="Empresas" />
@@ -753,6 +1017,10 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             <End Role="FormasPagos" EntitySet="FormasPagos" />
             <End Role="Facturas" EntitySet="Facturas" />
           </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Presupuestos" Association="Self.FK_Facturas_Presupuestos">
+            <End Role="Presupuestos" EntitySet="Presupuestos" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
           <AssociationSet Name="FK_FacturasBases_Facturas" Association="Self.FK_FacturasBases_Facturas">
             <End Role="Facturas" EntitySet="Facturas" />
             <End Role="FacturasBases" EntitySet="FacturasBases" />
@@ -764,6 +1032,14 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <AssociationSet Name="FK_FacturasDetalles_Facturas" Association="Self.FK_FacturasDetalles_Facturas">
             <End Role="Facturas" EntitySet="Facturas" />
             <End Role="FacturasDetalles" EntitySet="FacturasDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacturasDetallesLotes_Facturas" Association="Self.FK_FacturasDetallesLotes_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="FacturasDetallesLotes" EntitySet="FacturasDetallesLotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacturasDetallesLotes_LotesArticulos" Association="Self.FK_FacturasDetallesLotes_LotesArticulos">
+            <End Role="LotesArticulos" EntitySet="LotesArticulos" />
+            <End Role="FacturasDetallesLotes" EntitySet="FacturasDetallesLotes" />
           </AssociationSet>
           <AssociationSet Name="FK_LotesArticulos_Articulos" Association="Self.FK_LotesArticulos_Articulos">
             <End Role="Articulos" EntitySet="Articulos" />
@@ -780,6 +1056,14 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <AssociationSet Name="FK_MovimientosInventario_Empresas" Association="Self.FK_MovimientosInventario_Empresas">
             <End Role="Empresas" EntitySet="Empresas" />
             <End Role="MovimientosInventario" EntitySet="MovimientosInventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosInventarioComprometido_Articulos" Association="Self.FK_MovimientosInventarioComprometido_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="MovimientosInventarioComprometido" EntitySet="MovimientosInventarioComprometido" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosInventarioComprometido_Empresas" Association="Self.FK_MovimientosInventarioComprometido_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="MovimientosInventarioComprometido" EntitySet="MovimientosInventarioComprometido" />
           </AssociationSet>
           <AssociationSet Name="FK_Municipios_Provincias" Association="Self.FK_Municipios_Provincias">
             <End Role="Provincias" EntitySet="Provincias" />
@@ -812,6 +1096,10 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <AssociationSet Name="FK_Proveedores_Municipios" Association="Self.FK_Proveedores_Municipios">
             <End Role="Municipios" EntitySet="Municipios" />
             <End Role="Proveedores" EntitySet="Proveedores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recibos_Facturas" Association="Self.FK_Recibos_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="Recibos" EntitySet="Recibos" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -866,6 +1154,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <NavigationProperty Name="MovimientosInventario" Relationship="SGPAModel.FK_MovimientosInventario_Empresas" FromRole="Empresas" ToRole="MovimientosInventario" />
           <NavigationProperty Name="Presupuestos" Relationship="SGPAModel.FK_Presupuestos_Empresas" FromRole="Empresas" ToRole="Presupuestos" />
           <NavigationProperty Name="Facturas" Relationship="SGPAModel.FK_Facturas_Empresas" FromRole="Empresas" ToRole="Facturas" />
+          <NavigationProperty Name="MovimientosInventarioComprometido" Relationship="SGPAModel.FK_MovimientosInventarioComprometido_Empresas" FromRole="Empresas" ToRole="MovimientosInventarioComprometido" />
         </EntityType>
         <EntityType Name="FormasPagos">
           <Key>
@@ -1039,7 +1328,6 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             <End Role="Impuestos" EntitySet="Impuestos" />
             <End Role="Articulos" EntitySet="Articulos" />
           </AssociationSet>
-          <EntitySet Name="AlbaranesClienteDetalles" EntityType="SGPAModel.AlbaranesClienteDetalles" />
           <EntitySet Name="AlbaranesClientes" EntityType="SGPAModel.AlbaranesClientes" />
           <EntitySet Name="AlbaranesClientesBases" EntityType="SGPAModel.AlbaranesClientesBases" />
           <EntitySet Name="LotesArticulos" EntityType="SGPAModel.LotesArticulos" />
@@ -1047,10 +1335,6 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <EntitySet Name="Presupuestos" EntityType="SGPAModel.Presupuestos" />
           <EntitySet Name="PresupuestosBases" EntityType="SGPAModel.PresupuestosBases" />
           <EntitySet Name="PresupuestosDetalles" EntityType="SGPAModel.PresupuestosDetalles" />
-          <AssociationSet Name="FK_AlbaranesClienteDetalles_AlbaranesClientes" Association="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes">
-            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
-            <End Role="AlbaranesClienteDetalles" EntitySet="AlbaranesClienteDetalles" />
-          </AssociationSet>
           <AssociationSet Name="FK_Albaranes_Clientes" Association="SGPAModel.FK_Albaranes_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
@@ -1133,6 +1417,53 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             <End Role="FormasPagos" EntitySet="FormasPagos" />
             <End Role="Facturas" EntitySet="Facturas" />
           </AssociationSet>
+          <EntitySet Name="Recibos" EntityType="SGPAModel.Recibos" />
+          <AssociationSet Name="FK_Recibos_Facturas" Association="SGPAModel.FK_Recibos_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="Recibos" EntitySet="Recibos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Presupuestos" Association="SGPAModel.FK_Facturas_Presupuestos">
+            <End Role="Presupuestos" EntitySet="Presupuestos" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <EntitySet Name="vw_FacturasConsulta" EntityType="SGPAModel.vw_FacturasConsulta" />
+          <EntitySet Name="AlbaranesClientesDetalles" EntityType="SGPAModel.AlbaranesClientesDetalles" />
+          <EntitySet Name="MovimientosInventarioComprometido" EntityType="SGPAModel.MovimientosInventarioComprometido" />
+          <EntitySet Name="vw_AlbaranesClientesConsulta" EntityType="SGPAModel.vw_AlbaranesClientesConsulta" />
+          <AssociationSet Name="FK_AlbaranesClienteDetalles_AlbaranesClientes1" Association="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes1">
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+            <End Role="AlbaranesClientesDetalles" EntitySet="AlbaranesClientesDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosInventarioComprometido_Articulos" Association="SGPAModel.FK_MovimientosInventarioComprometido_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="MovimientosInventarioComprometido" EntitySet="MovimientosInventarioComprometido" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientosInventarioComprometido_Empresas" Association="SGPAModel.FK_MovimientosInventarioComprometido_Empresas">
+            <End Role="Empresas" EntitySet="Empresas" />
+            <End Role="MovimientosInventarioComprometido" EntitySet="MovimientosInventarioComprometido" />
+          </AssociationSet>
+          <EntitySet Name="FacturasDetallesLotes" EntityType="SGPAModel.FacturasDetallesLotes" />
+          <AssociationSet Name="FK_FacturasDetallesLotes_Facturas" Association="SGPAModel.FK_FacturasDetallesLotes_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="FacturasDetallesLotes" EntitySet="FacturasDetallesLotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacturasDetallesLotes_LotesArticulos" Association="SGPAModel.FK_FacturasDetallesLotes_LotesArticulos">
+            <End Role="LotesArticulos" EntitySet="LotesArticulos" />
+            <End Role="FacturasDetallesLotes" EntitySet="FacturasDetallesLotes" />
+          </AssociationSet>
+          <EntitySet Name="AlbaranesClientesDetallesLotes" EntityType="SGPAModel.AlbaranesClientesDetallesLotes" />
+          <AssociationSet Name="FK_AlbaranesClientesDetallesLotes_Facturas" Association="SGPAModel.FK_AlbaranesClientesDetallesLotes_Facturas">
+            <End Role="AlbaranesClientes" EntitySet="AlbaranesClientes" />
+            <End Role="AlbaranesClientesDetallesLotes" EntitySet="AlbaranesClientesDetallesLotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlbaranesClientesDetalles_Articulos" Association="SGPAModel.FK_AlbaranesClientesDetalles_Articulos">
+            <End Role="Articulos" EntitySet="Articulos" />
+            <End Role="AlbaranesClientesDetalles" EntitySet="AlbaranesClientesDetalles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlbaranesClientesDetallesLotes_LotesArticulos" Association="SGPAModel.FK_AlbaranesClientesDetallesLotes_LotesArticulos">
+            <End Role="LotesArticulos" EntitySet="LotesArticulos" />
+            <End Role="AlbaranesClientesDetallesLotes" EntitySet="AlbaranesClientesDetallesLotes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="SistemaConfiguracion">
           <Key>
@@ -1174,6 +1505,8 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <NavigationProperty Name="PresupuestosDetalles" Relationship="SGPAModel.FK_PresupuestosDetalles_Articulos" FromRole="Articulos" ToRole="PresupuestosDetalles" />
           <NavigationProperty Name="UnidadManejo" Relationship="SGPAModel.FK_Articulos_UnidadManejo" FromRole="Articulos" ToRole="UnidadManejo" />
           <NavigationProperty Name="FacturasDetalles" Relationship="SGPAModel.FK_FacturasDetalles_Articulos" FromRole="Articulos" ToRole="FacturasDetalles" />
+          <NavigationProperty Name="MovimientosInventarioComprometido" Relationship="SGPAModel.FK_MovimientosInventarioComprometido_Articulos" FromRole="Articulos" ToRole="MovimientosInventarioComprometido" />
+          <NavigationProperty Name="AlbaranesClientesDetalles" Relationship="SGPAModel.FK_AlbaranesClientesDetalles_Articulos" FromRole="Articulos" ToRole="AlbaranesClientesDetalles" />
         </EntityType>
         <EntityType Name="Impuestos">
           <Key>
@@ -1208,20 +1541,6 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="AlbaranesClienteDetalles">
-          <Key>
-            <PropertyRef Name="AlbaranesClienteDetallesId" />
-          </Key>
-          <Property Name="AlbaranesClienteDetallesId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AlbaranId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Descuento" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="IVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Subtotal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <NavigationProperty Name="AlbaranesClientes" Relationship="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes" FromRole="AlbaranesClienteDetalles" ToRole="AlbaranesClientes" />
-        </EntityType>
         <EntityType Name="AlbaranesClientes">
           <Key>
             <PropertyRef Name="AlbaranId" />
@@ -1233,10 +1552,12 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <Property Name="Facturado" Type="Boolean" Nullable="false" />
           <Property Name="FacturaId" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="AlbaranesRecargo" Type="Boolean" />
-          <NavigationProperty Name="AlbaranesClienteDetalles" Relationship="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes" FromRole="AlbaranesClientes" ToRole="AlbaranesClienteDetalles" />
           <NavigationProperty Name="Clientes" Relationship="SGPAModel.FK_Albaranes_Clientes" FromRole="AlbaranesClientes" ToRole="Clientes" />
           <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_Albaranes_Empresas" FromRole="AlbaranesClientes" ToRole="Empresas" />
           <NavigationProperty Name="AlbaranesClientesBases" Relationship="SGPAModel.FK_AlbaranesClientesBases_AlbaranesClientes" FromRole="AlbaranesClientes" ToRole="AlbaranesClientesBases" />
+          <NavigationProperty Name="AlbaranesClientesDetalles" Relationship="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes1" FromRole="AlbaranesClientes" ToRole="AlbaranesClientesDetalles" />
+          <Property Name="Finalizado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AlbaranesClientesDetallesLotes" Relationship="SGPAModel.FK_AlbaranesClientesDetallesLotes_Facturas" FromRole="AlbaranesClientes" ToRole="AlbaranesClientesDetallesLotes" />
         </EntityType>
         <EntityType Name="AlbaranesClientesBases">
           <Key>
@@ -1266,6 +1587,9 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <Property Name="FechaVencimiento" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_LotesArticulos_Articulos" FromRole="LotesArticulos" ToRole="Articulos" />
           <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_LotesArticulos_Empresas" FromRole="LotesArticulos" ToRole="Empresas" />
+          <Property Name="CantidadComprometida" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="FacturasDetallesLotes" Relationship="SGPAModel.FK_FacturasDetallesLotes_LotesArticulos" FromRole="LotesArticulos" ToRole="FacturasDetallesLotes" />
+          <NavigationProperty Name="AlbaranesClientesDetallesLotes" Relationship="SGPAModel.FK_AlbaranesClientesDetallesLotes_LotesArticulos" FromRole="LotesArticulos" ToRole="AlbaranesClientesDetallesLotes" />
         </EntityType>
         <EntityType Name="MovimientosInventario">
           <Key>
@@ -1293,12 +1617,12 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <Property Name="ClienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Facturado" Type="Boolean" Nullable="false" />
-          <Property Name="FacturaId" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="PresupuestoRecargo" Type="Boolean" />
           <NavigationProperty Name="Clientes" Relationship="SGPAModel.FK_Presupuestos_Clientes" FromRole="Presupuestos" ToRole="Clientes" />
           <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_Presupuestos_Empresas" FromRole="Presupuestos" ToRole="Empresas" />
           <NavigationProperty Name="PresupuestosBases" Relationship="SGPAModel.FK_PresupuestosBases_Presupuestos" FromRole="Presupuestos" ToRole="PresupuestosBases" />
           <NavigationProperty Name="PresupuestosDetalles" Relationship="SGPAModel.FK_PresupuestosDetalles_Presupuestos" FromRole="Presupuestos" ToRole="PresupuestosDetalles" />
+          <NavigationProperty Name="Facturas" Relationship="SGPAModel.FK_Facturas_Presupuestos" FromRole="Presupuestos" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="PresupuestosBases">
           <Key>
@@ -1330,18 +1654,6 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_PresupuestosDetalles_Articulos" FromRole="PresupuestosDetalles" ToRole="Articulos" />
           <NavigationProperty Name="Presupuestos" Relationship="SGPAModel.FK_PresupuestosDetalles_Presupuestos" FromRole="PresupuestosDetalles" ToRole="Presupuestos" />
         </EntityType>
-        <Association Name="FK_AlbaranesClienteDetalles_AlbaranesClientes">
-          <End Type="SGPAModel.AlbaranesClientes" Role="AlbaranesClientes" Multiplicity="1" />
-          <End Type="SGPAModel.AlbaranesClienteDetalles" Role="AlbaranesClienteDetalles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AlbaranesClientes">
-              <PropertyRef Name="AlbaranId" />
-            </Principal>
-            <Dependent Role="AlbaranesClienteDetalles">
-              <PropertyRef Name="AlbaranId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Albaranes_Clientes">
           <End Type="SGPAModel.Clientes" Role="Clientes" Multiplicity="1" />
           <End Type="SGPAModel.AlbaranesClientes" Role="AlbaranesClientes" Multiplicity="*" />
@@ -1513,6 +1825,8 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             <PropertyRef Name="Identificacion" />
             <PropertyRef Name="NombreCliente" />
             <PropertyRef Name="EmpresaId" />
+            <PropertyRef Name="Facturado" />
+            <PropertyRef Name="ClienteId" />
           </Key>
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PresupuestoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
@@ -1523,6 +1837,8 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <Property Name="CuotaRetencion" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="Total" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Facturado" Type="Boolean" Nullable="false" />
+          <Property Name="ClienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="vw_ArticulosConsulta">
           <Key>
@@ -1538,6 +1854,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Cantidad" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="CantidadComprometida" Type="Decimal" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="Facturas">
           <Key>
@@ -1548,13 +1865,18 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <Property Name="ClienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Impreso" Type="Boolean" Nullable="false" />
-          <Property Name="PresupuestoRecargo" Type="Boolean" />
           <NavigationProperty Name="Clientes" Relationship="SGPAModel.FK_Facturas_Clientes" FromRole="Facturas" ToRole="Clientes" />
           <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_Facturas_Empresas" FromRole="Facturas" ToRole="Empresas" />
           <NavigationProperty Name="FacturasBases" Relationship="SGPAModel.FK_FacturasBases_Facturas" FromRole="Facturas" ToRole="FacturasBases" />
           <NavigationProperty Name="FacturasDetalles" Relationship="SGPAModel.FK_FacturasDetalles_Facturas" FromRole="Facturas" ToRole="FacturasDetalles" />
           <Property Name="FormaPagoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="FormasPagos" Relationship="SGPAModel.FK_Facturas_FormasPagos" FromRole="Facturas" ToRole="FormasPagos" />
+          <NavigationProperty Name="Recibos" Relationship="SGPAModel.FK_Recibos_Facturas" FromRole="Facturas" ToRole="Recibos" />
+          <Property Name="FacturaRecargo" Type="Boolean" />
+          <Property Name="PresupuestoId" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Presupuestos" Relationship="SGPAModel.FK_Facturas_Presupuestos" FromRole="Facturas" ToRole="Presupuestos" />
+          <Property Name="Finalizado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FacturasDetallesLotes" Relationship="SGPAModel.FK_FacturasDetallesLotes_Facturas" FromRole="Facturas" ToRole="FacturasDetallesLotes" />
         </EntityType>
         <EntityType Name="FacturasBases">
           <Key>
@@ -1655,6 +1977,241 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             </Principal>
             <Dependent Role="Facturas">
               <PropertyRef Name="FormaPagoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Recibos">
+          <Key>
+            <PropertyRef Name="ReciboId" />
+          </Key>
+          <Property Name="ReciboId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="PlazoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="FacturaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Importe" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Cobrado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Facturas" Relationship="SGPAModel.FK_Recibos_Facturas" FromRole="Recibos" ToRole="Facturas" />
+        </EntityType>
+        <Association Name="FK_Recibos_Facturas">
+          <End Type="SGPAModel.Facturas" Role="Facturas" Multiplicity="1" />
+          <End Type="SGPAModel.Recibos" Role="Recibos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="FacturaId" />
+            </Principal>
+            <Dependent Role="Recibos">
+              <PropertyRef Name="FacturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Presupuestos">
+          <End Type="SGPAModel.Presupuestos" Role="Presupuestos" Multiplicity="0..1" />
+          <End Type="SGPAModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Presupuestos">
+              <PropertyRef Name="PresupuestoId" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="PresupuestoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vw_FacturasConsulta">
+          <Key>
+            <PropertyRef Name="Fecha" />
+            <PropertyRef Name="Identificacion" />
+            <PropertyRef Name="NombreCliente" />
+            <PropertyRef Name="EmpresaId" />
+            <PropertyRef Name="Impreso" />
+            <PropertyRef Name="ClienteId" />
+            <PropertyRef Name="FacturaId" />
+            <PropertyRef Name="Finalizado" />
+          </Key>
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PresupuestoId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Identificacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCliente" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Base" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaIVA" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaRetencion" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Impreso" Type="Boolean" Nullable="false" />
+          <Property Name="ClienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="FacturaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Finalizado" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AlbaranesClientesDetalles">
+          <Key>
+            <PropertyRef Name="AlbaranesClienteDetallesId" />
+          </Key>
+          <Property Name="AlbaranesClienteDetallesId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AlbaranId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Subtotal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="AlbaranesClientes" Relationship="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes1" FromRole="AlbaranesClientesDetalles" ToRole="AlbaranesClientes" />
+          <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_AlbaranesClientesDetalles_Articulos" FromRole="AlbaranesClientesDetalles" ToRole="Articulos" />
+        </EntityType>
+        <EntityType Name="MovimientosInventarioComprometido">
+          <Key>
+            <PropertyRef Name="MovimientoId" />
+          </Key>
+          <Property Name="MovimientoId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LoteArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TipoMovimiento" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CantidadAntes" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CantidadDespues" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DocumentoRelacionado" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TipoDocumentoRelacionado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Articulos" Relationship="SGPAModel.FK_MovimientosInventarioComprometido_Articulos" FromRole="MovimientosInventarioComprometido" ToRole="Articulos" />
+          <NavigationProperty Name="Empresas" Relationship="SGPAModel.FK_MovimientosInventarioComprometido_Empresas" FromRole="MovimientosInventarioComprometido" ToRole="Empresas" />
+        </EntityType>
+        <EntityType Name="vw_AlbaranesClientesConsulta">
+          <Key>
+            <PropertyRef Name="Fecha" />
+            <PropertyRef Name="AlbaranId" />
+            <PropertyRef Name="Identificacion" />
+            <PropertyRef Name="NombreCliente" />
+            <PropertyRef Name="EmpresaId" />
+            <PropertyRef Name="Facturado" />
+            <PropertyRef Name="ClienteId" />
+          </Key>
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AlbaranId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Identificacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCliente" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Base" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaIVA" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="CuotaRetencion" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Facturado" Type="Boolean" Nullable="false" />
+          <Property Name="ClienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+        </EntityType>
+        <Association Name="FK_AlbaranesClienteDetalles_AlbaranesClientes1">
+          <End Type="SGPAModel.AlbaranesClientes" Role="AlbaranesClientes" Multiplicity="1" />
+          <End Type="SGPAModel.AlbaranesClientesDetalles" Role="AlbaranesClientesDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbaranesClientes">
+              <PropertyRef Name="AlbaranId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientesDetalles">
+              <PropertyRef Name="AlbaranId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosInventarioComprometido_Articulos">
+          <End Type="SGPAModel.Articulos" Role="Articulos" Multiplicity="1" />
+          <End Type="SGPAModel.MovimientosInventarioComprometido" Role="MovimientosInventarioComprometido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="MovimientosInventarioComprometido">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientosInventarioComprometido_Empresas">
+          <End Type="SGPAModel.Empresas" Role="Empresas" Multiplicity="1" />
+          <End Type="SGPAModel.MovimientosInventarioComprometido" Role="MovimientosInventarioComprometido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresas">
+              <PropertyRef Name="EmpresaId" />
+            </Principal>
+            <Dependent Role="MovimientosInventarioComprometido">
+              <PropertyRef Name="EmpresaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FacturasDetallesLotes">
+          <Key>
+            <PropertyRef Name="FacturaDetalleLoteId" />
+          </Key>
+          <Property Name="FacturaDetalleLoteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="FacturaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LoteArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="Facturas" Relationship="SGPAModel.FK_FacturasDetallesLotes_Facturas" FromRole="FacturasDetallesLotes" ToRole="Facturas" />
+          <NavigationProperty Name="LotesArticulos" Relationship="SGPAModel.FK_FacturasDetallesLotes_LotesArticulos" FromRole="FacturasDetallesLotes" ToRole="LotesArticulos" />
+        </EntityType>
+        <Association Name="FK_FacturasDetallesLotes_Facturas">
+          <End Type="SGPAModel.Facturas" Role="Facturas" Multiplicity="1" />
+          <End Type="SGPAModel.FacturasDetallesLotes" Role="FacturasDetallesLotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="FacturaId" />
+            </Principal>
+            <Dependent Role="FacturasDetallesLotes">
+              <PropertyRef Name="FacturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacturasDetallesLotes_LotesArticulos">
+          <End Type="SGPAModel.LotesArticulos" Role="LotesArticulos" Multiplicity="1" />
+          <End Type="SGPAModel.FacturasDetallesLotes" Role="FacturasDetallesLotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LotesArticulos">
+              <PropertyRef Name="LoteArticuloId" />
+            </Principal>
+            <Dependent Role="FacturasDetallesLotes">
+              <PropertyRef Name="LoteArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AlbaranesClientesDetallesLotes">
+          <Key>
+            <PropertyRef Name="AlbaranClienteDetalleLoteId" />
+          </Key>
+          <Property Name="AlbaranClienteDetalleLoteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AlbaranId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LoteArticuloId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="AlbaranesClientes" Relationship="SGPAModel.FK_AlbaranesClientesDetallesLotes_Facturas" FromRole="AlbaranesClientesDetallesLotes" ToRole="AlbaranesClientes" />
+          <NavigationProperty Name="LotesArticulos" Relationship="SGPAModel.FK_AlbaranesClientesDetallesLotes_LotesArticulos" FromRole="AlbaranesClientesDetallesLotes" ToRole="LotesArticulos" />
+        </EntityType>
+        <Association Name="FK_AlbaranesClientesDetallesLotes_Facturas">
+          <End Type="SGPAModel.AlbaranesClientes" Role="AlbaranesClientes" Multiplicity="1" />
+          <End Type="SGPAModel.AlbaranesClientesDetallesLotes" Role="AlbaranesClientesDetallesLotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlbaranesClientes">
+              <PropertyRef Name="AlbaranId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientesDetallesLotes">
+              <PropertyRef Name="AlbaranId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlbaranesClientesDetalles_Articulos">
+          <End Type="SGPAModel.Articulos" Role="Articulos" Multiplicity="1" />
+          <End Type="SGPAModel.AlbaranesClientesDetalles" Role="AlbaranesClientesDetalles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Articulos">
+              <PropertyRef Name="ArticuloId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientesDetalles">
+              <PropertyRef Name="ArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlbaranesClientesDetallesLotes_LotesArticulos">
+          <End Type="SGPAModel.LotesArticulos" Role="LotesArticulos" Multiplicity="1" />
+          <End Type="SGPAModel.AlbaranesClientesDetallesLotes" Role="AlbaranesClientesDetallesLotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LotesArticulos">
+              <PropertyRef Name="LoteArticuloId" />
+            </Principal>
+            <Dependent Role="AlbaranesClientesDetallesLotes">
+              <PropertyRef Name="LoteArticuloId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1800,23 +2357,10 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AlbaranesClienteDetalles">
-            <EntityTypeMapping TypeName="SGPAModel.AlbaranesClienteDetalles">
-              <MappingFragment StoreEntitySet="AlbaranesClienteDetalles">
-                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
-                <ScalarProperty Name="IVA" ColumnName="IVA" />
-                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
-                <ScalarProperty Name="Precio" ColumnName="Precio" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
-                <ScalarProperty Name="AlbaranId" ColumnName="AlbaranId" />
-                <ScalarProperty Name="AlbaranesClienteDetallesId" ColumnName="AlbaranesClienteDetallesId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AlbaranesClientes">
             <EntityTypeMapping TypeName="SGPAModel.AlbaranesClientes">
               <MappingFragment StoreEntitySet="AlbaranesClientes">
+                <ScalarProperty Name="Finalizado" ColumnName="Finalizado" />
                 <ScalarProperty Name="AlbaranesRecargo" ColumnName="AlbaranesRecargo" />
                 <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
                 <ScalarProperty Name="Facturado" ColumnName="Facturado" />
@@ -1845,6 +2389,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <EntitySetMapping Name="LotesArticulos">
             <EntityTypeMapping TypeName="SGPAModel.LotesArticulos">
               <MappingFragment StoreEntitySet="LotesArticulos">
+                <ScalarProperty Name="CantidadComprometida" ColumnName="CantidadComprometida" />
                 <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
                 <ScalarProperty Name="PoseeFechaVencimiento" ColumnName="PoseeFechaVencimiento" />
                 <ScalarProperty Name="AlbaranId" ColumnName="AlbaranId" />
@@ -1875,7 +2420,6 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             <EntityTypeMapping TypeName="SGPAModel.Presupuestos">
               <MappingFragment StoreEntitySet="Presupuestos">
                 <ScalarProperty Name="PresupuestoRecargo" ColumnName="PresupuestoRecargo" />
-                <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
                 <ScalarProperty Name="Facturado" ColumnName="Facturado" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
@@ -1924,6 +2468,8 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <EntitySetMapping Name="vw_PresupuestosConsulta">
             <EntityTypeMapping TypeName="SGPAModel.vw_PresupuestosConsulta">
               <MappingFragment StoreEntitySet="vw_PresupuestosConsulta">
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="Facturado" ColumnName="Facturado" />
                 <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="CuotaRetencion" ColumnName="CuotaRetencion" />
@@ -1939,6 +2485,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <EntitySetMapping Name="vw_ArticulosConsulta">
             <EntityTypeMapping TypeName="SGPAModel.vw_ArticulosConsulta">
               <MappingFragment StoreEntitySet="vw_ArticulosConsulta">
+                <ScalarProperty Name="CantidadComprometida" ColumnName="CantidadComprometida" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
@@ -1951,8 +2498,10 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <EntitySetMapping Name="Facturas">
             <EntityTypeMapping TypeName="SGPAModel.Facturas">
               <MappingFragment StoreEntitySet="Facturas">
+                <ScalarProperty Name="Finalizado" ColumnName="Finalizado" />
+                <ScalarProperty Name="PresupuestoId" ColumnName="PresupuestoId" />
+                <ScalarProperty Name="FacturaRecargo" ColumnName="FacturaRecargo" />
                 <ScalarProperty Name="FormaPagoId" ColumnName="FormaPagoId" />
-                <ScalarProperty Name="PresupuestoRecargo" ColumnName="PresupuestoRecargo" />
                 <ScalarProperty Name="Impreso" ColumnName="Impreso" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
@@ -1987,6 +2536,106 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
                 <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
                 <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
                 <ScalarProperty Name="FacturaDetalleId" ColumnName="FacturaDetalleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recibos">
+            <EntityTypeMapping TypeName="SGPAModel.Recibos">
+              <MappingFragment StoreEntitySet="Recibos">
+                <ScalarProperty Name="Cobrado" ColumnName="Cobrado" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
+                <ScalarProperty Name="PlazoId" ColumnName="PlazoId" />
+                <ScalarProperty Name="ReciboId" ColumnName="ReciboId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_FacturasConsulta">
+            <EntityTypeMapping TypeName="SGPAModel.vw_FacturasConsulta">
+              <MappingFragment StoreEntitySet="vw_FacturasConsulta">
+                <ScalarProperty Name="Finalizado" ColumnName="Finalizado" />
+                <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="Impreso" ColumnName="Impreso" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="CuotaRetencion" ColumnName="CuotaRetencion" />
+                <ScalarProperty Name="CuotaIVA" ColumnName="CuotaIVA" />
+                <ScalarProperty Name="Base" ColumnName="Base" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="PresupuestoId" ColumnName="PresupuestoId" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlbaranesClientesDetalles">
+            <EntityTypeMapping TypeName="SGPAModel.AlbaranesClientesDetalles">
+              <MappingFragment StoreEntitySet="AlbaranesClientesDetalles">
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+                <ScalarProperty Name="AlbaranId" ColumnName="AlbaranId" />
+                <ScalarProperty Name="AlbaranesClienteDetallesId" ColumnName="AlbaranesClienteDetallesId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovimientosInventarioComprometido">
+            <EntityTypeMapping TypeName="SGPAModel.MovimientosInventarioComprometido">
+              <MappingFragment StoreEntitySet="MovimientosInventarioComprometido">
+                <ScalarProperty Name="TipoDocumentoRelacionado" ColumnName="TipoDocumentoRelacionado" />
+                <ScalarProperty Name="DocumentoRelacionado" ColumnName="DocumentoRelacionado" />
+                <ScalarProperty Name="CantidadDespues" ColumnName="CantidadDespues" />
+                <ScalarProperty Name="CantidadAntes" ColumnName="CantidadAntes" />
+                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="LoteArticuloId" ColumnName="LoteArticuloId" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="MovimientoId" ColumnName="MovimientoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_AlbaranesClientesConsulta">
+            <EntityTypeMapping TypeName="SGPAModel.vw_AlbaranesClientesConsulta">
+              <MappingFragment StoreEntitySet="vw_AlbaranesClientesConsulta">
+                <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+                <ScalarProperty Name="Facturado" ColumnName="Facturado" />
+                <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="CuotaRetencion" ColumnName="CuotaRetencion" />
+                <ScalarProperty Name="CuotaIVA" ColumnName="CuotaIVA" />
+                <ScalarProperty Name="Base" ColumnName="Base" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="AlbaranId" ColumnName="AlbaranId" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacturasDetallesLotes">
+            <EntityTypeMapping TypeName="SGPAModel.FacturasDetallesLotes">
+              <MappingFragment StoreEntitySet="FacturasDetallesLotes">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="LoteArticuloId" ColumnName="LoteArticuloId" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+                <ScalarProperty Name="FacturaId" ColumnName="FacturaId" />
+                <ScalarProperty Name="FacturaDetalleLoteId" ColumnName="FacturaDetalleLoteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlbaranesClientesDetallesLotes">
+            <EntityTypeMapping TypeName="SGPAModel.AlbaranesClientesDetallesLotes">
+              <MappingFragment StoreEntitySet="AlbaranesClientesDetallesLotes">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="LoteArticuloId" ColumnName="LoteArticuloId" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+                <ScalarProperty Name="AlbaranId" ColumnName="AlbaranId" />
+                <ScalarProperty Name="AlbaranClienteDetalleLoteId" ColumnName="AlbaranClienteDetalleLoteId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

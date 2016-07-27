@@ -19,6 +19,7 @@ namespace SistemaGestion.Modelo
         {
             this.PresupuestosBases = new HashSet<PresupuestosBases>();
             this.PresupuestosDetalles = new HashSet<PresupuestosDetalles>();
+            this.Facturas = new HashSet<Facturas>();
         }
     
         public decimal PresupuestoId { get; set; }
@@ -26,7 +27,6 @@ namespace SistemaGestion.Modelo
         public decimal ClienteId { get; set; }
         public System.DateTime Fecha { get; set; }
         public bool Facturado { get; set; }
-        public Nullable<decimal> FacturaId { get; set; }
         public Nullable<bool> PresupuestoRecargo { get; set; }
     
         public virtual Clientes Clientes { get; set; }
@@ -35,5 +35,7 @@ namespace SistemaGestion.Modelo
         public virtual ICollection<PresupuestosBases> PresupuestosBases { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PresupuestosDetalles> PresupuestosDetalles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Facturas> Facturas { get; set; }
     }
 }

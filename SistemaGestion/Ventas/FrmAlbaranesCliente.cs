@@ -13,10 +13,10 @@ using System.Windows.Forms;
 
 namespace SistemaGestion.Ventas
 {
-    public partial class FrmPresupuestos : Form
+    public partial class FrmAlbaranesCliente : Form
     {
         SGPAEntities SGPADatos = new SGPAEntities();
-        public FrmPresupuestos()
+        public FrmAlbaranesCliente()
         {
             InitializeComponent();
             LlenarGrid(txtConsulta.Text);
@@ -33,12 +33,12 @@ namespace SistemaGestion.Ventas
             }
         }
 
-        private void FrmPresupuestos_Load(object sender, EventArgs e)
+        private void FrmAlbaranesCliente_Load(object sender, EventArgs e)
         {
             CambiarColorControles(this);
         }
 
-        private void FrmPresupuestos_Activated(object sender, EventArgs e)
+        private void FrmAlbaranesCliente_Activated(object sender, EventArgs e)
         {
             ActivarBotonera();
         }
@@ -109,10 +109,28 @@ namespace SistemaGestion.Ventas
         public void HabilitarControles()
         {
             BloquearControles(true);
-            strProceso = "M";
+            if (bolAlbaranFinalizada)
+            {
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = true;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_editar2.Enabled = true;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_guardar2.Enabled = false;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_borrar2.Enabled = false;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_cancelar2.Enabled = false;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_borrar2.Enabled = true;
+                MessageBox.Show("Disculpe, el albaran fue finalizado y no puede ser editado", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                strProceso = "M";
+            }
         }
         private void BloquearControles(bool bolActivo)
         {
+            if (bolAlbaranFinalizada)
+            {
+                bolActivo = false;
+            }
+            btnFinalizarAlbaran.Enabled = bolActivo;
             chkRecargo.Enabled = bolActivo;
             dtpFecha.Enabled = bolActivo;
             btnBuscarArticulos.Enabled = bolActivo;
@@ -121,16 +139,16 @@ namespace SistemaGestion.Ventas
             btnEliminarArticulo.Enabled = bolActivo;
             lblEliminarArticulo.Visible = false;
             btnEliminarArticulo.Visible = false;
-            dtgArticulosPresupuesto.Enabled = bolActivo;
-            dtgBasesPresupuestos.Enabled = bolActivo;            
+            dtgArticulosAlbaran.Enabled = bolActivo;
+            dtgBasesAlbaran.Enabled = bolActivo;            
         }
         public void Inicializar()
         {
             SGPADatos.Dispose();
-            dtgArticulosPresupuesto.CellValidating -= dtgArticulosPresupuesto_CellValidating;
-            dtgArticulosPresupuesto.Rows.Clear();
-            dtgArticulosPresupuesto.CellValidating += dtgArticulosPresupuesto_CellValidating;
-            dtgBasesPresupuestos.Rows.Clear();
+            dtgArticulosAlbaran.CellValidating -= dtgArticulosAlbaran_CellValidating;
+            dtgArticulosAlbaran.Rows.Clear();
+            dtgArticulosAlbaran.CellValidating += dtgArticulosAlbaran_CellValidating;
+            dtgBasesAlbaran.Rows.Clear();
             strProceso = "";
             txtBase.Text = "";
             txtIVA.Text = "";
@@ -138,7 +156,7 @@ namespace SistemaGestion.Ventas
             txtRetencion.Text = "";
             txtTotal.Text = "";
             txtClienteId.Text = "";
-            txtNumeroPresupuesto.Text = "";
+            txtNumeroAlbaran.Text = "";
             txtNombreCliente.Text = "";
             txtNIF.Text = "";
             lblEliminarArticulo.Visible = false;
@@ -149,7 +167,7 @@ namespace SistemaGestion.Ventas
         }
         
 
-        private void FrmPresupuestos_FormClosing(object sender, FormClosingEventArgs e)
+        private void FrmAlbaranesCliente_FormClosing(object sender, FormClosingEventArgs e)
         {
             CONTROLES._Ctrl_Buscar._txt_text.Text = "";
             CONTROLES._Ctrl_Buscar._txt_ExistForm.Text = "Cerrado";
@@ -167,7 +185,7 @@ namespace SistemaGestion.Ventas
         {
             if (e.TabPageIndex != 0)
             {
-                if (!chkRecargo.Enabled & txtNumeroPresupuesto.Text.Trim().Length == 0)
+                if (!chkRecargo.Enabled & txtNumeroAlbaran.Text.Trim().Length == 0)
                 {
                     e.Cancel = true;
                 }
@@ -190,7 +208,7 @@ namespace SistemaGestion.Ventas
             try
             {
                 dtgConsulta.AutoGenerateColumns = false;
-                var oDatos = (from presupuestos in SGPADatos.vw_PresupuestosConsulta where (presupuestos.NombreCliente.Contains(strBusqueda) || presupuestos.PresupuestoId.ToString().Contains(strBusqueda)) && presupuestos.EmpresaId == FrmPadre.dcmCodCompania select presupuestos).OrderByDescending(a => a.Fecha).AsNoTracking();
+                var oDatos = (from albaranes in SGPADatos.vw_AlbaranesClientesConsulta where (albaranes.NombreCliente.Contains(strBusqueda) || albaranes.AlbaranId.ToString().Contains(strBusqueda)) && albaranes.EmpresaId == FrmPadre.dcmCodCompania select albaranes).OrderByDescending(a => a.Fecha).AsNoTracking();
                 dtgConsulta.DataSource = oDatos.ToList();              
                 tabFormulario.SelectedIndex = 0;
                 dtgConsulta.Columns[0].Width = 80;
@@ -231,7 +249,7 @@ namespace SistemaGestion.Ventas
         {
             bool bolExiste = false;
             //int rowIndex = -1;
-            foreach (DataGridViewRow dtgFilas in dtgArticulosPresupuesto.Rows)
+            foreach (DataGridViewRow dtgFilas in dtgArticulosAlbaran.Rows)
             {
                 if (dtgFilas.Cells["ArticuloId"].Value != null)
                 {
@@ -248,7 +266,7 @@ namespace SistemaGestion.Ventas
         int intRowIndexBases = -1;
         private void EliminarGridBases(List<Clases.BasesImpuestosDistinct> oBasesImpuestosDistinct)
         {
-            foreach (DataGridViewRow dtgFilas in dtgBasesPresupuestos.Rows)
+            foreach (DataGridViewRow dtgFilas in dtgBasesAlbaran.Rows)
             {
                 if (dtgFilas.Cells["IVATotal"].Value != null)
                 {
@@ -256,7 +274,7 @@ namespace SistemaGestion.Ventas
                     if (oExiste.Count()==0)
                     {
                         //Se Elimina la fila en el grid de bases
-                        dtgBasesPresupuestos.Rows.RemoveAt(dtgFilas.Index);
+                        dtgBasesAlbaran.Rows.RemoveAt(dtgFilas.Index);
                     }
                 }
             }
@@ -265,7 +283,7 @@ namespace SistemaGestion.Ventas
         {
             bool bolExiste = false;
             //int rowIndex = -1;
-            foreach (DataGridViewRow dtgFilas in dtgBasesPresupuestos.Rows)
+            foreach (DataGridViewRow dtgFilas in dtgBasesAlbaran.Rows)
             {
                 if (dtgFilas.Cells["IVATotal"].Value != null)
                 {
@@ -306,12 +324,12 @@ namespace SistemaGestion.Ventas
                                 //dtrFila.Cells["Precio"].Value = oArticulo.Precio.ToString();
                                 //dtrFila.Cells["Cantidad"].Value = "0";
                                 //dtrFila.Cells["Importe"].Value = "0";
-                                dtgArticulosPresupuesto.Rows.Add(oArticulo.Descripcion.ToString(), oArticulo.ArticuloId.ToString(), "0", string.Format("{0:n}", oArticulo.Precio), "", string.Format("{0:n}", oArticulo.Impuestos.Porcentaje), "0");
+                                dtgArticulosAlbaran.Rows.Add(oArticulo.Descripcion.ToString(), oArticulo.ArticuloId.ToString(), "0", string.Format("{0:n}", oArticulo.Precio), "", string.Format("{0:n}", oArticulo.Impuestos.Porcentaje), "0");
                                 LlenarGridBases();
                             }
                             else
                             {
-                                MessageBox.Show("El artículo ya existe en el presupuesto actual", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                MessageBox.Show("El artículo ya existe en el albaran actual", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             }
                         }
                     }
@@ -328,26 +346,26 @@ namespace SistemaGestion.Ventas
 
         
 
-        private void dtgArticulosPresupuesto_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void dtgArticulosAlbaran_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             
         }
         
 
-        private void dtgArticulosPresupuesto_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        private void dtgArticulosAlbaran_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             
         }
 
-        private void dtgArticulosPresupuesto_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        private void dtgArticulosAlbaran_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (dtgArticulosPresupuesto.IsCurrentCellDirty)
+            if (dtgArticulosAlbaran.IsCurrentCellDirty)
             {
-                dtgArticulosPresupuesto.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                dtgArticulosAlbaran.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
 
-        private void dtgArticulosPresupuesto_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void dtgArticulosAlbaran_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
@@ -355,28 +373,81 @@ namespace SistemaGestion.Ventas
                 decimal dcmCantidad = 0;
                 decimal dcmPrecio = 0;
                 decimal dcmImporte = 0;
-                if (dtgArticulosPresupuesto.Rows[e.RowIndex].Cells["Cantidad"].Value != null)
+                if (dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Cantidad"].Value != null)
                 {
-                    if (dtgArticulosPresupuesto.Rows[e.RowIndex].Cells["Cantidad"].Value.ToString() != "")
+                    if (dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Cantidad"].Value.ToString() != "")
                     {
-                        dcmCantidad = Convert.ToDecimal(dtgArticulosPresupuesto.Rows[e.RowIndex].Cells["Cantidad"].Value);
+                        dcmCantidad = Convert.ToDecimal(dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Cantidad"].Value);
                     }
                 }
-                if (dtgArticulosPresupuesto.Rows[e.RowIndex].Cells["Precio"].Value.ToString() != "")
+                if (dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Precio"].Value.ToString() != "")
                 {
-                    dcmPrecio = Convert.ToDecimal(dtgArticulosPresupuesto.Rows[e.RowIndex].Cells["Precio"].Value);
+                    dcmPrecio = Convert.ToDecimal(dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Precio"].Value);
                 }
-                if (dtgArticulosPresupuesto.Rows[e.RowIndex].Cells["Dcto"].Value != null)
+                if (dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Dcto"].Value != null)
                 {
-                    if (dtgArticulosPresupuesto.Rows[e.RowIndex].Cells["Dcto"].Value.ToString() != "")
+                    if (dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Dcto"].Value.ToString() != "")
                     {
-                        dcmDescuento = Convert.ToDecimal(dtgArticulosPresupuesto.Rows[e.RowIndex].Cells["Dcto"].Value);
+                        dcmDescuento = Convert.ToDecimal(dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Dcto"].Value);
                     }
                 }
                 dcmImporte = (dcmCantidad * dcmPrecio) - (dcmCantidad * dcmPrecio * (dcmDescuento / 100));
                 if (e.ColumnIndex == 2 || e.ColumnIndex == 4)
                 {
-                    dtgArticulosPresupuesto.Rows[e.RowIndex].Cells["Importe"].Value = string.Format("{0:n}", dcmImporte);
+                    //Se debe validar inventario
+                    if (txtNumeroAlbaran.Text == "")
+                    {
+                        //Albaran nueva
+                        string strArticulo = dtgArticulosAlbaran.Rows[e.RowIndex].Cells["ArticuloId"].Value.ToString();
+                        var oArticulosInventario = SGPADatos.vw_ArticulosConsulta.FirstOrDefault(a => a.ArticuloId.ToString() == strArticulo && a.EmpresaId == FrmPadre.dcmCodCompania);
+                        if (oArticulosInventario != null)
+                        {
+                            if ((oArticulosInventario.Cantidad - oArticulosInventario.CantidadComprometida) < dcmCantidad)
+                            {
+                                dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Importe"].Value = "0,00";
+                                dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Cantidad"].Value = "0";
+                                dcmImporte = 0;
+                                dcmCantidad = 0;
+                                MessageBox.Show("No puede ingresar mas de " + (oArticulosInventario.Cantidad - oArticulosInventario.CantidadComprometida).ToString() + " Unds del artículo " + oArticulosInventario.Descripcion, FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        string strArticulo = dtgArticulosAlbaran.Rows[e.RowIndex].Cells["ArticuloId"].Value.ToString();
+                        var oDetalleAlbaran = SGPADatos.AlbaranesClientesDetalles.FirstOrDefault(a => a.AlbaranId.ToString() == txtNumeroAlbaran.Text && a.ArticuloId.ToString() == strArticulo);
+                        if (oDetalleAlbaran != null)
+                        {
+                            var oArticulosInventario = SGPADatos.vw_ArticulosConsulta.FirstOrDefault(a => a.ArticuloId.ToString() == strArticulo && a.EmpresaId == FrmPadre.dcmCodCompania);
+                            if (oArticulosInventario != null)
+                            {
+                                if ((oArticulosInventario.Cantidad - (oArticulosInventario.CantidadComprometida - oDetalleAlbaran.Cantidad)) < dcmCantidad)
+                                {
+                                    dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Importe"].Value = "0,00";
+                                    dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Cantidad"].Value = "0";
+                                    dcmImporte = 0;
+                                    dcmCantidad = 0;
+                                    MessageBox.Show("No puede ingresar mas de " + ((oArticulosInventario.Cantidad - (oArticulosInventario.CantidadComprometida - oDetalleAlbaran.Cantidad))).ToString() + " Unds del artículo " + oArticulosInventario.Descripcion, FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var oArticulosInventario = SGPADatos.vw_ArticulosConsulta.FirstOrDefault(a => a.ArticuloId.ToString() == strArticulo && a.EmpresaId == FrmPadre.dcmCodCompania);
+                            if (oArticulosInventario != null)
+                            {
+                                if ((oArticulosInventario.Cantidad - oArticulosInventario.CantidadComprometida) < dcmCantidad)
+                                {
+                                    dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Importe"].Value = "0,00";
+                                    dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Cantidad"].Value = "0";
+                                    dcmImporte = 0;
+                                    dcmCantidad = 0;
+                                    MessageBox.Show("No puede ingresar mas de " + (oArticulosInventario.Cantidad - oArticulosInventario.CantidadComprometida).ToString() + " Unds del artículo " + oArticulosInventario.Descripcion, FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                            }
+                        }
+                    }
+                    dtgArticulosAlbaran.Rows[e.RowIndex].Cells["Importe"].Value = string.Format("{0:n}", dcmImporte);
                     LlenarGridBases();
                 }
             }
@@ -385,14 +456,14 @@ namespace SistemaGestion.Ventas
             }
         }
 
-        private void dtgArticulosPresupuesto_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        private void dtgArticulosAlbaran_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (dtgArticulosPresupuesto.CurrentCell.ColumnIndex == 2)
+            if (dtgArticulosAlbaran.CurrentCell.ColumnIndex == 2)
             {
                 //e.Control.KeyPress += new KeyPressEventHandler(Control_KeyPress);
                 e.Control.KeyPress += Control_KeyPress;
             }
-            if (dtgArticulosPresupuesto.CurrentCell.ColumnIndex == 4)
+            if (dtgArticulosAlbaran.CurrentCell.ColumnIndex == 4)
             {
                 e.Control.KeyPress += Control_KeyPress1;
             }
@@ -412,9 +483,9 @@ namespace SistemaGestion.Ventas
                 bool IsDec = false;
                 int nroDec = 0;
 
-                for (int i = 0; i < dtgArticulosPresupuesto.CurrentCell.Value.ToString().Length; i++)
+                for (int i = 0; i < dtgArticulosAlbaran.CurrentCell.Value.ToString().Length; i++)
                 {
-                    if (dtgArticulosPresupuesto.CurrentCell.Value.ToString()[i] == ',')
+                    if (dtgArticulosAlbaran.CurrentCell.Value.ToString()[i] == ',')
                         IsDec = true;
 
                     if (IsDec && nroDec++ >= 2)
@@ -459,7 +530,7 @@ namespace SistemaGestion.Ventas
             decimal dcmRecargo = 0;
             decimal dcmRetencion = 0;
             decimal dcmTotal = 0;
-            foreach (DataGridViewRow dtgFilas in dtgBasesPresupuestos.Rows)
+            foreach (DataGridViewRow dtgFilas in dtgBasesAlbaran.Rows)
             {
                 if (dtgFilas.Cells["BaseTotal"].Value != null)
                 {
@@ -492,7 +563,7 @@ namespace SistemaGestion.Ventas
         {
             List<Clases.BasesImpuestos> oBasesImpuestos = new List<Clases.BasesImpuestos>();
             List<Clases.BasesImpuestosDistinct> oBasesImpuestosDistinct = new List<Clases.BasesImpuestosDistinct>();
-            foreach (DataGridViewRow dr in dtgArticulosPresupuesto.Rows)
+            foreach (DataGridViewRow dr in dtgArticulosAlbaran.Rows)
             {
                 Clases.BasesImpuestos oBaseImpuesto = new Clases.BasesImpuestos();
                 oBaseImpuesto.IVA = Convert.ToDecimal(dr.Cells["IVA"].Value.ToString());
@@ -529,21 +600,21 @@ namespace SistemaGestion.Ventas
                             dcmRecargoCalculo = oBases.Base * oImpuestos.RecargoEquivalencia / 100;
                         }
                     }
-                    if (dtgBasesPresupuestos.Rows[intRowIndexBases].Cells["RetencionPercent"].Value != null)
+                    if (dtgBasesAlbaran.Rows[intRowIndexBases].Cells["RetencionPercent"].Value != null)
                     {
-                        if (dtgBasesPresupuestos.Rows[intRowIndexBases].Cells["RetencionPercent"].Value.ToString() != "")
+                        if (dtgBasesAlbaran.Rows[intRowIndexBases].Cells["RetencionPercent"].Value.ToString() != "")
                         {
-                            dcmRetencion = Convert.ToDecimal(dtgBasesPresupuestos.Rows[intRowIndexBases].Cells["RetencionPercent"].Value);
+                            dcmRetencion = Convert.ToDecimal(dtgBasesAlbaran.Rows[intRowIndexBases].Cells["RetencionPercent"].Value);
                         }
                     }
                     dcmRetencionCalculo = oBases.Base * dcmRetencion / 100;
-                    dtgBasesPresupuestos.Rows[intRowIndexBases].Cells["BaseTotal"].Value = string.Format("{0:n}", oBases.Base);
-                    dtgBasesPresupuestos.Rows[intRowIndexBases].Cells["IVATotal"].Value = string.Format("{0:n}", oBases.IVA);
-                    dtgBasesPresupuestos.Rows[intRowIndexBases].Cells["CuotaIVA"].Value = string.Format("{0:n}", dcmCalculoIVA);
-                    dtgBasesPresupuestos.Rows[intRowIndexBases].Cells["BaseMasCuota"].Value = string.Format("{0:n}", dcmCalculoBaseMasIVA);
-                    dtgBasesPresupuestos.Rows[intRowIndexBases].Cells["Recargo"].Value = string.Format("{0:n}", dcmRecargo);
-                    dtgBasesPresupuestos.Rows[intRowIndexBases].Cells["CuotaRecargo"].Value = string.Format("{0:n}", dcmRecargoCalculo);
-                    dtgBasesPresupuestos.Rows[intRowIndexBases].Cells["Retencion"].Value = string.Format("{0:n}", dcmRetencionCalculo);
+                    dtgBasesAlbaran.Rows[intRowIndexBases].Cells["BaseTotal"].Value = string.Format("{0:n}", oBases.Base);
+                    dtgBasesAlbaran.Rows[intRowIndexBases].Cells["IVATotal"].Value = string.Format("{0:n}", oBases.IVA);
+                    dtgBasesAlbaran.Rows[intRowIndexBases].Cells["CuotaIVA"].Value = string.Format("{0:n}", dcmCalculoIVA);
+                    dtgBasesAlbaran.Rows[intRowIndexBases].Cells["BaseMasCuota"].Value = string.Format("{0:n}", dcmCalculoBaseMasIVA);
+                    dtgBasesAlbaran.Rows[intRowIndexBases].Cells["Recargo"].Value = string.Format("{0:n}", dcmRecargo);
+                    dtgBasesAlbaran.Rows[intRowIndexBases].Cells["CuotaRecargo"].Value = string.Format("{0:n}", dcmRecargoCalculo);
+                    dtgBasesAlbaran.Rows[intRowIndexBases].Cells["Retencion"].Value = string.Format("{0:n}", dcmRetencionCalculo);
                 }
                 else
                 {
@@ -561,7 +632,7 @@ namespace SistemaGestion.Ventas
                             dcmRecargoCalculo = oBases.Base * oImpuestos.RecargoEquivalencia / 100;
                         }
                     }
-                    dtgBasesPresupuestos.Rows.Add(string.Format("{0:n}", oBases.Base), string.Format("{0:n}", oBases.IVA), string.Format("{0:n}", dcmCalculoIVA), string.Format("{0:n}", dcmCalculoBaseMasIVA), string.Format("{0:n}", dcmRecargo), string.Format("{0:n}", dcmRecargoCalculo), "", "");
+                    dtgBasesAlbaran.Rows.Add(string.Format("{0:n}", oBases.Base), string.Format("{0:n}", oBases.IVA), string.Format("{0:n}", dcmCalculoIVA), string.Format("{0:n}", dcmCalculoBaseMasIVA), string.Format("{0:n}", dcmRecargo), string.Format("{0:n}", dcmRecargoCalculo), "", "");
                 }
             }
             EliminarGridBases(oBasesImpuestosDistinct);
@@ -573,39 +644,39 @@ namespace SistemaGestion.Ventas
             LlenarGridBases();
         }
 
-        private void dtgBasesPresupuestos_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        private void dtgBasesAlbaranes_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (dtgBasesPresupuestos.IsCurrentCellDirty)
+            if (dtgBasesAlbaran.IsCurrentCellDirty)
             {
-                dtgBasesPresupuestos.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                dtgBasesAlbaran.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
 
-        private void dtgBasesPresupuestos_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void dtgBasesAlbaranes_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
                 decimal dcmRetencion = 0;
                 decimal dcmRetencionCalculo = 0;
                 decimal dcmBase = 0;
-                if (dtgBasesPresupuestos.Rows[e.RowIndex].Cells["BaseTotal"].Value != null)
+                if (dtgBasesAlbaran.Rows[e.RowIndex].Cells["BaseTotal"].Value != null)
                 {
-                    if (dtgBasesPresupuestos.Rows[e.RowIndex].Cells["BaseTotal"].Value.ToString() != "")
+                    if (dtgBasesAlbaran.Rows[e.RowIndex].Cells["BaseTotal"].Value.ToString() != "")
                     {
-                        dcmBase = Convert.ToDecimal(dtgBasesPresupuestos.Rows[e.RowIndex].Cells["BaseTotal"].Value);
+                        dcmBase = Convert.ToDecimal(dtgBasesAlbaran.Rows[e.RowIndex].Cells["BaseTotal"].Value);
                     }
                 }
-                if (dtgBasesPresupuestos.Rows[e.RowIndex].Cells["RetencionPercent"].Value != null)
+                if (dtgBasesAlbaran.Rows[e.RowIndex].Cells["RetencionPercent"].Value != null)
                 {
-                    if (dtgBasesPresupuestos.Rows[e.RowIndex].Cells["RetencionPercent"].Value.ToString() != "")
+                    if (dtgBasesAlbaran.Rows[e.RowIndex].Cells["RetencionPercent"].Value.ToString() != "")
                     {
-                        dcmRetencion = Convert.ToDecimal(dtgBasesPresupuestos.Rows[e.RowIndex].Cells["RetencionPercent"].Value);
+                        dcmRetencion = Convert.ToDecimal(dtgBasesAlbaran.Rows[e.RowIndex].Cells["RetencionPercent"].Value);
                     }
                 }
                 dcmRetencionCalculo = dcmBase * (dcmRetencion / 100);
                 if (e.ColumnIndex == 6)
                 {
-                    dtgBasesPresupuestos.Rows[e.RowIndex].Cells["Retencion"].Value = dcmRetencionCalculo.ToString();
+                    dtgBasesAlbaran.Rows[e.RowIndex].Cells["Retencion"].Value = dcmRetencionCalculo.ToString();
                     Totalizar();
                 }
             }
@@ -614,9 +685,9 @@ namespace SistemaGestion.Ventas
             }
         }
 
-        private void dtgBasesPresupuestos_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        private void dtgBasesAlbaranes_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (dtgBasesPresupuestos.CurrentCell.ColumnIndex == 6)
+            if (dtgBasesAlbaran.CurrentCell.ColumnIndex == 6)
             {
                 //e.Control.KeyPress += new KeyPressEventHandler(Control_KeyPress);
                 e.Control.KeyPress += Control_KeyPress2; 
@@ -634,9 +705,9 @@ namespace SistemaGestion.Ventas
                 }
                 bool IsDec = false;
                 int nroDec = 0;
-                for (int i = 0; i < dtgBasesPresupuestos.CurrentCell.Value.ToString().Length; i++)
+                for (int i = 0; i < dtgBasesAlbaran.CurrentCell.Value.ToString().Length; i++)
                 {
-                    if (dtgBasesPresupuestos.CurrentCell.Value.ToString()[i] == ',')
+                    if (dtgBasesAlbaran.CurrentCell.Value.ToString()[i] == ',')
                         IsDec = true;
                     if (IsDec && nroDec++ >= 2)
                     {
@@ -664,15 +735,15 @@ namespace SistemaGestion.Ventas
                 Clases.Utilidades.MostrarErrorControl(txtClienteId, ErrorValidador, "El campo es obligatorio");
                 return false;
             }
-            if (dtgArticulosPresupuesto.Rows.Count == 0)
+            if (dtgArticulosAlbaran.Rows.Count == 0)
             {
-                Clases.Utilidades.MostrarErrorControl(dtgArticulosPresupuesto, ErrorValidador, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(dtgArticulosAlbaran, ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             else
             {
                 //Se valida que no existan articulos sin cantidades
-                foreach (DataGridViewRow dtgFilas in dtgArticulosPresupuesto.Rows)
+                foreach (DataGridViewRow dtgFilas in dtgArticulosAlbaran.Rows)
                 {
                     if (dtgFilas.Cells["Cantidad"].Value != null)
                     {
@@ -697,9 +768,9 @@ namespace SistemaGestion.Ventas
                     }
                 }
             }
-            if (dtgBasesPresupuestos.Rows.Count == 0)
+            if (dtgBasesAlbaran.Rows.Count == 0)
             {
-                Clases.Utilidades.MostrarErrorControl(dtgBasesPresupuestos, ErrorValidador, "El campo es obligatorio");
+                Clases.Utilidades.MostrarErrorControl(dtgBasesAlbaran, ErrorValidador, "El campo es obligatorio");
                 return false;
             }
             return true;
@@ -710,80 +781,92 @@ namespace SistemaGestion.Ventas
             try
             {
                 if (ValidarGuardar())
-                {
+                {                   
                     //Se guarda primero la maestra de presupuesto
-                    var oPresupuesto = SGPADatos.Presupuestos.FirstOrDefault(a => a.PresupuestoId.ToString() == txtNumeroPresupuesto.Text && a.EmpresaId==FrmPadre.dcmCodCompania);
-                    oPresupuesto.ClienteId = Convert.ToInt32(txtClienteId.Text);
-                    oPresupuesto.EmpresaId = FrmPadre.dcmCodCompania;
-                    oPresupuesto.Fecha = dtpFecha.Value;
-                    oPresupuesto.Facturado = false;
-                    oPresupuesto.PresupuestoRecargo = chkRecargo.Checked;
-                    SGPADatos.SaveChanges();
-                    //Se elimina primero los registros
-                    var oPresupuestosDetalles = SGPADatos.PresupuestosDetalles.Where(a => a.PresupuestoId == oPresupuesto.PresupuestoId);
-                    foreach (PresupuestosDetalles oPresupuestoDetalleFila in oPresupuestosDetalles)
+                    var oAlbaran = SGPADatos.AlbaranesClientes.FirstOrDefault(a => a.AlbaranId.ToString() == txtNumeroAlbaran.Text && a.EmpresaId==FrmPadre.dcmCodCompania);
+                    if (oAlbaran.Finalizado)
                     {
-                        SGPADatos.PresupuestosDetalles.Remove(oPresupuestoDetalleFila);                        
+                        MessageBox.Show("Disculpe, el albaran fue finalizado y no puede ser editado", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return false;
                     }
-                    SGPADatos.SaveChanges();
-                    var oPresupuestosBases = SGPADatos.PresupuestosBases.Where(a => a.PresupuestoId == oPresupuesto.PresupuestoId);
-                    foreach (PresupuestosBases oPresupuestoBaseFila in oPresupuestosBases)
+                    else
                     {
-                        SGPADatos.PresupuestosBases.Remove(oPresupuestoBaseFila);                        
-                    }
-                    SGPADatos.SaveChanges();
-                    //Se guarda el detalle del presupuesto
-                    foreach (DataGridViewRow dtgFilas in dtgArticulosPresupuesto.Rows)
-                    {
-                        var oPresupuestoDetalle = new PresupuestosDetalles();
-                        oPresupuestoDetalle.PresupuestoId = oPresupuesto.PresupuestoId;
-                        oPresupuestoDetalle.ArticuloId = Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString());
-                        oPresupuestoDetalle.Cantidad = Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString());
-                        oPresupuestoDetalle.Precio = Convert.ToDecimal(dtgFilas.Cells["Precio"].Value.ToString());
-                        if (dtgFilas.Cells["Dcto"].Value != null)
-                        {
-                            if (dtgFilas.Cells["Dcto"].Value.ToString() != "")
-                            {
-                                oPresupuestoDetalle.Descuento = Convert.ToDecimal(dtgFilas.Cells["Dcto"].Value.ToString());
-                            }
-                        }
-                        oPresupuestoDetalle.IVA = Convert.ToDecimal(dtgFilas.Cells["IVA"].Value.ToString());
-                        oPresupuestoDetalle.Subtotal = Convert.ToDecimal(dtgFilas.Cells["Importe"].Value.ToString());
-                        SGPADatos.PresupuestosDetalles.Add(oPresupuestoDetalle);
+                        oAlbaran.ClienteId = Convert.ToInt32(txtClienteId.Text);
+                        oAlbaran.EmpresaId = FrmPadre.dcmCodCompania;
+                        oAlbaran.Fecha = dtpFecha.Value;
+                        oAlbaran.Facturado = false;
+                        oAlbaran.AlbaranesRecargo = chkRecargo.Checked;
+                        oAlbaran.Finalizado = bolAlbaranFinalizada;
                         SGPADatos.SaveChanges();
-                    }
-                    //Se guarda las bases del presupuesto
-                    foreach (DataGridViewRow dtgFilas in dtgBasesPresupuestos.Rows)
-                    {
-                        var oPresupuestoBases = new PresupuestosBases();
-                        oPresupuestoBases.PresupuestoId = oPresupuesto.PresupuestoId;
-                        oPresupuestoBases.Base = Convert.ToDecimal(dtgFilas.Cells["BaseTotal"].Value.ToString());
-                        oPresupuestoBases.IVA = Convert.ToDecimal(dtgFilas.Cells["IVATotal"].Value.ToString());
-                        oPresupuestoBases.CuotaIVA = Convert.ToDecimal(dtgFilas.Cells["CuotaIVA"].Value.ToString());
-                        oPresupuestoBases.RecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["Recargo"].Value.ToString());
-                        oPresupuestoBases.CuotaRecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["CuotaRecargo"].Value.ToString());
-                        if (dtgFilas.Cells["RetencionPercent"].Value != null)
+                        //Se elimina primero los registros
+                        var oAlbaresDetalles = SGPADatos.AlbaranesClientesDetalles.Where(a => a.AlbaranId == oAlbaran.AlbaranId);
+                        foreach (AlbaranesClientesDetalles oAlbaranesDetalleFila in oAlbaresDetalles)
                         {
-                            if (dtgFilas.Cells["RetencionPercent"].Value.ToString() != "")
-                            {
-                                oPresupuestoBases.Retencion = Convert.ToDecimal(dtgFilas.Cells["RetencionPercent"].Value.ToString());
-                            }
+                            SGPADatos.AlbaranesClientesDetalles.Remove(oAlbaranesDetalleFila);
                         }
-                        if (dtgFilas.Cells["Retencion"].Value != null)
-                        {
-                            if (dtgFilas.Cells["Retencion"].Value.ToString() != "")
-                            {
-                                oPresupuestoBases.CuotaRetencion = Convert.ToDecimal(dtgFilas.Cells["Retencion"].Value.ToString());
-                            }
-                        }
-                        SGPADatos.PresupuestosBases.Add(oPresupuestoBases);
                         SGPADatos.SaveChanges();
+                        var oAlbaranesBases = SGPADatos.AlbaranesClientesBases.Where(a => a.AlbaranId == oAlbaran.AlbaranId);
+                        foreach (AlbaranesClientesBases oAlbaranesBaseFila in oAlbaranesBases)
+                        {
+                            SGPADatos.AlbaranesClientesBases.Remove(oAlbaranesBaseFila);
+                        }
+                        SGPADatos.SaveChanges();
+                        //Se guarda el detalle del presupuesto
+                        foreach (DataGridViewRow dtgFilas in dtgArticulosAlbaran.Rows)
+                        {
+                            var oAlbaranesDetalle = new AlbaranesClientesDetalles();
+                            oAlbaranesDetalle.AlbaranId = oAlbaran.AlbaranId;
+                            oAlbaranesDetalle.ArticuloId = Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString());
+                            oAlbaranesDetalle.Cantidad = Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString());
+                            oAlbaranesDetalle.Precio = Convert.ToDecimal(dtgFilas.Cells["Precio"].Value.ToString());
+                            if (dtgFilas.Cells["Dcto"].Value != null)
+                            {
+                                if (dtgFilas.Cells["Dcto"].Value.ToString() != "")
+                                {
+                                    oAlbaranesDetalle.Descuento = Convert.ToDecimal(dtgFilas.Cells["Dcto"].Value.ToString());
+                                }
+                            }
+                            oAlbaranesDetalle.IVA = Convert.ToDecimal(dtgFilas.Cells["IVA"].Value.ToString());
+                            oAlbaranesDetalle.Subtotal = Convert.ToDecimal(dtgFilas.Cells["Importe"].Value.ToString());
+                            SGPADatos.AlbaranesClientesDetalles.Add(oAlbaranesDetalle);
+                            SGPADatos.SaveChanges();
+                            Clases.ManejoComprometidos oManejoComprometido = new Clases.ManejoComprometidos();
+                            oManejoComprometido.InsertarMovimientoComprometido(Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString()), Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString()), oAlbaran.AlbaranId, "ALBARAN");
+                        }
+                        //Se guarda las bases del presupuesto
+                        foreach (DataGridViewRow dtgFilas in dtgBasesAlbaran.Rows)
+                        {
+                            var oAlbaranBases = new AlbaranesClientesBases();
+                            oAlbaranBases.AlbaranId = oAlbaran.AlbaranId;
+                            oAlbaranBases.Base = Convert.ToDecimal(dtgFilas.Cells["BaseTotal"].Value.ToString());
+                            oAlbaranBases.IVA = Convert.ToDecimal(dtgFilas.Cells["IVATotal"].Value.ToString());
+                            oAlbaranBases.CuotaIVA = Convert.ToDecimal(dtgFilas.Cells["CuotaIVA"].Value.ToString());
+                            oAlbaranBases.RecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["Recargo"].Value.ToString());
+                            oAlbaranBases.CuotaRecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["CuotaRecargo"].Value.ToString());
+                            if (dtgFilas.Cells["RetencionPercent"].Value != null)
+                            {
+                                if (dtgFilas.Cells["RetencionPercent"].Value.ToString() != "")
+                                {
+                                    oAlbaranBases.Retencion = Convert.ToDecimal(dtgFilas.Cells["RetencionPercent"].Value.ToString());
+                                }
+                            }
+                            if (dtgFilas.Cells["Retencion"].Value != null)
+                            {
+                                if (dtgFilas.Cells["Retencion"].Value.ToString() != "")
+                                {
+                                    oAlbaranBases.CuotaRetencion = Convert.ToDecimal(dtgFilas.Cells["Retencion"].Value.ToString());
+                                }
+                            }
+                            SGPADatos.AlbaranesClientesBases.Add(oAlbaranBases);
+                            SGPADatos.SaveChanges();
+                        }
+                        txtNumeroAlbaran.Text = oAlbaran.AlbaranId.ToString();
+                        FinalizarAlbaran(oAlbaran.AlbaranId);
+                        LlenarGrid("");
+                        Inicializar();
+                        strProceso = "N";
+                        return true;
                     }
-                    txtNumeroPresupuesto.Text = oPresupuesto.PresupuestoId.ToString();
-                    LlenarGrid("");
-                    Inicializar();
-                    strProceso = "N";
-                    return true;
                 }
                 return false;
             }
@@ -799,63 +882,67 @@ namespace SistemaGestion.Ventas
             {
                 if (ValidarGuardar())
                 {
-                    //Se guarda primero la maestra de presupuesto
-                    var oPresupuesto = new Presupuestos();
-                    oPresupuesto.ClienteId = Convert.ToInt32(txtClienteId.Text);
-                    oPresupuesto.EmpresaId = FrmPadre.dcmCodCompania;
-                    oPresupuesto.Fecha = dtpFecha.Value;
-                    oPresupuesto.Facturado = false;
-                    oPresupuesto.PresupuestoRecargo = chkRecargo.Checked;
-                    SGPADatos.Presupuestos.Add(oPresupuesto);
+                    //Se guarda primero la maestra de Albaranes
+                    var oAlbaran = new AlbaranesClientes();
+                    oAlbaran.ClienteId = Convert.ToInt32(txtClienteId.Text);
+                    oAlbaran.EmpresaId = FrmPadre.dcmCodCompania;
+                    oAlbaran.Fecha = dtpFecha.Value;
+                    oAlbaran.Facturado = false;
+                    oAlbaran.AlbaranesRecargo = chkRecargo.Checked;
+                    oAlbaran.Finalizado = bolAlbaranFinalizada;
+                    SGPADatos.AlbaranesClientes.Add(oAlbaran);
                     SGPADatos.SaveChanges();
-                    //Se guarda el detalle del presupuesto
-                    foreach (DataGridViewRow dtgFilas in dtgArticulosPresupuesto.Rows)
+                    //Se guarda el detalle del Albaranes
+                    foreach (DataGridViewRow dtgFilas in dtgArticulosAlbaran.Rows)
                     {
-                        var oPresupuestoDetalle = new PresupuestosDetalles();
-                        oPresupuestoDetalle.PresupuestoId = oPresupuesto.PresupuestoId;
-                        oPresupuestoDetalle.ArticuloId = Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString());
-                        oPresupuestoDetalle.Cantidad = Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString());
-                        oPresupuestoDetalle.Precio = Convert.ToDecimal(dtgFilas.Cells["Precio"].Value.ToString());
+                        var oAlbaranDetalle = new AlbaranesClientesDetalles();
+                        oAlbaranDetalle.AlbaranId = oAlbaran.AlbaranId;
+                        oAlbaranDetalle.ArticuloId = Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString());
+                        oAlbaranDetalle.Cantidad = Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString());
+                        oAlbaranDetalle.Precio = Convert.ToDecimal(dtgFilas.Cells["Precio"].Value.ToString());
                         if(dtgFilas.Cells["Dcto"].Value!=null)
                         {
                             if (dtgFilas.Cells["Dcto"].Value.ToString() != "")
                             {
-                                oPresupuestoDetalle.Descuento = Convert.ToDecimal(dtgFilas.Cells["Dcto"].Value.ToString());
+                                oAlbaranDetalle.Descuento = Convert.ToDecimal(dtgFilas.Cells["Dcto"].Value.ToString());
                             }
                         }                        
-                        oPresupuestoDetalle.IVA = Convert.ToDecimal(dtgFilas.Cells["IVA"].Value.ToString());
-                        oPresupuestoDetalle.Subtotal = Convert.ToDecimal(dtgFilas.Cells["Importe"].Value.ToString());
-                        SGPADatos.PresupuestosDetalles.Add(oPresupuestoDetalle);
+                        oAlbaranDetalle.IVA = Convert.ToDecimal(dtgFilas.Cells["IVA"].Value.ToString());
+                        oAlbaranDetalle.Subtotal = Convert.ToDecimal(dtgFilas.Cells["Importe"].Value.ToString());
+                        SGPADatos.AlbaranesClientesDetalles.Add(oAlbaranDetalle);
                         SGPADatos.SaveChanges();
+                        Clases.ManejoComprometidos oManejoComprometido = new Clases.ManejoComprometidos();
+                        oManejoComprometido.InsertarMovimientoComprometido(Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString()), Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString()), oAlbaran.AlbaranId, "ALBARAN");
                     }
-                    //Se guarda las bases del presupuesto
-                    foreach (DataGridViewRow dtgFilas in dtgBasesPresupuestos.Rows)
+                    //Se guarda las bases del Albaran
+                    foreach (DataGridViewRow dtgFilas in dtgBasesAlbaran.Rows)
                     {
-                        var oPresupuestoBases = new PresupuestosBases();
-                        oPresupuestoBases.PresupuestoId = oPresupuesto.PresupuestoId;
-                        oPresupuestoBases.Base = Convert.ToDecimal(dtgFilas.Cells["BaseTotal"].Value.ToString());
-                        oPresupuestoBases.IVA = Convert.ToDecimal(dtgFilas.Cells["IVATotal"].Value.ToString());
-                        oPresupuestoBases.CuotaIVA = Convert.ToDecimal(dtgFilas.Cells["CuotaIVA"].Value.ToString());
-                        oPresupuestoBases.RecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["Recargo"].Value.ToString());
-                        oPresupuestoBases.CuotaRecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["CuotaRecargo"].Value.ToString());
+                        var oAlbaranBases = new AlbaranesClientesBases();
+                        oAlbaranBases.AlbaranId = oAlbaran.AlbaranId;
+                        oAlbaranBases.Base = Convert.ToDecimal(dtgFilas.Cells["BaseTotal"].Value.ToString());
+                        oAlbaranBases.IVA = Convert.ToDecimal(dtgFilas.Cells["IVATotal"].Value.ToString());
+                        oAlbaranBases.CuotaIVA = Convert.ToDecimal(dtgFilas.Cells["CuotaIVA"].Value.ToString());
+                        oAlbaranBases.RecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["Recargo"].Value.ToString());
+                        oAlbaranBases.CuotaRecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["CuotaRecargo"].Value.ToString());
                         if (dtgFilas.Cells["RetencionPercent"].Value != null)
                         {
                             if (dtgFilas.Cells["RetencionPercent"].Value.ToString() != "")
                             {
-                                oPresupuestoBases.Retencion = Convert.ToDecimal(dtgFilas.Cells["RetencionPercent"].Value.ToString());
+                                oAlbaranBases.Retencion = Convert.ToDecimal(dtgFilas.Cells["RetencionPercent"].Value.ToString());
                             }
                         }
                         if (dtgFilas.Cells["Retencion"].Value != null)
                         {
                             if (dtgFilas.Cells["Retencion"].Value.ToString() != "")
                             {
-                                oPresupuestoBases.CuotaRetencion = Convert.ToDecimal(dtgFilas.Cells["Retencion"].Value.ToString());
+                                oAlbaranBases.CuotaRetencion = Convert.ToDecimal(dtgFilas.Cells["Retencion"].Value.ToString());
                             }
                         }
-                        SGPADatos.PresupuestosBases.Add(oPresupuestoBases);
+                        SGPADatos.AlbaranesClientesBases.Add(oAlbaranBases);
                         SGPADatos.SaveChanges();
                     }
-                    txtNumeroPresupuesto.Text = oPresupuesto.PresupuestoId.ToString();                    
+                    txtNumeroAlbaran.Text = oAlbaran.AlbaranId.ToString();
+                    FinalizarAlbaran(oAlbaran.AlbaranId);
                     LlenarGrid("");
                     Inicializar();
                     strProceso = "N";
@@ -868,29 +955,30 @@ namespace SistemaGestion.Ventas
                 return false;
             }
         }
-        private void CargarData(decimal dcmPresupuestoId)
+        private void CargarData(decimal dcmAlbaranId)
         {
             try
             {
-                var oPresupuesto = SGPADatos.Presupuestos.FirstOrDefault(a => a.PresupuestoId == dcmPresupuestoId);
-                if (oPresupuesto != null)
+                var oAlbaran = SGPADatos.AlbaranesClientes.FirstOrDefault(a => a.AlbaranId == dcmAlbaranId);
+                if (oAlbaran != null)
                 {
-                    txtNumeroPresupuesto.Text = oPresupuesto.PresupuestoId.ToString();
-                    txtClienteId.Text = oPresupuesto.ClienteId.ToString();
-                    txtNIF.Text = oPresupuesto.Clientes.Identificacion.ToString();
-                    dtpFecha.Value = oPresupuesto.Fecha;
-                    txtNombreCliente.Text = oPresupuesto.Clientes.NombreCliente.ToString();
-                    var oPresupuestosDetalles = SGPADatos.PresupuestosDetalles.Where(a => a.PresupuestoId == oPresupuesto.PresupuestoId);
-                    foreach (PresupuestosDetalles oPresupuestoDetalleFila in oPresupuestosDetalles)
+                    txtNumeroAlbaran.Text = oAlbaran.AlbaranId.ToString();
+                    txtClienteId.Text = oAlbaran.ClienteId.ToString();
+                    txtNIF.Text = oAlbaran.Clientes.Identificacion.ToString();
+                    dtpFecha.Value = oAlbaran.Fecha;
+                    txtNombreCliente.Text = oAlbaran.Clientes.NombreCliente.ToString();
+                    bolAlbaranFinalizada = oAlbaran.Finalizado;
+                    var oAlbaranesDetalles = SGPADatos.AlbaranesClientesDetalles.Where(a => a.AlbaranId == oAlbaran.AlbaranId);
+                    foreach (AlbaranesClientesDetalles oAlbaranDetalleFila in oAlbaranesDetalles)
                     {
-                        dtgArticulosPresupuesto.Rows.Add(oPresupuestoDetalleFila.Articulos.Descripcion.ToString(), oPresupuestoDetalleFila.ArticuloId.ToString(), oPresupuestoDetalleFila.Cantidad.ToString(), string.Format("{0:n}", oPresupuestoDetalleFila.Precio), string.Format("{0:n}", oPresupuestoDetalleFila.Descuento), string.Format("{0:n}", oPresupuestoDetalleFila.IVA), string.Format("{0:n}", oPresupuestoDetalleFila.Subtotal));
+                        dtgArticulosAlbaran.Rows.Add(oAlbaranDetalleFila.Articulos.Descripcion.ToString(), oAlbaranDetalleFila.ArticuloId.ToString(), oAlbaranDetalleFila.Cantidad.ToString(), string.Format("{0:n}", oAlbaranDetalleFila.Precio), string.Format("{0:n}", oAlbaranDetalleFila.Descuento), string.Format("{0:n}", oAlbaranDetalleFila.IVA), string.Format("{0:n}", oAlbaranDetalleFila.Subtotal));
                     }
-                    var oPresupuestosBases = SGPADatos.PresupuestosBases.Where(a => a.PresupuestoId == oPresupuesto.PresupuestoId);
-                    foreach (PresupuestosBases oPresupuestoBaseFila in oPresupuestosBases)
+                    var oAlbaranesBases = SGPADatos.AlbaranesClientesBases.Where(a => a.AlbaranId == oAlbaran.AlbaranId);
+                    foreach (AlbaranesClientesBases oAlbaranBaseFila in oAlbaranesBases)
                     {
-                        dtgBasesPresupuestos.Rows.Add(string.Format("{0:n}", oPresupuestoBaseFila.Base), string.Format("{0:n}", oPresupuestoBaseFila.IVA), string.Format("{0:n}", oPresupuestoBaseFila.CuotaIVA), string.Format("{0:n}", oPresupuestoBaseFila.Base+ oPresupuestoBaseFila.CuotaIVA), string.Format("{0:n}", oPresupuestoBaseFila.RecargoEquivalencia), string.Format("{0:n}", oPresupuestoBaseFila.CuotaRecargoEquivalencia), string.Format("{0:n}", oPresupuestoBaseFila.Retencion), string.Format("{0:n}", oPresupuestoBaseFila.CuotaRetencion));
+                        dtgBasesAlbaran.Rows.Add(string.Format("{0:n}", oAlbaranBaseFila.Base), string.Format("{0:n}", oAlbaranBaseFila.IVA), string.Format("{0:n}", oAlbaranBaseFila.CuotaIVA), string.Format("{0:n}", oAlbaranBaseFila.Base+ oAlbaranBaseFila.CuotaIVA), string.Format("{0:n}", oAlbaranBaseFila.RecargoEquivalencia), string.Format("{0:n}", oAlbaranBaseFila.CuotaRecargoEquivalencia), string.Format("{0:n}", oAlbaranBaseFila.Retencion), string.Format("{0:n}", oAlbaranBaseFila.CuotaRetencion));
                     }
-                    chkRecargo.Checked = (bool)oPresupuesto.PresupuestoRecargo;
+                    chkRecargo.Checked = (bool)oAlbaran.AlbaranesRecargo;
                     Totalizar();
                 }
             }
@@ -906,7 +994,7 @@ namespace SistemaGestion.Ventas
                 {
                     Cursor = Cursors.WaitCursor;
                     Inicializar();
-                    CargarData(Convert.ToDecimal(dtgConsulta.SelectedRows[0].Cells["PresupuestoId"].Value.ToString()));
+                    CargarData(Convert.ToDecimal(dtgConsulta.SelectedRows[0].Cells["AlbaranId"].Value.ToString()));
                     strProceso = "E";
                     ActivarBotonera();
                     Cursor = Cursors.Default;
@@ -919,7 +1007,7 @@ namespace SistemaGestion.Ventas
             }
         }
 
-        private void dtgArticulosPresupuesto_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dtgArticulosAlbaran_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
             {
@@ -944,7 +1032,28 @@ namespace SistemaGestion.Ventas
 
             }
         }
-
+        private void FinalizarAlbaran(decimal dcmAlbaranId)
+        {
+            try
+            {
+                if (bolAlbaranFinalizada)
+                {
+                    //Se finaliza el albaran
+                    var oAlbaran = SGPADatos.AlbaranesClientes.FirstOrDefault(a => a.AlbaranId == dcmAlbaranId && a.EmpresaId == FrmPadre.dcmCodCompania);
+                    oAlbaran.Finalizado = bolAlbaranFinalizada;
+                    var oAlbaranesDetalles = SGPADatos.AlbaranesClientesDetalles.Where(a => a.AlbaranId == dcmAlbaranId);
+                    foreach (AlbaranesClientesDetalles oAlbaranesFilas in oAlbaranesDetalles)
+                    {
+                        //Se genera el movimiento de inventario en existencias reales
+                        Clases.ManejoInventario oManejoInventario = new Clases.ManejoInventario();
+                        oManejoInventario.InsertarMovimientoInventario(oAlbaranesFilas.ArticuloId, oAlbaranesFilas.Cantidad, oAlbaran.AlbaranId, "ALBARAN");
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
         private void btnEliminarArticulo_Click(object sender, EventArgs e)
         {
             try
@@ -953,10 +1062,10 @@ namespace SistemaGestion.Ventas
                 if (_Dial == DialogResult.Yes)
                 {
                     Cursor = Cursors.WaitCursor;
-                    if (dtgArticulosPresupuesto.SelectedRows.Count == 1)
+                    if (dtgArticulosAlbaran.SelectedRows.Count == 1)
                     {
                         //decimal dcmArticuloPresupuestoId = Convert.ToDecimal(dtgArticulosPresupuesto.SelectedRows[0].Cells["ArticuloId"].Value.ToString());
-                        dtgArticulosPresupuesto.Rows.RemoveAt(dtgArticulosPresupuesto.SelectedRows[0].Index);
+                        dtgArticulosAlbaran.Rows.RemoveAt(dtgArticulosAlbaran.SelectedRows[0].Index);
                         LlenarGridBases();
                         Totalizar();
                     }
@@ -966,6 +1075,26 @@ namespace SistemaGestion.Ventas
             catch
             {
 
+            }
+        }
+        bool bolAlbaranFinalizada=false;
+        private void btnFinalizarAlbaran_Click(object sender, EventArgs e)
+        {
+            DialogResult _Dial = MessageBox.Show("¿Desea finalizar la albaran actual, luego no podrá ser modificada?", "Precaución", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (_Dial == DialogResult.Yes)
+            {
+                if (txtNumeroAlbaran.Text == "")
+                {
+                    //Albaran Nueva
+                    bolAlbaranFinalizada = true;
+                    Guardar();
+                }
+                else
+                {
+                    //Albaran Editada
+                    bolAlbaranFinalizada = true;
+                    Modificar();
+                }
             }
         }
     }

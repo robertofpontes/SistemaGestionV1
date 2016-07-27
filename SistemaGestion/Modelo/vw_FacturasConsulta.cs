@@ -12,10 +12,10 @@ namespace SistemaGestion.Modelo
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_PresupuestosConsulta
+    public partial class vw_FacturasConsulta
     {
         public System.DateTime Fecha { get; set; }
-        public decimal PresupuestoId { get; set; }
+        public Nullable<decimal> PresupuestoId { get; set; }
         public string Identificacion { get; set; }
         public string NombreCliente { get; set; }
         public Nullable<decimal> Base { get; set; }
@@ -23,7 +23,9 @@ namespace SistemaGestion.Modelo
         public Nullable<decimal> CuotaRetencion { get; set; }
         public Nullable<decimal> Total { get; set; }
         public decimal EmpresaId { get; set; }
-        public bool Facturado { get; set; }
+        public bool Impreso { get; set; }
         public decimal ClienteId { get; set; }
+        public decimal FacturaId { get; set; }
+        public bool Finalizado { get; set; }
     }
 }

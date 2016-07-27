@@ -16,10 +16,26 @@ namespace SistemaGestion.Ventas
     public partial class FrmFacturas : Form
     {
         SGPAEntities SGPADatos = new SGPAEntities();
+        List<Clases.RecibosFactura> oRecibosFacturas = new List<Clases.RecibosFactura>();
         public FrmFacturas()
         {
             InitializeComponent();
             LlenarGrid(txtConsulta.Text);
+            LlenarFormaPago();
+        }
+        private void LlenarFormaPago()
+        {
+            try
+            {
+                cmbFormaPago.DataSource = (from formapago in SGPADatos.FormasPagos
+                                           select new { formapago.FormaPagoId, formapago.Descripcion }).ToList();
+                cmbFormaPago.DisplayMember = "Descripcion";
+                cmbFormaPago.ValueMember = "FormaPagoId";
+                cmbFormaPago.SelectedIndex = -1;
+            }
+            catch
+            {
+            }
         }
         private void CambiarColorControles(Control Controles)
         {
@@ -109,24 +125,52 @@ namespace SistemaGestion.Ventas
         public void HabilitarControles()
         {
             BloquearControles(true);
-            strProceso = "M";
+            if (bolFacturaFinalizada)
+            {
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_nuevo2.Enabled = true;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_editar2.Enabled = true;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_guardar2.Enabled = false;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_borrar2.Enabled = false;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_cancelar2.Enabled = false;
+                ((FrmPadre)this.MdiParent)._Ctrl_Buscar1._Bt_borrar2.Enabled = true;
+                MessageBox.Show("Disculpe, la factura fue finalizada y no puede ser editada", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                strProceso = "M";
+            }
         }
         private void BloquearControles(bool bolActivo)
         {
+            if(bolFacturaFinalizada)
+            {
+                bolActivo = false;
+            }
             chkRecargo.Enabled = bolActivo;
             dtpFecha.Enabled = bolActivo;
             btnBuscarArticulos.Enabled = bolActivo;
             btnBuscarClientes.Enabled = bolActivo;
-            lblEliminarArticulo.Enabled = bolActivo;
             btnEliminarArticulo.Enabled = bolActivo;
-            lblEliminarArticulo.Visible = false;
             btnEliminarArticulo.Visible = false;
             dtgArticulosFacturas.Enabled = bolActivo;
-            dtgBasesFacturas.Enabled = bolActivo;            
+            btnVencimiento.Enabled = bolActivo;
+            if (strProceso == "A"|| strProceso == "")
+            {
+                btnBuscarPresupuesto.Enabled = bolActivo;
+            }
+            else
+            {
+                btnBuscarPresupuesto.Enabled = false;
+            }
+            txtNumeroPlazos.Enabled = bolActivo;
+            cmbFormaPago.Enabled = bolActivo;
+            btnFinalizarFactura.Enabled = bolActivo;
+            dtgBasesFacturas.Enabled = bolActivo;
         }
         public void Inicializar()
         {
             SGPADatos.Dispose();
+            oRecibosFacturas = new List<Clases.RecibosFactura>();
             dtgArticulosFacturas.CellValidating -= dtgArticulosPresupuesto_CellValidating;
             dtgArticulosFacturas.Rows.Clear();
             dtgArticulosFacturas.CellValidating += dtgArticulosPresupuesto_CellValidating;
@@ -134,20 +178,23 @@ namespace SistemaGestion.Ventas
             strProceso = "";
             txtBase.Text = "";
             txtIVA.Text = "";
+            bolFacturaFinalizada = false;
             txtRecargo.Text = "";
             txtRetencion.Text = "";
             txtTotal.Text = "";
             txtClienteId.Text = "";
             txtNumeroFactura.Text = "";
             txtNombreCliente.Text = "";
+            txtPresupuesto.Text = "";
+            txtNumeroPlazos.Text = "";
+            cmbFormaPago.SelectedIndex = -1;
             txtNIF.Text = "";
-            lblEliminarArticulo.Visible = false;
             btnEliminarArticulo.Visible = false;
-            chkRecargo.Checked = false;            
+            chkRecargo.Checked = false;
             BloquearControles(false);
             SGPADatos = new SGPAEntities();
         }
-        
+
 
         private void FrmPresupuestos_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -190,8 +237,8 @@ namespace SistemaGestion.Ventas
             try
             {
                 dtgConsulta.AutoGenerateColumns = false;
-                var oDatos = (from presupuestos in SGPADatos.vw_PresupuestosConsulta where (presupuestos.NombreCliente.Contains(strBusqueda) || presupuestos.PresupuestoId.ToString().Contains(strBusqueda)) && presupuestos.EmpresaId == FrmPadre.dcmCodCompania select presupuestos).OrderByDescending(a => a.Fecha).AsNoTracking();
-                dtgConsulta.DataSource = oDatos.ToList();              
+                var oDatos = (from facturas in SGPADatos.vw_FacturasConsulta where (facturas.NombreCliente.Contains(strBusqueda) || facturas.FacturaId.ToString().Contains(strBusqueda)) && facturas.EmpresaId == FrmPadre.dcmCodCompania select facturas).OrderByDescending(a => a.Fecha).AsNoTracking();
+                dtgConsulta.DataSource = oDatos.ToList();
                 tabFormulario.SelectedIndex = 0;
                 dtgConsulta.Columns[0].Width = 80;
             }
@@ -253,7 +300,7 @@ namespace SistemaGestion.Ventas
                 if (dtgFilas.Cells["IVATotal"].Value != null)
                 {
                     var oExiste = oBasesImpuestosDistinct.Where(a => a.IVA.ToString() == dtgFilas.Cells["IVATotal"].Value.ToString());
-                    if (oExiste.Count()==0)
+                    if (oExiste.Count() == 0)
                     {
                         //Se Elimina la fila en el grid de bases
                         dtgBasesFacturas.Rows.RemoveAt(dtgFilas.Index);
@@ -311,7 +358,7 @@ namespace SistemaGestion.Ventas
                             }
                             else
                             {
-                                MessageBox.Show("El artículo ya existe en el presupuesto actual5", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                MessageBox.Show("El artículo ya existe en la factura actual", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             }
                         }
                     }
@@ -326,17 +373,17 @@ namespace SistemaGestion.Ventas
             }
         }
 
-        
+
 
         private void dtgArticulosPresupuesto_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
-        
+
 
         private void dtgArticulosPresupuesto_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            
+
         }
 
         private void dtgArticulosPresupuesto_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -376,6 +423,59 @@ namespace SistemaGestion.Ventas
                 dcmImporte = (dcmCantidad * dcmPrecio) - (dcmCantidad * dcmPrecio * (dcmDescuento / 100));
                 if (e.ColumnIndex == 2 || e.ColumnIndex == 4)
                 {
+                    //Se debe validar inventario
+                    if (txtNumeroFactura.Text == "")
+                    {
+                        //Factura nueva
+                        string strArticulo = dtgArticulosFacturas.Rows[e.RowIndex].Cells["ArticuloId"].Value.ToString();
+                        var oArticulosInventario = SGPADatos.vw_ArticulosConsulta.FirstOrDefault(a => a.ArticuloId.ToString() == strArticulo && a.EmpresaId == FrmPadre.dcmCodCompania);
+                        if (oArticulosInventario != null)
+                        {
+                            if ((oArticulosInventario.Cantidad - oArticulosInventario.CantidadComprometida) < dcmCantidad)
+                            {
+                                dtgArticulosFacturas.Rows[e.RowIndex].Cells["Importe"].Value = "0,00";
+                                dtgArticulosFacturas.Rows[e.RowIndex].Cells["Cantidad"].Value = "0";
+                                dcmImporte = 0;
+                                dcmCantidad = 0;
+                                MessageBox.Show("No puede ingresar mas de " + (oArticulosInventario.Cantidad - oArticulosInventario.CantidadComprometida).ToString() + " Unds del artículo " + oArticulosInventario.Descripcion, FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        string strArticulo = dtgArticulosFacturas.Rows[e.RowIndex].Cells["ArticuloId"].Value.ToString();
+                        var oDetalleFactura = SGPADatos.FacturasDetalles.FirstOrDefault(a=>a.FacturaId.ToString()==txtNumeroFactura.Text && a.ArticuloId.ToString()== strArticulo);
+                        if (oDetalleFactura != null)
+                        {
+                            var oArticulosInventario = SGPADatos.vw_ArticulosConsulta.FirstOrDefault(a => a.ArticuloId.ToString() == strArticulo && a.EmpresaId == FrmPadre.dcmCodCompania);
+                            if (oArticulosInventario != null)
+                            {
+                                if ((oArticulosInventario.Cantidad - (oArticulosInventario.CantidadComprometida- oDetalleFactura.Cantidad)) < dcmCantidad)
+                                {
+                                    dtgArticulosFacturas.Rows[e.RowIndex].Cells["Importe"].Value = "0,00";
+                                    dtgArticulosFacturas.Rows[e.RowIndex].Cells["Cantidad"].Value = "0";
+                                    dcmImporte = 0;
+                                    dcmCantidad = 0;
+                                    MessageBox.Show("No puede ingresar mas de " + ((oArticulosInventario.Cantidad - (oArticulosInventario.CantidadComprometida - oDetalleFactura.Cantidad))).ToString() + " Unds del artículo " + oArticulosInventario.Descripcion, FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var oArticulosInventario = SGPADatos.vw_ArticulosConsulta.FirstOrDefault(a => a.ArticuloId.ToString() == strArticulo && a.EmpresaId == FrmPadre.dcmCodCompania);
+                            if (oArticulosInventario != null)
+                            {
+                                if ((oArticulosInventario.Cantidad - oArticulosInventario.CantidadComprometida) < dcmCantidad)
+                                {
+                                    dtgArticulosFacturas.Rows[e.RowIndex].Cells["Importe"].Value = "0,00";
+                                    dtgArticulosFacturas.Rows[e.RowIndex].Cells["Cantidad"].Value = "0";
+                                    dcmImporte = 0;
+                                    dcmCantidad = 0;
+                                    MessageBox.Show("No puede ingresar mas de " + (oArticulosInventario.Cantidad - oArticulosInventario.CantidadComprometida).ToString() + " Unds del artículo " + oArticulosInventario.Descripcion, FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                            }
+                        }
+                    }
                     dtgArticulosFacturas.Rows[e.RowIndex].Cells["Importe"].Value = string.Format("{0:n}", dcmImporte);
                     LlenarGridBases();
                 }
@@ -402,7 +502,7 @@ namespace SistemaGestion.Ventas
         {
             try
             {
-               if (e.KeyChar == 8)
+                if (e.KeyChar == 8)
                 {
                     e.Handled = false;
                     return;
@@ -482,7 +582,7 @@ namespace SistemaGestion.Ventas
                 }
             }
             dcmTotal = dcmBases + dcmIVA + dcmRecargo - dcmRetencion;
-            txtBase.Text = string.Format("{0:n}",dcmBases);
+            txtBase.Text = string.Format("{0:n}", dcmBases);
             txtIVA.Text = string.Format("{0:n}", dcmIVA);
             txtRecargo.Text = string.Format("{0:n}", dcmRecargo);
             txtRetencion.Text = string.Format("{0:n}", dcmRetencion);
@@ -619,7 +719,7 @@ namespace SistemaGestion.Ventas
             if (dtgBasesFacturas.CurrentCell.ColumnIndex == 6)
             {
                 //e.Control.KeyPress += new KeyPressEventHandler(Control_KeyPress);
-                e.Control.KeyPress += Control_KeyPress2; 
+                e.Control.KeyPress += Control_KeyPress2;
             }
         }
 
@@ -679,7 +779,7 @@ namespace SistemaGestion.Ventas
                         if (dtgFilas.Cells["Cantidad"].Value.ToString() == "")
                         {
                             MessageBox.Show("Debe ingresar las cantidades de todos los artículos en la lista", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                           return false;
+                            return false;
                         }
                         else
                         {
@@ -702,6 +802,17 @@ namespace SistemaGestion.Ventas
                 Clases.Utilidades.MostrarErrorControl(dtgBasesFacturas, ErrorValidador, "El campo es obligatorio");
                 return false;
             }
+            if (oRecibosFacturas.Count() == 0)
+            {
+                Clases.Utilidades.MostrarErrorControl(txtNumeroPlazos, ErrorValidador, "El campo es obligatorio");
+                MessageBox.Show("Debe ingresar el número de plazos y la respectiva fecha de vencimiento", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            if (cmbFormaPago.SelectedValue == null)
+            {
+                Clases.Utilidades.MostrarErrorControl(cmbFormaPago, ErrorValidador, "El campo es obligatorio");
+                return false;
+            }
             return true;
         }
         public bool Modificar()
@@ -712,74 +823,104 @@ namespace SistemaGestion.Ventas
                 if (ValidarGuardar())
                 {
                     //Se guarda primero la maestra de presupuesto
-                    var oPresupuesto = SGPADatos.Presupuestos.FirstOrDefault(a => a.PresupuestoId.ToString() == txtNumeroFactura.Text);
-                    oPresupuesto.ClienteId = Convert.ToInt32(txtClienteId.Text);
-                    oPresupuesto.EmpresaId = FrmPadre.dcmCodCompania;
-                    oPresupuesto.Fecha = dtpFecha.Value;
-                    oPresupuesto.Facturado = false;
-                    oPresupuesto.PresupuestoRecargo = chkRecargo.Checked;
+                    var oFactura = SGPADatos.Facturas.FirstOrDefault(a => a.FacturaId.ToString() == txtNumeroFactura.Text && a.EmpresaId == FrmPadre.dcmCodCompania);
+                    if(oFactura.Finalizado)
+                    {
+                        MessageBox.Show("Disculpe, la factura fue finalizada y no puede ser editada", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return false;
+                    }
+                    oFactura.ClienteId = Convert.ToInt32(txtClienteId.Text);
+                    oFactura.EmpresaId = FrmPadre.dcmCodCompania;
+                    oFactura.Fecha = dtpFecha.Value;
+                    oFactura.FacturaRecargo = chkRecargo.Checked;
+                    if (txtPresupuesto.Text != "")
+                    {
+                        oFactura.PresupuestoId = Convert.ToDecimal(txtPresupuesto.Text);
+                    }
+                    oFactura.FormaPagoId = Convert.ToDecimal(cmbFormaPago.SelectedValue.ToString());
+                    oFactura.Finalizado = bolFacturaFinalizada;
                     SGPADatos.SaveChanges();
                     //Se elimina primero los registros
-                    var oPresupuestosDetalles = SGPADatos.PresupuestosDetalles.Where(a => a.PresupuestoId == oPresupuesto.PresupuestoId);
-                    foreach (PresupuestosDetalles oPresupuestoDetalleFila in oPresupuestosDetalles)
+                    var oFacturasDetalles = SGPADatos.FacturasDetalles.Where(a => a.FacturaId == oFactura.FacturaId);
+                    foreach (FacturasDetalles oPresupuestoDetalleFila in oFacturasDetalles)
                     {
-                        SGPADatos.PresupuestosDetalles.Remove(oPresupuestoDetalleFila);                        
+                        SGPADatos.FacturasDetalles.Remove(oPresupuestoDetalleFila);
                     }
                     SGPADatos.SaveChanges();
-                    var oPresupuestosBases = SGPADatos.PresupuestosBases.Where(a => a.PresupuestoId == oPresupuesto.PresupuestoId);
-                    foreach (PresupuestosBases oPresupuestoBaseFila in oPresupuestosBases)
+                    var oFacturasBases = SGPADatos.FacturasBases.Where(a => a.FacturaId == oFactura.FacturaId);
+                    foreach (FacturasBases oFacturaBaseFila in oFacturasBases)
                     {
-                        SGPADatos.PresupuestosBases.Remove(oPresupuestoBaseFila);                        
+                        SGPADatos.FacturasBases.Remove(oFacturaBaseFila);
+                    }
+                    SGPADatos.SaveChanges();
+                    var oRecibosBD = SGPADatos.Recibos.Where(a => a.FacturaId == oFactura.FacturaId);
+                    foreach (Recibos oReciboFila in oRecibosBD)
+                    {
+                        SGPADatos.Recibos.Remove(oReciboFila);
                     }
                     SGPADatos.SaveChanges();
                     //Se guarda el detalle del presupuesto
                     foreach (DataGridViewRow dtgFilas in dtgArticulosFacturas.Rows)
                     {
-                        var oPresupuestoDetalle = new PresupuestosDetalles();
-                        oPresupuestoDetalle.PresupuestoId = oPresupuesto.PresupuestoId;
-                        oPresupuestoDetalle.ArticuloId = Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString());
-                        oPresupuestoDetalle.Cantidad = Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString());
-                        oPresupuestoDetalle.Precio = Convert.ToDecimal(dtgFilas.Cells["Precio"].Value.ToString());
+                        var oFacturaDetalle = new FacturasDetalles();
+                        oFacturaDetalle.FacturaId = oFactura.FacturaId;
+                        oFacturaDetalle.ArticuloId = Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString());
+                        oFacturaDetalle.Cantidad = Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString());
+                        oFacturaDetalle.Precio = Convert.ToDecimal(dtgFilas.Cells["Precio"].Value.ToString());
                         if (dtgFilas.Cells["Dcto"].Value != null)
                         {
                             if (dtgFilas.Cells["Dcto"].Value.ToString() != "")
                             {
-                                oPresupuestoDetalle.Descuento = Convert.ToDecimal(dtgFilas.Cells["Dcto"].Value.ToString());
+                                oFacturaDetalle.Descuento = Convert.ToDecimal(dtgFilas.Cells["Dcto"].Value.ToString());
                             }
                         }
-                        oPresupuestoDetalle.IVA = Convert.ToDecimal(dtgFilas.Cells["IVA"].Value.ToString());
-                        oPresupuestoDetalle.Subtotal = Convert.ToDecimal(dtgFilas.Cells["Importe"].Value.ToString());
-                        SGPADatos.PresupuestosDetalles.Add(oPresupuestoDetalle);
+                        oFacturaDetalle.IVA = Convert.ToDecimal(dtgFilas.Cells["IVA"].Value.ToString());
+                        oFacturaDetalle.Subtotal = Convert.ToDecimal(dtgFilas.Cells["Importe"].Value.ToString());
+                        SGPADatos.FacturasDetalles.Add(oFacturaDetalle);
                         SGPADatos.SaveChanges();
+                        Clases.ManejoComprometidos oManejoComprometido = new Clases.ManejoComprometidos();
+                        oManejoComprometido.InsertarMovimientoComprometido(Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString()), Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString()), oFactura.FacturaId, "FACTURA");
                     }
                     //Se guarda las bases del presupuesto
                     foreach (DataGridViewRow dtgFilas in dtgBasesFacturas.Rows)
                     {
-                        var oPresupuestoBases = new PresupuestosBases();
-                        oPresupuestoBases.PresupuestoId = oPresupuesto.PresupuestoId;
-                        oPresupuestoBases.Base = Convert.ToDecimal(dtgFilas.Cells["BaseTotal"].Value.ToString());
-                        oPresupuestoBases.IVA = Convert.ToDecimal(dtgFilas.Cells["IVATotal"].Value.ToString());
-                        oPresupuestoBases.CuotaIVA = Convert.ToDecimal(dtgFilas.Cells["CuotaIVA"].Value.ToString());
-                        oPresupuestoBases.RecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["Recargo"].Value.ToString());
-                        oPresupuestoBases.CuotaRecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["CuotaRecargo"].Value.ToString());
+                        var oFacturaBases = new FacturasBases();
+                        oFacturaBases.FacturaId = oFactura.FacturaId;
+                        oFacturaBases.Base = Convert.ToDecimal(dtgFilas.Cells["BaseTotal"].Value.ToString());
+                        oFacturaBases.IVA = Convert.ToDecimal(dtgFilas.Cells["IVATotal"].Value.ToString());
+                        oFacturaBases.CuotaIVA = Convert.ToDecimal(dtgFilas.Cells["CuotaIVA"].Value.ToString());
+                        oFacturaBases.RecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["Recargo"].Value.ToString());
+                        oFacturaBases.CuotaRecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["CuotaRecargo"].Value.ToString());
                         if (dtgFilas.Cells["RetencionPercent"].Value != null)
                         {
                             if (dtgFilas.Cells["RetencionPercent"].Value.ToString() != "")
                             {
-                                oPresupuestoBases.Retencion = Convert.ToDecimal(dtgFilas.Cells["RetencionPercent"].Value.ToString());
+                                oFacturaBases.Retencion = Convert.ToDecimal(dtgFilas.Cells["RetencionPercent"].Value.ToString());
                             }
                         }
                         if (dtgFilas.Cells["Retencion"].Value != null)
                         {
                             if (dtgFilas.Cells["Retencion"].Value.ToString() != "")
                             {
-                                oPresupuestoBases.CuotaRetencion = Convert.ToDecimal(dtgFilas.Cells["Retencion"].Value.ToString());
+                                oFacturaBases.CuotaRetencion = Convert.ToDecimal(dtgFilas.Cells["Retencion"].Value.ToString());
                             }
                         }
-                        SGPADatos.PresupuestosBases.Add(oPresupuestoBases);
+                        SGPADatos.FacturasBases.Add(oFacturaBases);
                         SGPADatos.SaveChanges();
                     }
-                    txtNumeroFactura.Text = oPresupuesto.PresupuestoId.ToString();
+                    foreach (Clases.RecibosFactura oRecibo in oRecibosFacturas)
+                    {
+                        var oReciboBD = new Recibos();
+                        oReciboBD.FacturaId = oFactura.FacturaId;
+                        oReciboBD.Fecha = oRecibo.Fecha;
+                        oReciboBD.Importe = oRecibo.Importe;
+                        oReciboBD.PlazoId = oRecibo.PlazoId;
+                        oReciboBD.Cobrado = false;
+                        SGPADatos.Recibos.Add(oReciboBD);
+                    }
+                    SGPADatos.SaveChanges();
+                    txtNumeroFactura.Text = oFactura.FacturaId.ToString();
+                    FinalizarFactura(oFactura.FacturaId);
                     LlenarGrid("");
                     Inicializar();
                     strProceso = "N";
@@ -799,63 +940,90 @@ namespace SistemaGestion.Ventas
             {
                 if (ValidarGuardar())
                 {
-                    //Se guarda primero la maestra de presupuesto
-                    var oPresupuesto = new Presupuestos();
-                    oPresupuesto.ClienteId = Convert.ToInt32(txtClienteId.Text);
-                    oPresupuesto.EmpresaId = FrmPadre.dcmCodCompania;
-                    oPresupuesto.Fecha = dtpFecha.Value;
-                    oPresupuesto.Facturado = false;
-                    oPresupuesto.PresupuestoRecargo = chkRecargo.Checked;
-                    SGPADatos.Presupuestos.Add(oPresupuesto);
+                    //Se guarda primero la maestra de la factura
+                    var oFactura = new Facturas();
+                    oFactura.ClienteId = Convert.ToInt32(txtClienteId.Text);
+                    oFactura.EmpresaId = FrmPadre.dcmCodCompania;
+                    oFactura.Fecha = dtpFecha.Value;
+                    oFactura.Impreso = false;
+                    if (txtPresupuesto.Text != "")
+                    {
+                        oFactura.PresupuestoId = Convert.ToDecimal(txtPresupuesto.Text);
+                    }
+                    oFactura.FormaPagoId = Convert.ToDecimal(cmbFormaPago.SelectedValue.ToString());
+                    oFactura.FacturaRecargo = chkRecargo.Checked;
+                    oFactura.Finalizado = bolFacturaFinalizada;
+                    SGPADatos.Facturas.Add(oFactura);
                     SGPADatos.SaveChanges();
-                    //Se guarda el detalle del presupuesto
+                    //Se guarda el detalle de la factura
                     foreach (DataGridViewRow dtgFilas in dtgArticulosFacturas.Rows)
                     {
-                        var oPresupuestoDetalle = new PresupuestosDetalles();
-                        oPresupuestoDetalle.PresupuestoId = oPresupuesto.PresupuestoId;
-                        oPresupuestoDetalle.ArticuloId = Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString());
-                        oPresupuestoDetalle.Cantidad = Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString());
-                        oPresupuestoDetalle.Precio = Convert.ToDecimal(dtgFilas.Cells["Precio"].Value.ToString());
-                        if(dtgFilas.Cells["Dcto"].Value!=null)
+                        var oFacturaDetalle = new FacturasDetalles();
+                        oFacturaDetalle.FacturaId = oFactura.FacturaId;
+                        oFacturaDetalle.ArticuloId = Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString());
+                        oFacturaDetalle.Cantidad = Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString());
+                        oFacturaDetalle.Precio = Convert.ToDecimal(dtgFilas.Cells["Precio"].Value.ToString());
+                        if (dtgFilas.Cells["Dcto"].Value != null)
                         {
                             if (dtgFilas.Cells["Dcto"].Value.ToString() != "")
                             {
-                                oPresupuestoDetalle.Descuento = Convert.ToDecimal(dtgFilas.Cells["Dcto"].Value.ToString());
+                                oFacturaDetalle.Descuento = Convert.ToDecimal(dtgFilas.Cells["Dcto"].Value.ToString());
                             }
-                        }                        
-                        oPresupuestoDetalle.IVA = Convert.ToDecimal(dtgFilas.Cells["IVA"].Value.ToString());
-                        oPresupuestoDetalle.Subtotal = Convert.ToDecimal(dtgFilas.Cells["Importe"].Value.ToString());
-                        SGPADatos.PresupuestosDetalles.Add(oPresupuestoDetalle);
+                        }
+                        oFacturaDetalle.IVA = Convert.ToDecimal(dtgFilas.Cells["IVA"].Value.ToString());
+                        oFacturaDetalle.Subtotal = Convert.ToDecimal(dtgFilas.Cells["Importe"].Value.ToString());
+                        SGPADatos.FacturasDetalles.Add(oFacturaDetalle);
                         SGPADatos.SaveChanges();
+                        Clases.ManejoComprometidos oManejoComprometido = new Clases.ManejoComprometidos();
+                        oManejoComprometido.InsertarMovimientoComprometido(Convert.ToDecimal(dtgFilas.Cells["ArticuloId"].Value.ToString()), Convert.ToDecimal(dtgFilas.Cells["Cantidad"].Value.ToString()), oFactura.FacturaId, "FACTURA");
                     }
-                    //Se guarda las bases del presupuesto
+                    //Se guarda las bases de la factura
                     foreach (DataGridViewRow dtgFilas in dtgBasesFacturas.Rows)
                     {
-                        var oPresupuestoBases = new PresupuestosBases();
-                        oPresupuestoBases.PresupuestoId = oPresupuesto.PresupuestoId;
-                        oPresupuestoBases.Base = Convert.ToDecimal(dtgFilas.Cells["BaseTotal"].Value.ToString());
-                        oPresupuestoBases.IVA = Convert.ToDecimal(dtgFilas.Cells["IVATotal"].Value.ToString());
-                        oPresupuestoBases.CuotaIVA = Convert.ToDecimal(dtgFilas.Cells["CuotaIVA"].Value.ToString());
-                        oPresupuestoBases.RecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["Recargo"].Value.ToString());
-                        oPresupuestoBases.CuotaRecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["CuotaRecargo"].Value.ToString());
+                        var oFacturaBases = new FacturasBases();
+                        oFacturaBases.FacturaId = oFactura.FacturaId;
+                        oFacturaBases.Base = Convert.ToDecimal(dtgFilas.Cells["BaseTotal"].Value.ToString());
+                        oFacturaBases.IVA = Convert.ToDecimal(dtgFilas.Cells["IVATotal"].Value.ToString());
+                        oFacturaBases.CuotaIVA = Convert.ToDecimal(dtgFilas.Cells["CuotaIVA"].Value.ToString());
+                        oFacturaBases.RecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["Recargo"].Value.ToString());
+                        oFacturaBases.CuotaRecargoEquivalencia = Convert.ToDecimal(dtgFilas.Cells["CuotaRecargo"].Value.ToString());
                         if (dtgFilas.Cells["RetencionPercent"].Value != null)
                         {
                             if (dtgFilas.Cells["RetencionPercent"].Value.ToString() != "")
                             {
-                                oPresupuestoBases.Retencion = Convert.ToDecimal(dtgFilas.Cells["RetencionPercent"].Value.ToString());
+                                oFacturaBases.Retencion = Convert.ToDecimal(dtgFilas.Cells["RetencionPercent"].Value.ToString());
                             }
                         }
                         if (dtgFilas.Cells["Retencion"].Value != null)
                         {
                             if (dtgFilas.Cells["Retencion"].Value.ToString() != "")
                             {
-                                oPresupuestoBases.CuotaRetencion = Convert.ToDecimal(dtgFilas.Cells["Retencion"].Value.ToString());
+                                oFacturaBases.CuotaRetencion = Convert.ToDecimal(dtgFilas.Cells["Retencion"].Value.ToString());
                             }
                         }
-                        SGPADatos.PresupuestosBases.Add(oPresupuestoBases);
+                        SGPADatos.FacturasBases.Add(oFacturaBases);
                         SGPADatos.SaveChanges();
                     }
-                    txtNumeroFactura.Text = oPresupuesto.PresupuestoId.ToString();                    
+                    foreach (Clases.RecibosFactura oRecibo in oRecibosFacturas)
+                    {
+                        var oReciboBD = new Recibos();
+                        oReciboBD.FacturaId = oFactura.FacturaId;
+                        oReciboBD.Fecha = oRecibo.Fecha;
+                        oReciboBD.Importe = oRecibo.Importe;
+                        oReciboBD.PlazoId = oRecibo.PlazoId;
+                        oReciboBD.Cobrado = false;
+                        SGPADatos.Recibos.Add(oReciboBD);
+                    }
+                    SGPADatos.SaveChanges();
+                    txtNumeroFactura.Text = oFactura.FacturaId.ToString();
+                    //Si se copió de un presupuesto debe modificarse el campo facturado en el presupuesto
+                    if (txtPresupuesto.Text != "")
+                    {
+                        var oPresupuesto = SGPADatos.Presupuestos.FirstOrDefault(a => a.PresupuestoId.ToString() == txtPresupuesto.Text && a.EmpresaId == FrmPadre.dcmCodCompania);
+                        oPresupuesto.Facturado = true;
+                        SGPADatos.SaveChanges();
+                    }
+                    FinalizarFactura(oFactura.FacturaId);
                     LlenarGrid("");
                     Inicializar();
                     strProceso = "N";
@@ -868,29 +1036,43 @@ namespace SistemaGestion.Ventas
                 return false;
             }
         }
-        private void CargarData(decimal dcmPresupuestoId)
+        private void CargarData(decimal dcmFacturaId)
         {
             try
             {
-                var oPresupuesto = SGPADatos.Presupuestos.FirstOrDefault(a => a.PresupuestoId == dcmPresupuestoId);
-                if (oPresupuesto != null)
+                var oFactura = SGPADatos.Facturas.FirstOrDefault(a => a.FacturaId == dcmFacturaId);
+                if (oFactura != null)
                 {
-                    txtNumeroFactura.Text = oPresupuesto.PresupuestoId.ToString();
-                    txtClienteId.Text = oPresupuesto.ClienteId.ToString();
-                    txtNIF.Text = oPresupuesto.Clientes.Identificacion.ToString();
-                    dtpFecha.Value = oPresupuesto.Fecha;
-                    txtNombreCliente.Text = oPresupuesto.Clientes.NombreCliente.ToString();
-                    var oPresupuestosDetalles = SGPADatos.PresupuestosDetalles.Where(a => a.PresupuestoId == oPresupuesto.PresupuestoId);
-                    foreach (PresupuestosDetalles oPresupuestoDetalleFila in oPresupuestosDetalles)
+                    bolFacturaFinalizada = oFactura.Finalizado;
+                    txtNumeroFactura.Text = oFactura.FacturaId.ToString();
+                    txtClienteId.Text = oFactura.ClienteId.ToString();
+                    txtNIF.Text = oFactura.Clientes.Identificacion.ToString();
+                    dtpFecha.Value = oFactura.Fecha;
+                    txtPresupuesto.Text = oFactura.PresupuestoId.ToString();
+                    var oRecibosFacturasData = SGPADatos.Recibos.Where(a => a.FacturaId == oFactura.FacturaId).AsNoTracking();
+                    txtNumeroPlazos.Text = oRecibosFacturasData.Count().ToString();
+                    foreach (Recibos oRecibo in oRecibosFacturasData)
                     {
-                        dtgArticulosFacturas.Rows.Add(oPresupuestoDetalleFila.Articulos.Descripcion.ToString(), oPresupuestoDetalleFila.ArticuloId.ToString(), oPresupuestoDetalleFila.Cantidad.ToString(), string.Format("{0:n}", oPresupuestoDetalleFila.Precio), string.Format("{0:n}", oPresupuestoDetalleFila.Descuento), string.Format("{0:n}", oPresupuestoDetalleFila.IVA), string.Format("{0:n}", oPresupuestoDetalleFila.Subtotal));
+                        var oReciboFactura = new Clases.RecibosFactura();
+                        oReciboFactura.Fecha = oRecibo.Fecha;
+                        oReciboFactura.Importe = oRecibo.Importe;
+                        oReciboFactura.PlazoId = oRecibo.PlazoId;
+                        oRecibosFacturas.Add(oReciboFactura);
                     }
-                    var oPresupuestosBases = SGPADatos.PresupuestosBases.Where(a => a.PresupuestoId == oPresupuesto.PresupuestoId);
-                    foreach (PresupuestosBases oPresupuestoBaseFila in oPresupuestosBases)
+                    txtNombreCliente.Text = oFactura.Clientes.NombreCliente.ToString();
+                    var oFormaPago = SGPADatos.FormasPagos.FirstOrDefault(a => a.FormaPagoId == oFactura.FormaPagoId);
+                    Clases.Utilidades.AsignarValorCombo(cmbFormaPago, oFormaPago.Descripcion);
+                    var oFacturasDetalles = SGPADatos.FacturasDetalles.Where(a => a.FacturaId == oFactura.FacturaId);
+                    foreach (FacturasDetalles oFacturaDetalleFila in oFacturasDetalles)
                     {
-                        dtgBasesFacturas.Rows.Add(string.Format("{0:n}", oPresupuestoBaseFila.Base), string.Format("{0:n}", oPresupuestoBaseFila.IVA), string.Format("{0:n}", oPresupuestoBaseFila.CuotaIVA), string.Format("{0:n}", oPresupuestoBaseFila.Base+ oPresupuestoBaseFila.CuotaIVA), string.Format("{0:n}", oPresupuestoBaseFila.RecargoEquivalencia), string.Format("{0:n}", oPresupuestoBaseFila.CuotaRecargoEquivalencia), string.Format("{0:n}", oPresupuestoBaseFila.Retencion), string.Format("{0:n}", oPresupuestoBaseFila.CuotaRetencion));
+                        dtgArticulosFacturas.Rows.Add(oFacturaDetalleFila.Articulos.Descripcion.ToString(), oFacturaDetalleFila.ArticuloId.ToString(), oFacturaDetalleFila.Cantidad.ToString(), string.Format("{0:n}", oFacturaDetalleFila.Precio), string.Format("{0:n}", oFacturaDetalleFila.Descuento), string.Format("{0:n}", oFacturaDetalleFila.IVA), string.Format("{0:n}", oFacturaDetalleFila.Subtotal));
                     }
-                    chkRecargo.Checked = (bool)oPresupuesto.PresupuestoRecargo;
+                    var oFacturasBases = SGPADatos.FacturasBases.Where(a => a.FacturaId == oFactura.FacturaId);
+                    foreach (FacturasBases oFacturaBaseFila in oFacturasBases)
+                    {
+                        dtgBasesFacturas.Rows.Add(string.Format("{0:n}", oFacturaBaseFila.Base), string.Format("{0:n}", oFacturaBaseFila.IVA), string.Format("{0:n}", oFacturaBaseFila.CuotaIVA), string.Format("{0:n}", oFacturaBaseFila.Base + oFacturaBaseFila.CuotaIVA), string.Format("{0:n}", oFacturaBaseFila.RecargoEquivalencia), string.Format("{0:n}", oFacturaBaseFila.CuotaRecargoEquivalencia), string.Format("{0:n}", oFacturaBaseFila.Retencion), string.Format("{0:n}", oFacturaBaseFila.CuotaRetencion));
+                    }
+                    chkRecargo.Checked = (bool)oFactura.FacturaRecargo;
                     Totalizar();
                 }
             }
@@ -906,7 +1088,8 @@ namespace SistemaGestion.Ventas
                 {
                     Cursor = Cursors.WaitCursor;
                     Inicializar();
-                    CargarData(Convert.ToDecimal(dtgConsulta.SelectedRows[0].Cells["PresupuestoId"].Value.ToString()));
+                    CargarData(Convert.ToDecimal(dtgConsulta.SelectedRows[0].Cells["FacturaId"].Value.ToString()));
+                    btnBuscarPresupuesto.Enabled = false;
                     strProceso = "E";
                     ActivarBotonera();
                     Cursor = Cursors.Default;
@@ -923,17 +1106,15 @@ namespace SistemaGestion.Ventas
         {
             try
             {
-                if (dtgConsulta.RowCount >= 0)
+                if (dtgArticulosFacturas.RowCount >= 0)
                 {
                     Cursor = Cursors.WaitCursor;
-                    if (dtgConsulta.SelectedRows.Count == 1)
+                    if (dtgArticulosFacturas.SelectedRows.Count == 1)
                     {
-                        lblEliminarArticulo.Visible = true;
                         btnEliminarArticulo.Visible = true;
                     }
                     else
                     {
-                        lblEliminarArticulo.Visible = false;
                         btnEliminarArticulo.Visible = false;
                     }
                     Cursor = Cursors.Default;
@@ -953,7 +1134,7 @@ namespace SistemaGestion.Ventas
                 if (_Dial == DialogResult.Yes)
                 {
                     Cursor = Cursors.WaitCursor;
-                    if (dtgConsulta.SelectedRows.Count == 1)
+                    if (dtgArticulosFacturas.SelectedRows.Count == 1)
                     {
                         //decimal dcmArticuloPresupuestoId = Convert.ToDecimal(dtgArticulosPresupuesto.SelectedRows[0].Cells["ArticuloId"].Value.ToString());
                         dtgArticulosFacturas.Rows.RemoveAt(dtgArticulosFacturas.SelectedRows[0].Index);
@@ -966,6 +1147,195 @@ namespace SistemaGestion.Ventas
             catch
             {
 
+            }
+        }
+        private void CargarDataPresupuesto(decimal dcmPresupuestoId)
+        {
+            try
+            {
+                bool bolInventarioSinExistencia = false;
+                var oPresupuesto = SGPADatos.Presupuestos.FirstOrDefault(a => a.PresupuestoId == dcmPresupuestoId);
+                if (oPresupuesto != null)
+                {
+                    txtClienteId.Text = oPresupuesto.ClienteId.ToString();
+                    txtNIF.Text = oPresupuesto.Clientes.Identificacion.ToString();
+                    txtNombreCliente.Text = oPresupuesto.Clientes.NombreCliente.ToString();
+                    var oPresupuestosDetalles = SGPADatos.PresupuestosDetalles.Where(a => a.PresupuestoId == oPresupuesto.PresupuestoId);
+                    foreach (PresupuestosDetalles oPresupuestoDetalleFila in oPresupuestosDetalles)
+                    {
+                        //Se debe validar inventario
+                        if (txtNumeroFactura.Text == "")
+                        {
+                            //Factura nueva                            
+                            var oArticulosInventario = SGPADatos.vw_ArticulosConsulta.FirstOrDefault(a => a.ArticuloId == oPresupuestoDetalleFila.ArticuloId && a.EmpresaId == FrmPadre.dcmCodCompania);
+                            if (oArticulosInventario != null)
+                            {
+                                if ((oArticulosInventario.Cantidad - oArticulosInventario.CantidadComprometida) < oPresupuestoDetalleFila.Cantidad)
+                                {
+                                    dtgArticulosFacturas.Rows.Add(oPresupuestoDetalleFila.Articulos.Descripcion.ToString(), oPresupuestoDetalleFila.ArticuloId.ToString(), "0", string.Format("{0:n}", oPresupuestoDetalleFila.Precio), string.Format("{0:n}", oPresupuestoDetalleFila.Descuento), string.Format("{0:n}", oPresupuestoDetalleFila.IVA), string.Format("{0:n}", "0,00"));
+                                    MessageBox.Show("No puede ingresar mas de " + (oArticulosInventario.Cantidad - oArticulosInventario.CantidadComprometida).ToString() + " Unds del artículo " + oArticulosInventario.Descripcion, FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                                else
+                                {
+                                    dtgArticulosFacturas.Rows.Add(oPresupuestoDetalleFila.Articulos.Descripcion.ToString(), oPresupuestoDetalleFila.ArticuloId.ToString(), oPresupuestoDetalleFila.Cantidad.ToString(), string.Format("{0:n}", oPresupuestoDetalleFila.Precio), string.Format("{0:n}", oPresupuestoDetalleFila.Descuento), string.Format("{0:n}", oPresupuestoDetalleFila.IVA), string.Format("{0:n}", oPresupuestoDetalleFila.Subtotal));
+                                }
+                            }
+                            else
+                            {
+                                bolInventarioSinExistencia = true;                                
+                            }
+                        }
+                    }
+                    var oPresupuestosBases = SGPADatos.PresupuestosBases.Where(a => a.PresupuestoId == oPresupuesto.PresupuestoId);
+                    foreach (PresupuestosBases oPresupuestoBaseFila in oPresupuestosBases)
+                    {
+                        dtgBasesFacturas.Rows.Add(string.Format("{0:n}", oPresupuestoBaseFila.Base), string.Format("{0:n}", oPresupuestoBaseFila.IVA), string.Format("{0:n}", oPresupuestoBaseFila.CuotaIVA), string.Format("{0:n}", oPresupuestoBaseFila.Base + oPresupuestoBaseFila.CuotaIVA), string.Format("{0:n}", oPresupuestoBaseFila.RecargoEquivalencia), string.Format("{0:n}", oPresupuestoBaseFila.CuotaRecargoEquivalencia), string.Format("{0:n}", oPresupuestoBaseFila.Retencion), string.Format("{0:n}", oPresupuestoBaseFila.CuotaRetencion));
+                    }
+                    chkRecargo.Checked = (bool)oPresupuesto.PresupuestoRecargo;
+                    LlenarGridBases();
+                    Totalizar();
+                    btnBuscarPresupuesto.Enabled = false;
+                    if (bolInventarioSinExistencia)
+                    {
+                        MessageBox.Show("Uno o mas artículos no pudieron ser ingresados por no haber existencia", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+        private void btnBuscarPresupuesto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string strPresupuestoId = "";
+                FrmBusquedaPresupuestos frmBusquedaPresupuesto = new FrmBusquedaPresupuestos();
+                frmBusquedaPresupuesto.ShowDialog();
+                strPresupuestoId = frmBusquedaPresupuesto.strPresupuestoId;
+                if (strPresupuestoId.Trim() != "")
+                {
+                    var oPresupuesto = SGPADatos.Presupuestos.FirstOrDefault(a => a.EmpresaId == FrmPadre.dcmCodCompania && a.PresupuestoId.ToString() == strPresupuestoId);
+                    if (oPresupuesto != null)
+                    {
+                        txtPresupuesto.Text = oPresupuesto.PresupuestoId.ToString();
+                        CargarDataPresupuesto(oPresupuesto.PresupuestoId);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Debe seleccionar un cliente para continuar", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void txtNumeroPlazos_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            int intValor = 0;
+            if (e.KeyChar == 8)
+            {
+                e.Handled = false;
+                return;
+            }
+            if (!int.TryParse(e.KeyChar.ToString(), out intValor))
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+
+        private void btnVencimiento_Click(object sender, EventArgs e)
+        {
+            if (txtNumeroPlazos.Text != "")
+            {
+                if (txtNumeroPlazos.Text != "0")
+                {
+                    if (oRecibosFacturas.Count() != Convert.ToInt32(txtNumeroPlazos.Text))
+                    {
+                        oRecibosFacturas.Clear();
+                        decimal dcmImporte = 0;
+                        decimal.TryParse(txtTotal.Text, out dcmImporte);
+                        if (dcmImporte > 0)
+                        {
+                            FrmVencimientoPlazos frmVencimientosPlazos = new FrmVencimientoPlazos(dtpFecha.Value.ToString("dd/MM/yyyy"), Convert.ToInt32(txtNumeroPlazos.Text), Convert.ToDecimal(txtTotal.Text), dtpFecha.Value.ToString("dd/MM/yyyy"));
+                            frmVencimientosPlazos.ShowDialog();
+                            oRecibosFacturas = frmVencimientosPlazos.oRecibosFacturas;
+                        }
+                        else
+                        {
+                            MessageBox.Show("El monto del importe debe ser mayor a 0", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }
+                    else
+                    {
+                        decimal dcmImporte = 0;
+                        decimal.TryParse(txtTotal.Text, out dcmImporte);
+                        if (dcmImporte > 0)
+                        {
+                            FrmVencimientoPlazos frmVencimientosPlazos = new FrmVencimientoPlazos(oRecibosFacturas, dtpFecha.Value.ToString("dd/MM/yyyy"));
+                            frmVencimientosPlazos.ShowDialog();
+                            oRecibosFacturas = frmVencimientosPlazos.oRecibosFacturas;
+                        }
+                        else
+                        {
+                            MessageBox.Show("El monto del importe debe ser mayor a 0", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Debe ingresar el número de plazos", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe ingresar el número de plazos", FrmPadre.strNombreSistema + FrmPadre.strVersionSistema, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        bool bolFacturaFinalizada = false;
+        private void FinalizarFactura(decimal dcmFacturaId)
+        {
+            try
+            {
+                if (bolFacturaFinalizada)
+                {
+                    //Se finaliza la factura
+                    var oFactura = SGPADatos.Facturas.FirstOrDefault(a => a.FacturaId == dcmFacturaId && a.EmpresaId == FrmPadre.dcmCodCompania);
+                    oFactura.Finalizado = bolFacturaFinalizada;
+                    var oFacturasDetalles = SGPADatos.FacturasDetalles.Where(a => a.FacturaId == dcmFacturaId);
+                    foreach (FacturasDetalles oFacturaFilas in oFacturasDetalles)
+                    {
+                        //Se genera el movimiento de inventario en existencias reales
+                        Clases.ManejoInventario oManejoInventario = new Clases.ManejoInventario();
+                        oManejoInventario.InsertarMovimientoInventario(oFacturaFilas.ArticuloId, oFacturaFilas.Cantidad, oFactura.FacturaId, "FACTURA");
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+        
+        private void btnFinalizarFactura_Click(object sender, EventArgs e)
+        {
+            DialogResult _Dial = MessageBox.Show("¿Desea finalizar la factura actual, luego no podrá ser modificada?", "Precaución", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (_Dial == DialogResult.Yes)
+            {
+                if (txtNumeroFactura.Text == "")
+                {
+                    //Factura Nueva
+                    bolFacturaFinalizada = true;
+                    Guardar();
+                }
+                else
+                {
+                    //Factura Editada
+                    bolFacturaFinalizada = true;
+                    Modificar();
+                }
             }
         }
     }
