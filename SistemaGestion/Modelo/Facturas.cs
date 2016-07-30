@@ -32,6 +32,7 @@ namespace SistemaGestion.Modelo
         public Nullable<bool> FacturaRecargo { get; set; }
         public Nullable<decimal> PresupuestoId { get; set; }
         public bool Finalizado { get; set; }
+        public Nullable<bool> Albaran { get; set; }
     
         public virtual Clientes Clientes { get; set; }
         public virtual Empresas Empresas { get; set; }

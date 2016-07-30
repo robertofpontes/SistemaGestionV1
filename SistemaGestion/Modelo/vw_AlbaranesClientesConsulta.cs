@@ -25,5 +25,6 @@ namespace SistemaGestion.Modelo
         public decimal EmpresaId { get; set; }
         public bool Facturado { get; set; }
         public decimal ClienteId { get; set; }
+        public string Finalizado { get; set; }
     }
 }

@@ -93,6 +93,16 @@ namespace SistemaGestion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap clipboard_invoice_icon {
+            get {
+                object obj = ResourceManager.GetObject("clipboard-invoice-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Close_2_icon {
             get {
                 object obj = ResourceManager.GetObject("Close-2-icon", resourceCulture);
@@ -106,6 +116,16 @@ namespace SistemaGestion.Properties {
         internal static System.Drawing.Bitmap invoice_icon {
             get {
                 object obj = ResourceManager.GetObject("invoice-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Packing_1_icon {
+            get {
+                object obj = ResourceManager.GetObject("Packing-1-icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

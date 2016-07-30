@@ -36,11 +36,22 @@
             this.tabFormulario = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dtgConsulta = new System.Windows.Forms.DataGridView();
+            this.Fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FacturaId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Identificacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Base = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IVAPresupuesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RetencionPres = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Finalizado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PnlConsulta = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.txtConsulta = new System.Windows.Forms.TextBox();
             this.btnConsultar = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnFinalizarFactura = new System.Windows.Forms.Button();
+            this.btnVencimiento = new System.Windows.Forms.Button();
             this.txtNumeroPlazos = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -75,9 +86,13 @@
             this.IVA = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Importe = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnEliminarArticulo = new System.Windows.Forms.Button();
             this.txtArticuloId = new System.Windows.Forms.TextBox();
+            this.btnBuscarArticulos = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnCopiarAlbaranes = new System.Windows.Forms.Button();
+            this.btnBuscarPresupuesto = new System.Windows.Forms.Button();
             this.txtPresupuesto = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
@@ -85,27 +100,14 @@
             this.txtNombreCliente = new System.Windows.Forms.TextBox();
             this.txtNIF = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnBuscarClientes = new System.Windows.Forms.Button();
             this.txtClienteId = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtNumeroFactura = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.ErrorValidador = new System.Windows.Forms.ErrorProvider(this.components);
-            this.Fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FacturaId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Identificacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Base = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IVAPresupuesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RetencionPres = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmbFormaPago = new SistemaGestion.Clases.ComboBoxConBorde();
-            this.btnFinalizarFactura = new System.Windows.Forms.Button();
-            this.btnVencimiento = new System.Windows.Forms.Button();
-            this.btnEliminarArticulo = new System.Windows.Forms.Button();
-            this.btnBuscarArticulos = new System.Windows.Forms.Button();
-            this.btnBuscarPresupuesto = new System.Windows.Forms.Button();
-            this.btnBuscarClientes = new System.Windows.Forms.Button();
             this.tabFormulario.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsulta)).BeginInit();
@@ -158,7 +160,8 @@
             this.Base,
             this.IVAPresupuesto,
             this.RetencionPres,
-            this.Total});
+            this.Total,
+            this.Finalizado});
             this.dtgConsulta.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtgConsulta.Location = new System.Drawing.Point(3, 47);
             this.dtgConsulta.Name = "dtgConsulta";
@@ -166,6 +169,69 @@
             this.dtgConsulta.Size = new System.Drawing.Size(864, 528);
             this.dtgConsulta.TabIndex = 1;
             this.dtgConsulta.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgConsulta_RowHeaderMouseDoubleClick);
+            // 
+            // Fecha
+            // 
+            this.Fecha.DataPropertyName = "Fecha";
+            this.Fecha.HeaderText = "Fecha";
+            this.Fecha.Name = "Fecha";
+            this.Fecha.ReadOnly = true;
+            // 
+            // FacturaId
+            // 
+            this.FacturaId.DataPropertyName = "FacturaId";
+            this.FacturaId.HeaderText = "N°Factura";
+            this.FacturaId.Name = "FacturaId";
+            this.FacturaId.ReadOnly = true;
+            // 
+            // Identificacion
+            // 
+            this.Identificacion.DataPropertyName = "Identificacion";
+            this.Identificacion.HeaderText = "NIF / CIF";
+            this.Identificacion.Name = "Identificacion";
+            this.Identificacion.ReadOnly = true;
+            // 
+            // Nombre
+            // 
+            this.Nombre.DataPropertyName = "NombreCliente";
+            this.Nombre.HeaderText = "Nombre Cliente";
+            this.Nombre.Name = "Nombre";
+            this.Nombre.ReadOnly = true;
+            // 
+            // Base
+            // 
+            this.Base.DataPropertyName = "Base";
+            this.Base.HeaderText = "Base";
+            this.Base.Name = "Base";
+            this.Base.ReadOnly = true;
+            // 
+            // IVAPresupuesto
+            // 
+            this.IVAPresupuesto.DataPropertyName = "CuotaIVA";
+            this.IVAPresupuesto.HeaderText = "IVA";
+            this.IVAPresupuesto.Name = "IVAPresupuesto";
+            this.IVAPresupuesto.ReadOnly = true;
+            // 
+            // RetencionPres
+            // 
+            this.RetencionPres.DataPropertyName = "CuotaRetencion";
+            this.RetencionPres.HeaderText = "Retención";
+            this.RetencionPres.Name = "RetencionPres";
+            this.RetencionPres.ReadOnly = true;
+            // 
+            // Total
+            // 
+            this.Total.DataPropertyName = "Total";
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
+            // 
+            // Finalizado
+            // 
+            this.Finalizado.DataPropertyName = "Finalizado";
+            this.Finalizado.HeaderText = "Finalizado";
+            this.Finalizado.Name = "Finalizado";
+            this.Finalizado.ReadOnly = true;
             // 
             // PnlConsulta
             // 
@@ -226,6 +292,32 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Detalle";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnFinalizarFactura
+            // 
+            this.btnFinalizarFactura.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFinalizarFactura.Image = global::SistemaGestion.Properties.Resources.check_1_icon;
+            this.btnFinalizarFactura.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnFinalizarFactura.Location = new System.Drawing.Point(689, 543);
+            this.btnFinalizarFactura.Name = "btnFinalizarFactura";
+            this.btnFinalizarFactura.Size = new System.Drawing.Size(137, 22);
+            this.btnFinalizarFactura.TabIndex = 31;
+            this.btnFinalizarFactura.Text = "Finalizar Factura";
+            this.btnFinalizarFactura.UseVisualStyleBackColor = true;
+            this.btnFinalizarFactura.Click += new System.EventHandler(this.btnFinalizarFactura_Click);
+            // 
+            // btnVencimiento
+            // 
+            this.btnVencimiento.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVencimiento.Image = global::SistemaGestion.Properties.Resources.calender_icon;
+            this.btnVencimiento.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVencimiento.Location = new System.Drawing.Point(543, 543);
+            this.btnVencimiento.Name = "btnVencimiento";
+            this.btnVencimiento.Size = new System.Drawing.Size(129, 22);
+            this.btnVencimiento.TabIndex = 30;
+            this.btnVencimiento.Text = "Vencimiento";
+            this.btnVencimiento.UseVisualStyleBackColor = true;
+            this.btnVencimiento.Click += new System.EventHandler(this.btnVencimiento_Click);
             // 
             // txtNumeroPlazos
             // 
@@ -572,6 +664,20 @@
             this.panel1.Size = new System.Drawing.Size(822, 40);
             this.panel1.TabIndex = 12;
             // 
+            // btnEliminarArticulo
+            // 
+            this.btnEliminarArticulo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEliminarArticulo.Image = global::SistemaGestion.Properties.Resources.Close_2_icon;
+            this.btnEliminarArticulo.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEliminarArticulo.Location = new System.Drawing.Point(261, 8);
+            this.btnEliminarArticulo.Name = "btnEliminarArticulo";
+            this.btnEliminarArticulo.Size = new System.Drawing.Size(137, 21);
+            this.btnEliminarArticulo.TabIndex = 10;
+            this.btnEliminarArticulo.Text = "Eliminar Artículo";
+            this.btnEliminarArticulo.UseVisualStyleBackColor = true;
+            this.btnEliminarArticulo.Visible = false;
+            this.btnEliminarArticulo.Click += new System.EventHandler(this.btnEliminarArticulo_Click);
+            // 
             // txtArticuloId
             // 
             this.txtArticuloId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -581,6 +687,17 @@
             this.txtArticuloId.Name = "txtArticuloId";
             this.txtArticuloId.Size = new System.Drawing.Size(86, 20);
             this.txtArticuloId.TabIndex = 0;
+            // 
+            // btnBuscarArticulos
+            // 
+            this.btnBuscarArticulos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscarArticulos.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
+            this.btnBuscarArticulos.Location = new System.Drawing.Point(215, 9);
+            this.btnBuscarArticulos.Name = "btnBuscarArticulos";
+            this.btnBuscarArticulos.Size = new System.Drawing.Size(26, 20);
+            this.btnBuscarArticulos.TabIndex = 1;
+            this.btnBuscarArticulos.UseVisualStyleBackColor = true;
+            this.btnBuscarArticulos.Click += new System.EventHandler(this.btnBuscarArticulos_Click);
             // 
             // label9
             // 
@@ -593,6 +710,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnCopiarAlbaranes);
             this.groupBox1.Controls.Add(this.btnBuscarPresupuesto);
             this.groupBox1.Controls.Add(this.txtPresupuesto);
             this.groupBox1.Controls.Add(this.label14);
@@ -614,12 +732,36 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cabecera";
             // 
+            // btnCopiarAlbaranes
+            // 
+            this.btnCopiarAlbaranes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCopiarAlbaranes.Image = global::SistemaGestion.Properties.Resources.Packing_1_icon;
+            this.btnCopiarAlbaranes.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCopiarAlbaranes.Location = new System.Drawing.Point(694, 26);
+            this.btnCopiarAlbaranes.Name = "btnCopiarAlbaranes";
+            this.btnCopiarAlbaranes.Size = new System.Drawing.Size(113, 21);
+            this.btnCopiarAlbaranes.TabIndex = 10;
+            this.btnCopiarAlbaranes.Text = "Albaranes";
+            this.btnCopiarAlbaranes.UseVisualStyleBackColor = true;
+            this.btnCopiarAlbaranes.Click += new System.EventHandler(this.btnCopiarAlbaranes_Click);
+            // 
+            // btnBuscarPresupuesto
+            // 
+            this.btnBuscarPresupuesto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscarPresupuesto.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
+            this.btnBuscarPresupuesto.Location = new System.Drawing.Point(620, 26);
+            this.btnBuscarPresupuesto.Name = "btnBuscarPresupuesto";
+            this.btnBuscarPresupuesto.Size = new System.Drawing.Size(26, 20);
+            this.btnBuscarPresupuesto.TabIndex = 18;
+            this.btnBuscarPresupuesto.UseVisualStyleBackColor = true;
+            this.btnBuscarPresupuesto.Click += new System.EventHandler(this.btnBuscarPresupuesto_Click);
+            // 
             // txtPresupuesto
             // 
             this.txtPresupuesto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPresupuesto.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtPresupuesto.Enabled = false;
-            this.txtPresupuesto.Location = new System.Drawing.Point(689, 27);
+            this.txtPresupuesto.Location = new System.Drawing.Point(528, 26);
             this.txtPresupuesto.Name = "txtPresupuesto";
             this.txtPresupuesto.Size = new System.Drawing.Size(86, 20);
             this.txtPresupuesto.TabIndex = 17;
@@ -627,7 +769,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(599, 33);
+            this.label14.Location = new System.Drawing.Point(438, 32);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(84, 13);
             this.label14.TabIndex = 19;
@@ -681,6 +823,17 @@
             this.label3.TabIndex = 13;
             this.label3.Text = "NIF:";
             // 
+            // btnBuscarClientes
+            // 
+            this.btnBuscarClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscarClientes.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
+            this.btnBuscarClientes.Location = new System.Drawing.Point(187, 59);
+            this.btnBuscarClientes.Name = "btnBuscarClientes";
+            this.btnBuscarClientes.Size = new System.Drawing.Size(26, 20);
+            this.btnBuscarClientes.TabIndex = 2;
+            this.btnBuscarClientes.UseVisualStyleBackColor = true;
+            this.btnBuscarClientes.Click += new System.EventHandler(this.btnBuscarClientes_Click);
+            // 
             // txtClienteId
             // 
             this.txtClienteId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -733,62 +886,6 @@
             // 
             this.ErrorValidador.ContainerControl = this;
             // 
-            // Fecha
-            // 
-            this.Fecha.DataPropertyName = "Fecha";
-            this.Fecha.HeaderText = "Fecha";
-            this.Fecha.Name = "Fecha";
-            this.Fecha.ReadOnly = true;
-            // 
-            // FacturaId
-            // 
-            this.FacturaId.DataPropertyName = "FacturaId";
-            this.FacturaId.HeaderText = "N°Factura";
-            this.FacturaId.Name = "FacturaId";
-            this.FacturaId.ReadOnly = true;
-            // 
-            // Identificacion
-            // 
-            this.Identificacion.DataPropertyName = "Identificacion";
-            this.Identificacion.HeaderText = "NIF / CIF";
-            this.Identificacion.Name = "Identificacion";
-            this.Identificacion.ReadOnly = true;
-            // 
-            // Nombre
-            // 
-            this.Nombre.DataPropertyName = "NombreCliente";
-            this.Nombre.HeaderText = "Nombre Cliente";
-            this.Nombre.Name = "Nombre";
-            this.Nombre.ReadOnly = true;
-            // 
-            // Base
-            // 
-            this.Base.DataPropertyName = "Base";
-            this.Base.HeaderText = "Base";
-            this.Base.Name = "Base";
-            this.Base.ReadOnly = true;
-            // 
-            // IVAPresupuesto
-            // 
-            this.IVAPresupuesto.DataPropertyName = "CuotaIVA";
-            this.IVAPresupuesto.HeaderText = "IVA";
-            this.IVAPresupuesto.Name = "IVAPresupuesto";
-            this.IVAPresupuesto.ReadOnly = true;
-            // 
-            // RetencionPres
-            // 
-            this.RetencionPres.DataPropertyName = "CuotaRetencion";
-            this.RetencionPres.HeaderText = "Retención";
-            this.RetencionPres.Name = "RetencionPres";
-            this.RetencionPres.ReadOnly = true;
-            // 
-            // Total
-            // 
-            this.Total.DataPropertyName = "Total";
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
-            this.Total.ReadOnly = true;
-            // 
             // cmbFormaPago
             // 
             this.cmbFormaPago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -798,79 +895,6 @@
             this.cmbFormaPago.Name = "cmbFormaPago";
             this.cmbFormaPago.Size = new System.Drawing.Size(202, 21);
             this.cmbFormaPago.TabIndex = 26;
-            // 
-            // btnFinalizarFactura
-            // 
-            this.btnFinalizarFactura.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFinalizarFactura.Image = global::SistemaGestion.Properties.Resources.check_1_icon;
-            this.btnFinalizarFactura.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnFinalizarFactura.Location = new System.Drawing.Point(689, 543);
-            this.btnFinalizarFactura.Name = "btnFinalizarFactura";
-            this.btnFinalizarFactura.Size = new System.Drawing.Size(137, 22);
-            this.btnFinalizarFactura.TabIndex = 31;
-            this.btnFinalizarFactura.Text = "Finalizar Factura";
-            this.btnFinalizarFactura.UseVisualStyleBackColor = true;
-            this.btnFinalizarFactura.Click += new System.EventHandler(this.btnFinalizarFactura_Click);
-            // 
-            // btnVencimiento
-            // 
-            this.btnVencimiento.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnVencimiento.Image = global::SistemaGestion.Properties.Resources.calender_icon;
-            this.btnVencimiento.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVencimiento.Location = new System.Drawing.Point(543, 543);
-            this.btnVencimiento.Name = "btnVencimiento";
-            this.btnVencimiento.Size = new System.Drawing.Size(129, 22);
-            this.btnVencimiento.TabIndex = 30;
-            this.btnVencimiento.Text = "Vencimiento";
-            this.btnVencimiento.UseVisualStyleBackColor = true;
-            this.btnVencimiento.Click += new System.EventHandler(this.btnVencimiento_Click);
-            // 
-            // btnEliminarArticulo
-            // 
-            this.btnEliminarArticulo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEliminarArticulo.Image = global::SistemaGestion.Properties.Resources.Close_2_icon;
-            this.btnEliminarArticulo.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEliminarArticulo.Location = new System.Drawing.Point(261, 8);
-            this.btnEliminarArticulo.Name = "btnEliminarArticulo";
-            this.btnEliminarArticulo.Size = new System.Drawing.Size(137, 21);
-            this.btnEliminarArticulo.TabIndex = 10;
-            this.btnEliminarArticulo.Text = "Eliminar Artículo";
-            this.btnEliminarArticulo.UseVisualStyleBackColor = true;
-            this.btnEliminarArticulo.Visible = false;
-            this.btnEliminarArticulo.Click += new System.EventHandler(this.btnEliminarArticulo_Click);
-            // 
-            // btnBuscarArticulos
-            // 
-            this.btnBuscarArticulos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarArticulos.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
-            this.btnBuscarArticulos.Location = new System.Drawing.Point(215, 9);
-            this.btnBuscarArticulos.Name = "btnBuscarArticulos";
-            this.btnBuscarArticulos.Size = new System.Drawing.Size(26, 20);
-            this.btnBuscarArticulos.TabIndex = 1;
-            this.btnBuscarArticulos.UseVisualStyleBackColor = true;
-            this.btnBuscarArticulos.Click += new System.EventHandler(this.btnBuscarArticulos_Click);
-            // 
-            // btnBuscarPresupuesto
-            // 
-            this.btnBuscarPresupuesto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarPresupuesto.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
-            this.btnBuscarPresupuesto.Location = new System.Drawing.Point(781, 27);
-            this.btnBuscarPresupuesto.Name = "btnBuscarPresupuesto";
-            this.btnBuscarPresupuesto.Size = new System.Drawing.Size(26, 20);
-            this.btnBuscarPresupuesto.TabIndex = 18;
-            this.btnBuscarPresupuesto.UseVisualStyleBackColor = true;
-            this.btnBuscarPresupuesto.Click += new System.EventHandler(this.btnBuscarPresupuesto_Click);
-            // 
-            // btnBuscarClientes
-            // 
-            this.btnBuscarClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarClientes.Image = global::SistemaGestion.Properties.Resources._1468708463_11_Search;
-            this.btnBuscarClientes.Location = new System.Drawing.Point(187, 59);
-            this.btnBuscarClientes.Name = "btnBuscarClientes";
-            this.btnBuscarClientes.Size = new System.Drawing.Size(26, 20);
-            this.btnBuscarClientes.TabIndex = 2;
-            this.btnBuscarClientes.UseVisualStyleBackColor = true;
-            this.btnBuscarClientes.Click += new System.EventHandler(this.btnBuscarClientes_Click);
             // 
             // FrmFacturas
             // 
@@ -973,6 +997,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button btnVencimiento;
         private System.Windows.Forms.TextBox txtNumeroPlazos;
+        private System.Windows.Forms.Button btnFinalizarFactura;
         private System.Windows.Forms.DataGridViewTextBoxColumn Fecha;
         private System.Windows.Forms.DataGridViewTextBoxColumn FacturaId;
         private System.Windows.Forms.DataGridViewTextBoxColumn Identificacion;
@@ -981,6 +1006,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn IVAPresupuesto;
         private System.Windows.Forms.DataGridViewTextBoxColumn RetencionPres;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.Button btnFinalizarFactura;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Finalizado;
+        private System.Windows.Forms.Button btnCopiarAlbaranes;
     }
 }

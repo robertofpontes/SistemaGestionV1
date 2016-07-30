@@ -36,19 +36,12 @@
             this.tabFormulario = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dtgConsulta = new System.Windows.Forms.DataGridView();
-            this.Fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AlbaranId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Identificacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Base = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IVAAlbaran = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RetencionPres = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PnlConsulta = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.txtConsulta = new System.Windows.Forms.TextBox();
             this.btnConsultar = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnFinalizarAlbaran = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -98,7 +91,15 @@
             this.txtNumeroAlbaran = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.ErrorValidador = new System.Windows.Forms.ErrorProvider(this.components);
-            this.btnFinalizarAlbaran = new System.Windows.Forms.Button();
+            this.Fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AlbaranId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Identificacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Base = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IVAAlbaran = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RetencionPres = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Finalizada = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabFormulario.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgConsulta)).BeginInit();
@@ -132,7 +133,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(870, 555);
+            this.tabPage1.Size = new System.Drawing.Size(870, 573);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Consulta";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -151,70 +152,15 @@
             this.Base,
             this.IVAAlbaran,
             this.RetencionPres,
-            this.Total});
+            this.Total,
+            this.Finalizada});
             this.dtgConsulta.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtgConsulta.Location = new System.Drawing.Point(3, 47);
             this.dtgConsulta.Name = "dtgConsulta";
             this.dtgConsulta.ReadOnly = true;
-            this.dtgConsulta.Size = new System.Drawing.Size(864, 505);
+            this.dtgConsulta.Size = new System.Drawing.Size(864, 523);
             this.dtgConsulta.TabIndex = 1;
             this.dtgConsulta.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgConsulta_RowHeaderMouseDoubleClick);
-            // 
-            // Fecha
-            // 
-            this.Fecha.DataPropertyName = "Fecha";
-            this.Fecha.HeaderText = "Fecha";
-            this.Fecha.Name = "Fecha";
-            this.Fecha.ReadOnly = true;
-            // 
-            // AlbaranId
-            // 
-            this.AlbaranId.DataPropertyName = "AlbaranId";
-            this.AlbaranId.HeaderText = "N° Albaran";
-            this.AlbaranId.Name = "AlbaranId";
-            this.AlbaranId.ReadOnly = true;
-            // 
-            // Identificacion
-            // 
-            this.Identificacion.DataPropertyName = "Identificacion";
-            this.Identificacion.HeaderText = "NIF / CIF";
-            this.Identificacion.Name = "Identificacion";
-            this.Identificacion.ReadOnly = true;
-            // 
-            // Nombre
-            // 
-            this.Nombre.DataPropertyName = "NombreCliente";
-            this.Nombre.HeaderText = "Nombre Cliente";
-            this.Nombre.Name = "Nombre";
-            this.Nombre.ReadOnly = true;
-            // 
-            // Base
-            // 
-            this.Base.DataPropertyName = "Base";
-            this.Base.HeaderText = "Base";
-            this.Base.Name = "Base";
-            this.Base.ReadOnly = true;
-            // 
-            // IVAAlbaran
-            // 
-            this.IVAAlbaran.DataPropertyName = "CuotaIVA";
-            this.IVAAlbaran.HeaderText = "IVA";
-            this.IVAAlbaran.Name = "IVAAlbaran";
-            this.IVAAlbaran.ReadOnly = true;
-            // 
-            // RetencionPres
-            // 
-            this.RetencionPres.DataPropertyName = "CuotaRetencion";
-            this.RetencionPres.HeaderText = "Retención";
-            this.RetencionPres.Name = "RetencionPres";
-            this.RetencionPres.ReadOnly = true;
-            // 
-            // Total
-            // 
-            this.Total.DataPropertyName = "Total";
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
-            this.Total.ReadOnly = true;
             // 
             // PnlConsulta
             // 
@@ -270,6 +216,19 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Detalle";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnFinalizarAlbaran
+            // 
+            this.btnFinalizarAlbaran.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFinalizarAlbaran.Image = global::SistemaGestion.Properties.Resources.check_1_icon;
+            this.btnFinalizarAlbaran.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnFinalizarAlbaran.Location = new System.Drawing.Point(691, 545);
+            this.btnFinalizarAlbaran.Name = "btnFinalizarAlbaran";
+            this.btnFinalizarAlbaran.Size = new System.Drawing.Size(137, 22);
+            this.btnFinalizarAlbaran.TabIndex = 32;
+            this.btnFinalizarAlbaran.Text = "Finalizar Albaran";
+            this.btnFinalizarAlbaran.UseVisualStyleBackColor = true;
+            this.btnFinalizarAlbaran.Click += new System.EventHandler(this.btnFinalizarAlbaran_Click);
             // 
             // groupBox3
             // 
@@ -771,18 +730,68 @@
             // 
             this.ErrorValidador.ContainerControl = this;
             // 
-            // btnFinalizarAlbaran
+            // Fecha
             // 
-            this.btnFinalizarAlbaran.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFinalizarAlbaran.Image = global::SistemaGestion.Properties.Resources.check_1_icon;
-            this.btnFinalizarAlbaran.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnFinalizarAlbaran.Location = new System.Drawing.Point(691, 545);
-            this.btnFinalizarAlbaran.Name = "btnFinalizarAlbaran";
-            this.btnFinalizarAlbaran.Size = new System.Drawing.Size(137, 22);
-            this.btnFinalizarAlbaran.TabIndex = 32;
-            this.btnFinalizarAlbaran.Text = "Finalizar Albaran";
-            this.btnFinalizarAlbaran.UseVisualStyleBackColor = true;
-            this.btnFinalizarAlbaran.Click += new System.EventHandler(this.btnFinalizarAlbaran_Click);
+            this.Fecha.DataPropertyName = "Fecha";
+            this.Fecha.HeaderText = "Fecha";
+            this.Fecha.Name = "Fecha";
+            this.Fecha.ReadOnly = true;
+            // 
+            // AlbaranId
+            // 
+            this.AlbaranId.DataPropertyName = "AlbaranId";
+            this.AlbaranId.HeaderText = "N° Albaran";
+            this.AlbaranId.Name = "AlbaranId";
+            this.AlbaranId.ReadOnly = true;
+            // 
+            // Identificacion
+            // 
+            this.Identificacion.DataPropertyName = "Identificacion";
+            this.Identificacion.HeaderText = "NIF / CIF";
+            this.Identificacion.Name = "Identificacion";
+            this.Identificacion.ReadOnly = true;
+            // 
+            // Nombre
+            // 
+            this.Nombre.DataPropertyName = "NombreCliente";
+            this.Nombre.HeaderText = "Nombre Cliente";
+            this.Nombre.Name = "Nombre";
+            this.Nombre.ReadOnly = true;
+            // 
+            // Base
+            // 
+            this.Base.DataPropertyName = "Base";
+            this.Base.HeaderText = "Base";
+            this.Base.Name = "Base";
+            this.Base.ReadOnly = true;
+            // 
+            // IVAAlbaran
+            // 
+            this.IVAAlbaran.DataPropertyName = "CuotaIVA";
+            this.IVAAlbaran.HeaderText = "IVA";
+            this.IVAAlbaran.Name = "IVAAlbaran";
+            this.IVAAlbaran.ReadOnly = true;
+            // 
+            // RetencionPres
+            // 
+            this.RetencionPres.DataPropertyName = "CuotaRetencion";
+            this.RetencionPres.HeaderText = "Retención";
+            this.RetencionPres.Name = "RetencionPres";
+            this.RetencionPres.ReadOnly = true;
+            // 
+            // Total
+            // 
+            this.Total.DataPropertyName = "Total";
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
+            // 
+            // Finalizada
+            // 
+            this.Finalizada.DataPropertyName = "Finalizado";
+            this.Finalizada.HeaderText = "Finalizado";
+            this.Finalizada.Name = "Finalizada";
+            this.Finalizada.ReadOnly = true;
             // 
             // FrmAlbaranesCliente
             // 
@@ -878,6 +887,7 @@
         private System.Windows.Forms.DateTimePicker dtpFecha;
         private System.Windows.Forms.Button btnEliminarArticulo;
         private System.Windows.Forms.Label lblEliminarArticulo;
+        private System.Windows.Forms.Button btnFinalizarAlbaran;
         private System.Windows.Forms.DataGridViewTextBoxColumn Fecha;
         private System.Windows.Forms.DataGridViewTextBoxColumn AlbaranId;
         private System.Windows.Forms.DataGridViewTextBoxColumn Identificacion;
@@ -886,6 +896,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn IVAAlbaran;
         private System.Windows.Forms.DataGridViewTextBoxColumn RetencionPres;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.Button btnFinalizarAlbaran;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Finalizada;
     }
 }

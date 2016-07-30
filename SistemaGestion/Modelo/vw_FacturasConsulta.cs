@@ -26,6 +26,6 @@ namespace SistemaGestion.Modelo
         public bool Impreso { get; set; }
         public decimal ClienteId { get; set; }
         public decimal FacturaId { get; set; }
-        public bool Finalizado { get; set; }
+        public string Finalizado { get; set; }
     }
 }

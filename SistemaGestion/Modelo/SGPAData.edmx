@@ -116,6 +116,7 @@
           <Property Name="FormaPagoId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="PresupuestoId" Type="numeric" Precision="18" Scale="0" />
           <Property Name="Finalizado" Type="bit" Nullable="false" />
+          <Property Name="Albaran" Type="bit" />
         </EntityType>
         <EntityType Name="FacturasBases">
           <Key>
@@ -341,6 +342,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_AlbaranesClientesConsulta' no ti
             <PropertyRef Name="EmpresaId" />
             <PropertyRef Name="Facturado" />
             <PropertyRef Name="ClienteId" />
+            <PropertyRef Name="Finalizado" />
           </Key>
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="AlbaranId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
@@ -353,6 +355,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_AlbaranesClientesConsulta' no ti
           <Property Name="EmpresaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Facturado" Type="bit" Nullable="false" />
           <Property Name="ClienteId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Finalizado" Type="varchar" MaxLength="2" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SGPA.dbo.vw_ArticulosConsulta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -397,7 +400,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_FacturasConsulta' no tiene defin
           <Property Name="Impreso" Type="bit" Nullable="false" />
           <Property Name="ClienteId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="FacturaId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Finalizado" Type="bit" Nullable="false" />
+          <Property Name="Finalizado" Type="varchar" MaxLength="2" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -907,7 +910,8 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
     [vw_AlbaranesClientesConsulta].[Total] AS [Total], 
     [vw_AlbaranesClientesConsulta].[EmpresaId] AS [EmpresaId], 
     [vw_AlbaranesClientesConsulta].[Facturado] AS [Facturado], 
-    [vw_AlbaranesClientesConsulta].[ClienteId] AS [ClienteId]
+    [vw_AlbaranesClientesConsulta].[ClienteId] AS [ClienteId], 
+    [vw_AlbaranesClientesConsulta].[Finalizado] AS [Finalizado]
     FROM [dbo].[vw_AlbaranesClientesConsulta] AS [vw_AlbaranesClientesConsulta]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_ArticulosConsulta" EntityType="Self.vw_ArticulosConsulta" store:Type="Views" store:Schema="dbo">
@@ -1877,6 +1881,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <NavigationProperty Name="Presupuestos" Relationship="SGPAModel.FK_Facturas_Presupuestos" FromRole="Facturas" ToRole="Presupuestos" />
           <Property Name="Finalizado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="FacturasDetallesLotes" Relationship="SGPAModel.FK_FacturasDetallesLotes_Facturas" FromRole="Facturas" ToRole="FacturasDetallesLotes" />
+          <Property Name="Albaran" Type="Boolean" />
         </EntityType>
         <EntityType Name="FacturasBases">
           <Key>
@@ -2039,7 +2044,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <Property Name="Impreso" Type="Boolean" Nullable="false" />
           <Property Name="ClienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="FacturaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Finalizado" Type="Boolean" Nullable="false" />
+          <Property Name="Finalizado" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="AlbaranesClientesDetalles">
           <Key>
@@ -2082,6 +2087,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
             <PropertyRef Name="EmpresaId" />
             <PropertyRef Name="Facturado" />
             <PropertyRef Name="ClienteId" />
+            <PropertyRef Name="Finalizado" />
           </Key>
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="AlbaranId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
@@ -2094,6 +2100,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <Property Name="EmpresaId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="Facturado" Type="Boolean" Nullable="false" />
           <Property Name="ClienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Finalizado" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_AlbaranesClienteDetalles_AlbaranesClientes1">
           <End Type="SGPAModel.AlbaranesClientes" Role="AlbaranesClientes" Multiplicity="1" />
@@ -2498,6 +2505,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <EntitySetMapping Name="Facturas">
             <EntityTypeMapping TypeName="SGPAModel.Facturas">
               <MappingFragment StoreEntitySet="Facturas">
+                <ScalarProperty Name="Albaran" ColumnName="Albaran" />
                 <ScalarProperty Name="Finalizado" ColumnName="Finalizado" />
                 <ScalarProperty Name="PresupuestoId" ColumnName="PresupuestoId" />
                 <ScalarProperty Name="FacturaRecargo" ColumnName="FacturaRecargo" />
@@ -2603,6 +2611,7 @@ advertencia 6002: La tabla o vista 'SGPA.dbo.vw_PresupuestosConsulta' no tiene d
           <EntitySetMapping Name="vw_AlbaranesClientesConsulta">
             <EntityTypeMapping TypeName="SGPAModel.vw_AlbaranesClientesConsulta">
               <MappingFragment StoreEntitySet="vw_AlbaranesClientesConsulta">
+                <ScalarProperty Name="Finalizado" ColumnName="Finalizado" />
                 <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
                 <ScalarProperty Name="Facturado" ColumnName="Facturado" />
                 <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />

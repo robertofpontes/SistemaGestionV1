@@ -59,10 +59,10 @@
         <EntityTypeShape EntityType="SGPAModel.Recibos" Width="1.5" PointX="16" PointY="19.25" />
         <AssociationConnector Association="SGPAModel.FK_Recibos_Facturas" />
         <AssociationConnector Association="SGPAModel.FK_Facturas_Presupuestos" />
-        <EntityTypeShape EntityType="SGPAModel.vw_FacturasConsulta" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="SGPAModel.vw_FacturasConsulta" Width="1.5" PointX="5.875" PointY="16.25" />
         <EntityTypeShape EntityType="SGPAModel.AlbaranesClientesDetalles" Width="2.5" PointX="15.375" PointY="27.125" />
         <EntityTypeShape EntityType="SGPAModel.MovimientosInventarioComprometido" Width="1.5" PointX="12.125" PointY="0.75" />
-        <EntityTypeShape EntityType="SGPAModel.vw_AlbaranesClientesConsulta" Width="3.25" PointX="0.75" PointY="18.125" />
+        <EntityTypeShape EntityType="SGPAModel.vw_AlbaranesClientesConsulta" Width="3.25" PointX="2.375" PointY="16.125" />
         <AssociationConnector Association="SGPAModel.FK_AlbaranesClienteDetalles_AlbaranesClientes1" />
         <AssociationConnector Association="SGPAModel.FK_MovimientosInventarioComprometido_Articulos" />
         <AssociationConnector Association="SGPAModel.FK_MovimientosInventarioComprometido_Empresas" />
